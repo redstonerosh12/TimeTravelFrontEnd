@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/MainContainer"
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="?attr/actionBarSize"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Concrete\nEvents"
+
+        android:gravity="center"
+        android:textSize="40sp"
+        android:textColor="@color/black"
+        android:fontFamily="@raw/varela_round_regular"
+        android:paddingBottom="20dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingBottom="10dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/previousDayButton"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ui_element_left_arrow"
+
+            />
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="1 APR"
+
+            android:gravity="center"
+            android:textSize="34sp"
+            android:textColor="@color/black"
+            android:fontFamily="@raw/varela_round_regular"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nextDayButton"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ui_element_right_arrow"
+            android:paddingStart="10dp"
+
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2024"
+
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:fontFamily="@raw/varela_round_regular"
+        android:paddingBottom="20dp"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/debugAddEventButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/purple_200"
+        />
+
+
+
+<!--    start text bubble-->
+    <LinearLayout
+        android:layout_gravity="center"
+        android:id="@+id/text_bubble_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/event_bubble_base">
+
+        <LinearLayout
+            android:gravity="center"
+            android:id="@+id/text_bubble_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/toggle_dropdown"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/ui_element_dropdown_button_collapsed"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                />
+
+            <TextView
+                android:id="@+id/text_bubble_content"
+                android:layout_width="315dp"
+                android:layout_height="wrap_content"
+                android:text="0600 - 0700"
+                android:fontFamily="@raw/varela_round_regular"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dropdown_content_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:paddingStart="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Now this is the text in the opened dropdown container" />
+
+        </LinearLayout>
+    </LinearLayout>
+<!--    end text bubble-->
+
+
+    <!--    start text bubble-->
+    <LinearLayout
+        android:layout_gravity="center"
+        android:id="@+id/text_bubble_container2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:gravity="center"
+            android:id="@+id/text_bubble_base2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/event_bubble_base">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/toggle_dropdown2"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/ui_element_right_arrow"
+                android:paddingStart="10dp"
+                />
+
+            <TextView
+                android:id="@+id/text_bubble_content2"
+                android:layout_width="315dp"
+                android:layout_height="wrap_content"
+                android:text="0700 - 0800"
+                android:fontFamily="@raw/varela_round_regular"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dropdown_content_container2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:paddingStart="10dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:background="@drawable/event_bubble_base">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Now this is the new text in the opened dropdown container" />
+
+        </LinearLayout>
+    </LinearLayout>
+    <!--    end text bubble-->
+
+
+
+
+
+
+</LinearLayout>
