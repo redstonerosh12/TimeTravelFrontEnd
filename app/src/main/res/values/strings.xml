@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">TimeTravelFrontEnd</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="profile_header">Profile</string>
+    <string name="profile_subheader">Personal details</string>
+    <string name="profile_name">Full Name</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_number">Phone Number</string>
+    <string name="profile_address">Address</string>
+    <string name="profile_change">change</string>
+    <string name="default_profile">default profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

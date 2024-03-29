@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ConcreteNav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title=""
+        android:icon="@drawable/baseline_done_24"
+        />
+    <item
+        android:id="@+id/VotingNav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title=""
+        android:icon="@drawable/baseline_ballot_24"
+        />
+    <item
+        android:id="@+id/SuggestedNav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title=""
+        android:icon="@drawable/baseline_question_mark_24"
+        />
+</menu>
