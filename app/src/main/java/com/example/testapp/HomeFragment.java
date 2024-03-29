@@ -2,11 +2,17 @@ package com.example.testapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +30,8 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private BottomNavigationView bottomNavigationView;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -34,7 +42,7 @@ public class HomeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment CalendarFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
@@ -45,7 +53,6 @@ public class HomeFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +60,39 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        replaceFragment(new ConcreteFragment());
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.home_fragment, container, false);
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        View view = inflater.inflate(R.layout.home_fragment, container, false);
+        bottomNavigationView = view.findViewById(R.id.activityMenu);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.ConcreteNav) {
+                    replaceFragment(new ConcreteFragment());
+                }
+                else if (itemId == R.id.VotingNav) {
+                    replaceFragment(new VotingFragment());
+                }
+                else if (itemId == R.id.SuggestedNav) {
+                    replaceFragment(new SuggestedFragment());
+                }
+                else {
+                    return false;
+                }
+                return true;
+            }
+        });
+        return view;
+    }
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.calendarFrameLayout, fragment);
+        fragmentTransaction.commit();
     }
 }
