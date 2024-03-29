@@ -18,6 +18,8 @@
         android:id="@+id/activityMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#DCD6F7"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/activity_menu"
