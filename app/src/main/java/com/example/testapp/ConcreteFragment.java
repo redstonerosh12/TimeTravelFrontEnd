@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Use the {@link ConcreteFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ConcreteFragment extends Fragment {
+public class ConcreteFragment extends Fragment implements RecyclerViewInterface{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,6 +58,7 @@ public class ConcreteFragment extends Fragment {
 
 
     public static void setUpEventModelList(){
+        eventModelList.clear();
         eventModelList.add( new EventModel("0600-0700", "drink tea", "wake up and drink tea"));
         eventModelList.add( new EventModel("0700-0800", "drink coffee", "wake up and drink coffee"));
         eventModelList.add( new EventModel("0800-0900", "eat breakfast", "go eat at the buffet"));
@@ -124,7 +125,7 @@ public class ConcreteFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setUpEventModelList();
 
-        RecyclerConcreteEventAdapter adapter = new RecyclerConcreteEventAdapter(requireContext(), eventModelList);
+        RecyclerConcreteEventAdapter adapter = new RecyclerConcreteEventAdapter(requireContext(), eventModelList, this);
         Log.d("Recycler", "Adapter in fragment has gotten recycler from mainActivity successfully");
 
         RecyclerView recyclerView = view.findViewById(R.id.ConcreteRecyclerView);
@@ -134,6 +135,11 @@ public class ConcreteFragment extends Fragment {
         recyclerView.setLayoutManager( new LinearLayoutManager(requireContext()));
 
 
+
+    }
+
+    @Override
+    public void onItemClick(int positon) {
 
     }
 }
