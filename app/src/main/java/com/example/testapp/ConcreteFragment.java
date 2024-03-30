@@ -1,12 +1,20 @@
 package com.example.testapp;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +27,8 @@ public class ConcreteFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private static ArrayList<EventModel> eventModelList = new ArrayList<>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -46,6 +56,29 @@ public class ConcreteFragment extends Fragment {
         return fragment;
     }
 
+
+    public static void setUpEventModelList(){
+        eventModelList.add( new EventModel("0600-0700", "drink tea", "wake up and drink tea"));
+        eventModelList.add( new EventModel("0700-0800", "drink coffee", "wake up and drink coffee"));
+        eventModelList.add( new EventModel("0800-0900", "eat breakfast", "go eat at the buffet"));
+        eventModelList.add( new EventModel("0600-0700", "drink tea", "wake up and drink tea"));
+        eventModelList.add( new EventModel("0700-0800", "drink coffee", "wake up and drink coffee"));
+        eventModelList.add( new EventModel("0800-0900", "eat breakfast", "go eat at the buffet"));
+        eventModelList.add( new EventModel("0600-0700", "drink tea", "wake up and drink tea"));
+        eventModelList.add( new EventModel("0700-0800", "drink coffee", "wake up and drink coffee"));
+        eventModelList.add( new EventModel("0800-0900", "eat breakfast", "go eat at the buffet"));
+        eventModelList.add( new EventModel("0600-0700", "drink tea", "wake up and drink tea"));
+        eventModelList.add( new EventModel("0700-0800", "drink coffee", "wake up and drink coffee"));
+        eventModelList.add( new EventModel("0800-0900", "eat breakfast", "go eat at the buffet"));
+        eventModelList.add( new EventModel("0600-0700", "drink tea", "wake up and drink tea"));
+        eventModelList.add( new EventModel("0700-0800", "drink coffee", "wake up and drink coffee"));
+        eventModelList.add( new EventModel("0800-0900", "eat breakfast", "go eat at the buffet"));
+
+
+
+
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +86,30 @@ public class ConcreteFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // go from concrete to home, and from there to main activity
+//        Activity mainActivity = getActivity();
+//        if(mainActivity == null){
+//            mainActivity = getParentFragment().getActivity();
+//        }
+//        RecyclerView recyclerView =mainActivity.findViewById(R.id.ConcreteRecyclerView);
+//        Log.d("Recycler", "I have gotten recyclerView");
+
+
+
+
+//        RecyclerConcreteEventAdapter adapter = new RecyclerConcreteEventAdapter(requireContext(), eventModelList);
+//        Log.d("Recycler", "Adapter in fragment has gotten recycler from mainActivity successfully");
+
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.setLayoutManager( new LinearLayoutManager(requireContext()));
+
+
+
+
+
+
+
     }
 
     @Override
@@ -60,5 +117,23 @@ public class ConcreteFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.concrete_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+        setUpEventModelList();
+
+        RecyclerConcreteEventAdapter adapter = new RecyclerConcreteEventAdapter(requireContext(), eventModelList);
+        Log.d("Recycler", "Adapter in fragment has gotten recycler from mainActivity successfully");
+
+        RecyclerView recyclerView = view.findViewById(R.id.ConcreteRecyclerView);
+        Log.d("Recycler", "I have gotten recyclerView");
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager( new LinearLayoutManager(requireContext()));
+
+
+
     }
 }
