@@ -1,17 +1,24 @@
 package com.example.testapp;
 
-public class EventModel {
+public abstract class EventModel {
+    public static final String CONCRETE = "CONCRETE";
+    public static final String VOTING = "VOTING";
+    public static final String SUGGESTED = "SUGGESTED";
+
     String eventTime;
     String eventHeader;
     String eventDescription;
+    String eventID;
 
+    Boolean eventOwnedByUser;
 
-    public EventModel(String eventTime, String eventHeader, String eventDescription) {
+    public EventModel(String eventTime, String eventHeader, String eventDescription, String eventID, Boolean eventOwnedByUser) {
         this.eventTime = eventTime;
         this.eventHeader = eventHeader;
         this.eventDescription = eventDescription;
+        this.eventID = eventID;
+        this.eventOwnedByUser = eventOwnedByUser;
     }
-
 
     public String getEventTime() {
         return eventTime;
@@ -24,4 +31,13 @@ public class EventModel {
     public String getEventDescription() {
         return eventDescription;
     }
+
+    public String getEventID() {
+        return eventID;
+    }
+
+    public Boolean getEventOwnedByUser(){
+        return eventOwnedByUser;
+    }
+    abstract String getEventType();
 }

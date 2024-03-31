@@ -13,4 +13,6 @@
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="voting_button_purple">#FF756AB6</color>
+    <color name="delete_event_button_color">#A5232F</color>
+    <color name="yes_button_color">#3B6D3C</color>
 </resources>

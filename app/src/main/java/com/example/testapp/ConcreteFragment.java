@@ -1,7 +1,5 @@
 package com.example.testapp;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,7 +26,7 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private static ArrayList<EventModel> eventModelList = new ArrayList<>();
+    private static ArrayList<ConcreteEventModel> eventModelList = new ArrayList<>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -59,21 +57,21 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface{
 
     public static void setUpEventModelList(){
         eventModelList.clear();
-        eventModelList.add( new EventModel("0600-0700", "drink tea", "wake up and drink tea"));
-        eventModelList.add( new EventModel("0700-0800", "drink coffee", "wake up and drink coffee"));
-        eventModelList.add( new EventModel("0800-0900", "eat breakfast", "go eat at the buffet"));
-        eventModelList.add( new EventModel("0600-0700", "drink tea", "wake up and drink tea"));
-        eventModelList.add( new EventModel("0700-0800", "drink coffee", "wake up and drink coffee"));
-        eventModelList.add( new EventModel("0800-0900", "eat breakfast", "go eat at the buffet"));
-        eventModelList.add( new EventModel("0600-0700", "drink tea", "wake up and drink tea"));
-        eventModelList.add( new EventModel("0700-0800", "drink coffee", "wake up and drink coffee"));
-        eventModelList.add( new EventModel("0800-0900", "eat breakfast", "go eat at the buffet"));
-        eventModelList.add( new EventModel("0600-0700", "drink tea", "wake up and drink tea"));
-        eventModelList.add( new EventModel("0700-0800", "drink coffee", "wake up and drink coffee"));
-        eventModelList.add( new EventModel("0800-0900", "eat breakfast", "go eat at the buffet"));
-        eventModelList.add( new EventModel("0600-0700", "drink tea", "wake up and drink tea"));
-        eventModelList.add( new EventModel("0700-0800", "drink coffee", "wake up and drink coffee"));
-        eventModelList.add( new EventModel("0800-0900", "eat breakfast", "go eat at the buffet"));
+        eventModelList.add( new ConcreteEventModel("0600-0700", "drink tea", "wake up and drink tea", "1", true));
+        eventModelList.add( new ConcreteEventModel("0700-0800", "drink coffee", "wake up and drink coffee", "2", true));
+        eventModelList.add( new ConcreteEventModel("0800-0900", "eat breakfast", "go eat at the buffet", "3", false));
+        eventModelList.add( new ConcreteEventModel("0600-0700", "drink tea", "wake up and drink tea", "4", false));
+        eventModelList.add( new ConcreteEventModel("0700-0800", "drink coffee", "wake up and drink coffee", "5", false));
+        eventModelList.add( new ConcreteEventModel("0800-0900", "eat breakfast", "go eat at the buffet", "6",false));
+        eventModelList.add( new ConcreteEventModel("0600-0700", "drink tea", "wake up and drink tea", "7",false));
+        eventModelList.add( new ConcreteEventModel("0700-0800", "drink coffee", "wake up and drink coffee", "8",false));
+        eventModelList.add( new ConcreteEventModel("0800-0900", "eat breakfast", "go eat at the buffet", "9",false));
+        eventModelList.add( new ConcreteEventModel("0600-0700", "drink tea", "wake up and drink tea", "10",false));
+        eventModelList.add( new ConcreteEventModel("0700-0800", "drink coffee", "wake up and drink coffee", "11",false));
+        eventModelList.add( new ConcreteEventModel("0800-0900", "eat breakfast", "go eat at the buffet", "12",false));
+        eventModelList.add( new ConcreteEventModel("0600-0700", "drink tea", "wake up and drink tea", "13",true));
+        eventModelList.add( new ConcreteEventModel("0700-0800", "drink coffee", "wake up and drink coffee", "14",true));
+        eventModelList.add( new ConcreteEventModel("0800-0900", "eat breakfast", "go eat at the buffet", "14",false));
 
 
 

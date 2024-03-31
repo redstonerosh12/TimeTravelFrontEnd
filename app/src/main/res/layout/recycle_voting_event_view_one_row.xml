@@ -25,14 +25,15 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp">
 
-<!--            <LinearLayout-->
-<!--                android:gravity="center"-->
-<!--                android:id="@+id/text_bubble_base"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:paddingTop="5dp"-->
-<!--                android:paddingStart="10dp"-->
-<!--                android:paddingEnd="10dp">-->
+
+            <!--            <LinearLayout-->
+            <!--                android:gravity="center"-->
+            <!--                android:id="@+id/text_bubble_base"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:paddingTop="5dp"-->
+            <!--                android:paddingStart="10dp"-->
+            <!--                android:paddingEnd="10dp">-->
 
             <!--            belonging to ImageViewBelow-->
             <!--                    android:paddingStart="10dp"-->
@@ -40,14 +41,14 @@
 
             <!--            </LinearLayout>-->
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/dropdown_content_container"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
+            <!--            <LinearLayout-->
+            <!--                android:id="@+id/dropdown_content_container"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
 
-<!--                android:paddingStart="10dp"-->
-<!--                android:orientation="vertical"-->
-<!--                android:visibility="gone">-->
+            <!--                android:paddingStart="10dp"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:visibility="gone">-->
 
             <ImageView
                 android:id="@+id/toggle_dropdown"
@@ -98,11 +99,29 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <Button
-                android:id="@+id/deleteEventButton"
-                android:layout_width="match_parent"
+                android:id="@+id/yesButton"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@raw/varela_round_regular"
-                android:text="Delete Event"
+                android:text="Yes"
+
+                android:backgroundTint="@color/yes_button_color"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+
+                app:layout_constraintTop_toBottomOf="@id/event_description"
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+
+                />
+
+            <Button
+                android:id="@+id/noButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@raw/varela_round_regular"
+                android:text="No"
                 android:backgroundTint="@color/delete_event_button_color"
                 android:visibility="gone"
 
@@ -111,6 +130,33 @@
                 app:layout_constraintTop_toBottomOf="@id/event_description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBaseline_toBottomOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/votingBarBase"
+                app:tint="@color/yes_button_color"
+                android:layout_width="300dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/event_bubble_base"
+                android:visibility="gone"
+
+                app:layout_constraintTop_toBottomOf="@id/event_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+            <ImageView
+                android:id="@+id/votingBarNo"
+                app:tint="@color/delete_event_button_color"
+                android:layout_width="200dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/event_bubble_base"
+                android:visibility="gone"
+
+                app:layout_constraintTop_toBottomOf="@id/event_description"
+                app:layout_constraintStart_toStartOf="@id/votingBarBase"
+
                 />
 
             <!--            </LinearLayout>-->
