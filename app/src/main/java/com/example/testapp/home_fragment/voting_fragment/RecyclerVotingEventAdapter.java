@@ -1,4 +1,4 @@
-package com.example.testapp;
+package com.example.testapp.home_fragment.voting_fragment;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,16 +12,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.testapp.R;
+import com.example.testapp.home_fragment.RecyclerViewInterface;
+
 import java.util.ArrayList;
 
-public class RecyclerConcreteEventAdapter extends RecyclerView.Adapter<RecyclerConcreteEventAdapter.MyViewHolder>{
+
+
+public class RecyclerVotingEventAdapter extends RecyclerView.Adapter<RecyclerVotingEventAdapter.MyViewHolder>{
     private final RecyclerViewInterface recyclerViewInterface;
 
     Context context;
-    ArrayList<ConcreteEventModel> eventModelList;
+    ArrayList<VotingEventModel> eventModelList;
 
-    public RecyclerConcreteEventAdapter(Context context, ArrayList<ConcreteEventModel> eventModelList,
-                                        RecyclerViewInterface recyclerViewInterface) {
+    public RecyclerVotingEventAdapter(Context context, ArrayList<VotingEventModel> eventModelList,
+                                         RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.eventModelList = eventModelList;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -30,24 +35,25 @@ public class RecyclerConcreteEventAdapter extends RecyclerView.Adapter<RecyclerC
 
     @NonNull
     @Override
-    public RecyclerConcreteEventAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerVotingEventAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflator = LayoutInflater.from(context);
 
 
-        View view = inflator.inflate(R.layout.recycle_concrete_event_view_one_row, parent, false);
+        View view = inflator.inflate(R.layout.recycle_voting_event_view_one_row, parent, false);
 
-        return new RecyclerConcreteEventAdapter.MyViewHolder(view, recyclerViewInterface, eventModelList);
+        return new RecyclerVotingEventAdapter.MyViewHolder(view, recyclerViewInterface, eventModelList);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerConcreteEventAdapter.MyViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull RecyclerVotingEventAdapter.MyViewHolder holder, int position) {
         holder.eventTimeAndTitle.setText(eventModelList.get(position).eventTime + " " +
-                                         eventModelList.get(position).eventHeader);
+                eventModelList.get(position).eventHeader);
 
         holder.eventDescription.setText(eventModelList.get(position).eventDescription);
 
         holder.dropdownIndicator.setImageResource(R.drawable.ui_element_dropdown_button_collapsed);
+
+
 
     }
 
@@ -58,38 +64,61 @@ public class RecyclerConcreteEventAdapter extends RecyclerView.Adapter<RecyclerC
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        ImageView dropdownIndicator;
-        TextView eventTimeAndTitle, eventDescription;
-        Button deleteEventButton;
 
-        public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface, ArrayList<ConcreteEventModel> eventModelList) {
+        ImageView dropdownIndicator, votingBarBase, votingBarNo; //votingBarBase - votingBarNo is votingBarYes
+        TextView eventTimeAndTitle, eventDescription;
+        Button yesButton, noButton;
+
+        public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface, ArrayList<VotingEventModel> eventModelList) {
             super(itemView);
 
             dropdownIndicator = itemView.findViewById(R.id.toggle_dropdown);
             eventTimeAndTitle = itemView.findViewById(R.id.time_and_event_name);
             eventDescription = itemView.findViewById(R.id.event_description);
-            deleteEventButton = itemView.findViewById(R.id.deleteEventButton);
+
+            yesButton = itemView.findViewById(R.id.yesButton);
+            noButton = itemView.findViewById(R.id.noButton);
+
+            votingBarBase = itemView.findViewById(R.id.votingBarBase);
+            votingBarNo = itemView.findViewById(R.id.votingBarNo);
+
 
 
             itemView.setOnClickListener( new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
+
                     if(recyclerViewInterface != null){
                         int position = getAdapterPosition();
 
                         if(position != RecyclerView.NO_POSITION){
+                            Log.d("Recycler.Duplicate", "onClick of " + position);
+                            Log.d("Recycler.Duplicate", "ID of red bar " + votingBarBase.getId());
+
+
 
                             if(eventDescription.getVisibility() == View.GONE){
+                                Log.d("Recycler.Duplicate", "visibility setting of " + position);
                                 eventDescription.setVisibility(View.VISIBLE);
                                 dropdownIndicator.setImageResource(R.drawable.ui_element_dropdown_button_expanded);
-                                if(eventModelList.get(position).getEventOwnedByUser()){
-                                    deleteEventButton.setVisibility(View.VISIBLE);
+                                if(eventModelList.get(position).getEventVotedOnByUser()){ //if user has voted event
+                                    votingBarBase.setVisibility(View.VISIBLE);
+                                    votingBarNo.setVisibility(View.VISIBLE);
                                 }
+                                else {
+                                    noButton.setVisibility(View.VISIBLE);
+                                    yesButton.setVisibility(View.VISIBLE);
+                                }
+
                             }
                             else{
                                 eventDescription.setVisibility(View.GONE);
                                 dropdownIndicator.setImageResource(R.drawable.ui_element_dropdown_button_collapsed);
-                                deleteEventButton.setVisibility(View.GONE);
+                                votingBarBase.setVisibility(View.GONE);
+                                votingBarNo.setVisibility(View.GONE);
+                                noButton.setVisibility(View.GONE);
+                                yesButton.setVisibility(View.GONE);
+
                             }
 
                             recyclerViewInterface.onItemClick(position);

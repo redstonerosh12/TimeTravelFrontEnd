@@ -1,4 +1,4 @@
-package com.example.testapp;
+package com.example.testapp.home_fragment.suggested_fragment;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.testapp.R;
+import com.example.testapp.home_fragment.RecyclerViewInterface;
 
 import java.util.ArrayList;
 

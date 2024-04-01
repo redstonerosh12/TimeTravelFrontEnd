@@ -1,16 +1,16 @@
-package com.example.testapp;
+package com.example.testapp.home_fragment;
 
 public abstract class EventModel {
     public static final String CONCRETE = "CONCRETE";
     public static final String VOTING = "VOTING";
     public static final String SUGGESTED = "SUGGESTED";
 
-    String eventTime;
-    String eventHeader;
-    String eventDescription;
-    String eventID;
+    public String eventTime;
+    public String eventHeader;
+    public String eventDescription;
+    public String eventID;
 
-    Boolean eventOwnedByUser;
+    public Boolean eventOwnedByUser;
 
     public EventModel(String eventTime, String eventHeader, String eventDescription, String eventID, Boolean eventOwnedByUser) {
         this.eventTime = eventTime;
@@ -39,5 +39,5 @@ public abstract class EventModel {
     public Boolean getEventOwnedByUser(){
         return eventOwnedByUser;
     }
-    abstract String getEventType();
+    public abstract String getEventType();
 }

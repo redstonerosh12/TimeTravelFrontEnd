@@ -1,4 +1,4 @@
-package com.example.testapp;
+package com.example.testapp.home_fragment;
 
 import android.os.Bundle;
 
@@ -12,6 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.testapp.R;
+import com.example.testapp.home_fragment.concrete_fragment.ConcreteFragment;
+import com.example.testapp.home_fragment.suggested_fragment.SuggestedFragment;
+import com.example.testapp.home_fragment.voting_fragment.VotingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**

@@ -1,4 +1,4 @@
-package com.example.testapp;
+package com.example.testapp.home_fragment.voting_fragment;
 
 import android.os.Bundle;
 
@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.testapp.R;
+import com.example.testapp.home_fragment.RecyclerViewInterface;
+
 import java.util.ArrayList;
 
 /**
@@ -19,7 +22,7 @@ import java.util.ArrayList;
  * Use the {@link VotingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VotingFragment extends Fragment implements RecyclerViewInterface{
+public class VotingFragment extends Fragment implements RecyclerViewInterface {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

@@ -1,6 +1,8 @@
-package com.example.testapp;
+package com.example.testapp.home_fragment.concrete_fragment;
 
-public class ConcreteEventModel extends EventModel{
+import com.example.testapp.home_fragment.EventModel;
+
+public class ConcreteEventModel extends EventModel {
 
 
     String eventType = EventModel.CONCRETE;

@@ -1,6 +1,8 @@
-package com.example.testapp;
+package com.example.testapp.home_fragment.voting_fragment;
 
-public class VotingEventModel extends EventModel{
+import com.example.testapp.home_fragment.EventModel;
+
+public class VotingEventModel extends EventModel {
 
     String eventType = EventModel.CONCRETE;
     Boolean eventVotedOnByUser;

@@ -9,7 +9,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.testapp.calendar_fragment.CalendarFragment;
 import com.example.testapp.databinding.ActivityMainBinding;
+import com.example.testapp.home_fragment.HomeFragment;
+import com.example.testapp.profile_fragment.ProfileFragment;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {

@@ -1,6 +1,8 @@
-package com.example.testapp;
+package com.example.testapp.home_fragment.suggested_fragment;
 
-public class SuggestedEventModel extends EventModel{
+import com.example.testapp.home_fragment.EventModel;
+
+public class SuggestedEventModel extends EventModel {
 
     String eventType = EventModel.SUGGESTED;
 

@@ -1,4 +1,4 @@
-package com.example.testapp;
+package com.example.testapp.home_fragment;
 
 public interface RecyclerViewInterface {
 
