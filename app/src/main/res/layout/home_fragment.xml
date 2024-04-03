@@ -17,7 +17,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/activityMenu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="#DCD6F7"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
