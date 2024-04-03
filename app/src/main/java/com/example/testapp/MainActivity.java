@@ -6,10 +6,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.testapp.calendar_fragment.CalendarFragment;
+import com.example.testapp.MainFragments.CalendarFragment;
 import com.example.testapp.databinding.ActivityMainBinding;
 import com.example.testapp.home_fragment.HomeFragment;
 import com.example.testapp.profile_fragment.ProfileFragment;
@@ -23,7 +24,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new HomeFragment());
+        Intent intent = getIntent();
+        boolean fromCalendar = intent.getBooleanExtra("from_calendar", false);
+        if (fromCalendar) {
+            replaceFragment(new CalendarFragment());
+        } else {
+            replaceFragment(new HomeFragment());
+        }
         binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
