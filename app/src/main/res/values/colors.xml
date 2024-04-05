@@ -15,4 +15,6 @@
     <color name="voting_button_purple">#FF756AB6</color>
     <color name="delete_event_button_color">#A5232F</color>
     <color name="yes_button_color">#3B6D3C</color>
+    <color name="create_event_1">#E5D0FF</color>
+    <color name="create_event_2">#F5DEFF</color>
 </resources>
