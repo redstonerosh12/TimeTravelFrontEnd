@@ -1,8 +1,11 @@
 package com.example.testapp.home_fragment.suggested_fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.testapp.R;
+import com.example.testapp.home_fragment.CreateEventActivity;
 import com.example.testapp.home_fragment.RecyclerViewInterface;
+import com.example.testapp.home_fragment.concrete_fragment.ConcreteFragment;
 
 import java.util.ArrayList;
 
@@ -103,6 +108,18 @@ public class SuggestedFragment extends Fragment implements RecyclerViewInterface
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+
+        AppCompatButton createEventButton = view.findViewById(R.id.goToCreateEventActivityButton);
+        createEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment suggestedFragment = SuggestedFragment.this;
+                Context context = suggestedFragment.requireContext();
+                Intent createEventIntent = new Intent(context, CreateEventActivity.class);
+                suggestedFragment.startActivity(createEventIntent);
+            }
+        });
+
         setUpEventModelList();
 
         RecyclerSuggestedEventAdapter adapter = new RecyclerSuggestedEventAdapter(requireContext(), suggestedEventModelList, this);

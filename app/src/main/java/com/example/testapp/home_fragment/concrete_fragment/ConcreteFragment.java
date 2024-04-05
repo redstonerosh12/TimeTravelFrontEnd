@@ -1,8 +1,12 @@
 package com.example.testapp.home_fragment.concrete_fragment;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.testapp.R;
+import com.example.testapp.home_fragment.CreateEventActivity;
 import com.example.testapp.home_fragment.RecyclerViewInterface;
+
 
 import java.util.ArrayList;
 
@@ -28,6 +34,7 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
 
     private static ArrayList<ConcreteEventModel> eventModelList = new ArrayList<>();
 
@@ -89,6 +96,8 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface 
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
+
         // go from concrete to home, and from there to main activity
 //        Activity mainActivity = getActivity();
 //        if(mainActivity == null){
@@ -124,6 +133,19 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+
+        AppCompatButton createEventButton = view.findViewById(R.id.goToCreateEventActivityButton);
+        createEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment concreteFragment = ConcreteFragment.this;
+                Context context = concreteFragment.requireContext();
+                Intent createEventIntent = new Intent(context, CreateEventActivity.class);
+                concreteFragment.startActivity(createEventIntent);
+            }
+        });
+
+
         setUpEventModelList();
 
         RecyclerConcreteEventAdapter adapter = new RecyclerConcreteEventAdapter(requireContext(), eventModelList, this);
