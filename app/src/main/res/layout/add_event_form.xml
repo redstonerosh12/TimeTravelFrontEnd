@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@raw/varela_round_regular"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:text="Create Event"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+<!--    <androidx.appcompat.widget.AppCompatButton-->
+<!--        android:id="@+id/previousDayButton"-->
+<!--        android:layout_width="30dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:background="@drawable/ui_element_left_arrow"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/textView"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/textView"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/textView" -->
+<!--        />-->
+
+<!--    <androidx.appcompat.widget.AppCompatButton-->
+<!--        android:id="@+id/nextDayButton"-->
+<!--        android:layout_width="30dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:background="@drawable/ui_element_right_arrow"-->
+<!--        android:paddingStart="10dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/textView"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/textView"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/textView" />-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/event_bubble_base"
+        android:backgroundTint="@color/create_event_1"
+
+
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioConcreteSuggestedOption"
+            android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/radioButtonConcrete"
+            android:layout_width="wrap_content"
+
+
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@raw/varela_round_regular"
+            android:text="Concrete"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <RadioButton
+            android:id="@+id/radioButtonSuggested"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@raw/varela_round_regular"
+            android:text="Suggested"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/radioButtonConcrete"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:fontFamily="@raw/varela_round_regular"
+        android:text="Title:"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/editTitle"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <EditText
+        android:id="@+id/editTitle"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/event_bubble_base"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@raw/varela_round_regular"
+        android:padding="5dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:hint="eg. Singapore Flyer"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+
+        app:layout_constraintStart_toStartOf="@+id/StartTime"
+        app:layout_constraintTop_toBottomOf="@+id/Title" />
+
+    <TextView
+        android:id="@+id/StartTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@raw/varela_round_regular"
+        android:text="Start time:"
+        android:textSize="20sp"
+
+        app:layout_constraintStart_toStartOf="@+id/Address"
+        app:layout_constraintTop_toBottomOf="@+id/editTitle" />
+
+    <EditText
+        android:id="@+id/editStartTime"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/event_bubble_base"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@raw/varela_round_regular"
+        android:padding="5dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:hint="eg. 0900"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+
+
+        app:layout_constraintStart_toStartOf="@+id/StartTime"
+        app:layout_constraintTop_toBottomOf="@+id/StartTime" />
+
+    <TextView
+        android:id="@+id/EndTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@raw/varela_round_regular"
+        android:text="End time:"
+        android:textSize="20sp"
+
+        app:layout_constraintStart_toEndOf="@id/StartTime"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/editTitle" />
+
+    <EditText
+        android:id="@+id/editEndTime"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/event_bubble_base"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@raw/varela_round_regular"
+        android:padding="5dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:hint="eg. 1300"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+
+
+
+        app:layout_constraintStart_toStartOf="@+id/EndTime"
+        app:layout_constraintTop_toBottomOf="@+id/EndTime"/>
+
+    <TextView
+        android:id="@+id/Address"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@raw/varela_round_regular"
+        android:text="Address:"
+        android:textSize="20sp"
+
+
+        app:layout_constraintStart_toStartOf="@+id/editAddress"
+        app:layout_constraintTop_toBottomOf="@+id/editEndTime" />
+
+    <EditText
+        android:id="@+id/editAddress"
+        android:layout_width="295dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/event_bubble_base_sharp"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@raw/varela_round_regular"
+        android:padding="5dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:hint="eg. Singapore Flyer, 30 Raffles Ave.,\nSingapore 039803"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Address" />
+
+    <TextView
+        android:id="@+id/ReasonVisit"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@raw/varela_round_regular"
+        android:text="Reason For Visit:"
+        android:textSize="20sp"
+
+
+        app:layout_constraintStart_toStartOf="@+id/editAddress"
+        app:layout_constraintTop_toBottomOf="@+id/editAddress" />
+
+    <EditText
+        android:id="@+id/editReasonVisit"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/event_bubble_base_sharp"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@raw/varela_round_regular"
+        android:padding="5dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:hint="eg. See the skyline of Singapore,\nlook at the Marina bay sands"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+
+
+
+        app:layout_constraintStart_toStartOf="@+id/ReasonVisit"
+        app:layout_constraintTop_toBottomOf="@+id/ReasonVisit" />
+
+
+    <TextView
+        android:id="@+id/ExpectedCost"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@raw/varela_round_regular"
+        android:text="Expected Cost:"
+        android:textSize="20sp"
+
+
+        app:layout_constraintStart_toStartOf="@+id/editAddress"
+        app:layout_constraintTop_toBottomOf="@+id/editReasonVisit" />
+
+    <EditText
+        android:id="@+id/editLowerCost"
+        android:layout_width="68dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/event_bubble_base"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@raw/varela_round_regular"
+        android:padding="5dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:hint="eg. 10"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+
+
+        app:layout_constraintStart_toStartOf="@+id/ReasonVisit"
+        app:layout_constraintTop_toBottomOf="@+id/ExpectedCost" />
+
+    <TextView
+
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@raw/varela_round_regular"
+        android:text="-"
+
+
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/editLowerCost"
+        app:layout_constraintTop_toBottomOf="@+id/ExpectedCost" />
+
+    <EditText
+        android:id="@+id/editUpperCost"
+        android:layout_marginStart="10dp"
+        android:layout_width="68dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/event_bubble_base"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@raw/varela_round_regular"
+        android:padding="5dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:hint="eg. 50"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+
+
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/ExpectedCost" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/SubmitFormCreateEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/event_bubble_base"
+        android:backgroundTint="@color/purple_200"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+
+
+        android:fontFamily="@raw/varela_round_regular"
+        android:textColor="@color/white"
+        android:text="Create Event"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editUpperCost" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
