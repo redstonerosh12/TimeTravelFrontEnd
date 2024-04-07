@@ -34,8 +34,8 @@ public class ProfileFragment extends Fragment {
     static {
         profileData.put("name", "Chani Kynes");
         profileData.put("email", "ChaniK@youtwitface.ar");
-        profileData.put("number", "+65 98765432");
-        profileData.put("address", "No 15 You street, Sietch Tabr road, Twit City, Face state");
+        // profileData.put("number", "+65 98765432");
+        // profileData.put("address", "No 15 You street, Sietch Tabr road, Twit City, Face state");
     }
 
     public ProfileFragment() {
@@ -76,10 +76,12 @@ public class ProfileFragment extends Fragment {
         name.setText(profileData.get("name"));
         TextView email = (TextView) inf.findViewById(R.id.profileEmail);
         email.setText(profileData.get("email"));
+        /* 
         TextView number = (TextView) inf.findViewById(R.id.profileNumber);
         number.setText(profileData.get("number"));
         TextView address = (TextView) inf.findViewById(R.id.profileAddress);
         address.setText(profileData.get("address"));
+         */
         return inf;
     }
 }
