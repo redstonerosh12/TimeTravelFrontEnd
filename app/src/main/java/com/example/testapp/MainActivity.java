@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.testapp.MainFragments.CalendarFragment;
+import com.example.testapp.calendar_fragment.CalendarFragment;
 import com.example.testapp.databinding.ActivityMainBinding;
 import com.example.testapp.home_fragment.HomeFragment;
 import com.example.testapp.profile_fragment.ProfileFragment;

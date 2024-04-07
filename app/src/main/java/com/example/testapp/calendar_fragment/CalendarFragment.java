@@ -1,4 +1,4 @@
-package com.example.testapp.MainFragments;
+package com.example.testapp.calendar_fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
