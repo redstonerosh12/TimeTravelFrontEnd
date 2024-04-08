@@ -10,7 +10,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.testapp.api.API;
+import com.example.testapp.middleware.Auth;
+import com.example.testapp.model.Token;
 import com.google.android.material.button.MaterialButton;
+
+import retrofit2.Response;
 
 public class LoginPage extends AppCompatActivity {
     EditText usernameInput;
@@ -25,42 +30,63 @@ public class LoginPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        progressBar = findViewById(R.id.progress_circular);
-        usernameInput = findViewById(R.id.username_input);
-        passwordInput = findViewById(R.id.password_input);
-        signupbtn = findViewById(R.id.sign_up);
-        loginbtn = findViewById(R.id.login);
+        Auth auth = Auth.getInstance(getSharedPreferences("com.example.android.travelplanner", MODE_PRIVATE));
+        if (auth.isAuth()) redirect();
+        else {
+            setContentView(R.layout.activity_login);
 
-        loginbtn.setOnClickListener(new View.OnClickListener() {
+            progressBar = findViewById(R.id.progress_circular);
+            usernameInput = findViewById(R.id.username_input);
+            passwordInput = findViewById(R.id.password_input);
+            signupbtn = findViewById(R.id.sign_up);
+            loginbtn = findViewById(R.id.login);
 
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginPage.this, MainActivity.class);
-
-                //TODO 1.1 replace "user" and "passwword" with account's actual username and password
-                if (usernameInput.getText().toString().equals("user") && passwordInput.getText().toString().equals("password")) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    startActivity(intent);
+            loginbtn.setOnClickListener(v -> {
+                progressBar.setVisibility(View.VISIBLE);
+                usernameInput.setEnabled(false);
+                passwordInput.setEnabled(false);
+                String username = usernameInput.getText().toString();
+                String password = passwordInput.getText().toString();
+                if (username.isEmpty() || password.isEmpty()) {
+                    if (username.isEmpty())
+                        Toast.makeText(this, "Username Empty", Toast.LENGTH_SHORT).show();
+                    else Toast.makeText(this, "Password Empty", Toast.LENGTH_SHORT).show();
+                    usernameInput.setEnabled(false);
+                    passwordInput.setEnabled(false);
                     progressBar.setVisibility(View.GONE);
-
                 } else {
-                    Toast.makeText(LoginPage.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                    auth.login(username, password, new API.Callback<Token>() {
+                        @Override
+                        public void onResponse(Token token) {
+                            Toast.makeText(LoginPage.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                            redirect();
+                        }
+
+                        @Override
+                        public void onFailure(Response<Token> res) {
+                            Toast.makeText(LoginPage.this, "Wrong Username/Password", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFinal() {
+                            usernameInput.setEnabled(false);
+                            passwordInput.setEnabled(false);
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
                 }
-                Log.d("Test Credentials", "User:" + usernameInput.getText().toString());
-            }
-        });
-        signupbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent =new  Intent ( LoginPage.this, SignupPage.class);
+            });
+
+            signupbtn.setOnClickListener(v -> {
+                Intent intent = new Intent(LoginPage.this, SignupPage.class);
                 startActivity(intent);
+            });
+        }
+    }
 
-
-
-                Log.d("Test Credentials", "User:" + usernameInput.getText().toString());
-            }
-        });
+    private void redirect() {
+        Log.i("Nav", "Going to Main");
+        Intent intent = new Intent(LoginPage.this, MainActivity.class);
+        startActivity(intent);
     }
 }
