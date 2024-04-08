@@ -33,9 +33,12 @@ public class Controller {
     static private final Service apiServiceScalar = retrofitScalar.create(Service.class);
     static private boolean TESTING = true;
 
-    static {
-        API.ping().setOnResponse(str -> {
-        }).setOnFailure(res -> TESTING = !res.isSuccessful()).fetch();
+    public static void connect(com.example.testapp.api.Response<String> response) {
+        API.ping().setOnResponse(res -> {
+            response.onResponse("Online");
+            TESTING = false;
+        }).setOnFailure(res -> {
+        }).fetch();
     }
 
     public static Service getService() {
@@ -79,7 +82,7 @@ public class Controller {
 
         @Override
         public Call<String> ping() {
-            return new ByPassCall<>(null);
+            return Controller.apiServiceScalar.ping();
         }
 
         @Override

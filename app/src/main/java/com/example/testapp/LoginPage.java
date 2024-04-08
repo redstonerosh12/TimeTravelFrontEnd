@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.testapp.api.API;
+import com.example.testapp.api.Controller;
 import com.example.testapp.middleware.Auth;
 import com.example.testapp.model.Token;
 import com.google.android.material.button.MaterialButton;
@@ -29,6 +31,8 @@ public class LoginPage extends AppCompatActivity {
         Auth auth = Auth.getInstance(this);
         if (!auth.isAuth()) {
             setContentView(R.layout.activity_login);
+            TextView mode = findViewById(R.id.offlineMode);
+            Controller.connect(res -> mode.setVisibility(View.GONE));
 
             progressBar = findViewById(R.id.progress_circular);
             usernameInput = findViewById(R.id.username_input);

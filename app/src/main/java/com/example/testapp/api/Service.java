@@ -35,7 +35,7 @@ public interface Service {
     /**
      * Controller: Others
      */
-    @POST("/api/v1/connection/ping")
+    @GET("/api/v1/connection/ping")
     Call<String> ping(); //TODO: Test
 
     /**
