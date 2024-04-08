@@ -24,7 +24,7 @@ public interface Service {
      * Do not require Authorization except logout
      */
     @POST("/api/v1/auth/register")
-    Call<Token> register(@Body User.Create user);
+    Call<Token> register(@Body User user);
 
     @POST("/api/v1/auth/log-out")
     Call<Message> logOut(@Header("Authorization") String token);
@@ -97,5 +97,9 @@ public interface Service {
 
      class Message {
         private String message;
+
+         Message(String message) {
+             this.message = message;
+         }
     }
 }

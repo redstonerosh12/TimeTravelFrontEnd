@@ -1,5 +1,7 @@
 package com.example.testapp.model;
 
+import java.util.Objects;
+
 public class User {
     String username;
     String password;
@@ -8,6 +10,12 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
 
     public String getUsername() {
@@ -26,25 +34,12 @@ public class User {
         this.email = email;
     }
 
-    public static class Create {
-        String username;
-        String password;
-        String email;
-
-        public Create(String username, String password, String email) {
-            this.username = username;
-            this.password = password;
-            this.email = email;
-        }
-
-        @Override
-        public String toString() {
-            return "Create{" +
-                    "username='" + username + '\'' +
-                    ", password='" + password + '\'' +
-                    ", email='" + email + '\'' +
-                    '}';
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(user.username, username) && Objects.equals(user.password, password);
     }
 }
 

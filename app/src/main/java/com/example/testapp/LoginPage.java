@@ -46,8 +46,8 @@ public class LoginPage extends AppCompatActivity {
                     if (username.isEmpty())
                         Toast.makeText(this, "Username Empty", Toast.LENGTH_SHORT).show();
                     else Toast.makeText(this, "Password Empty", Toast.LENGTH_SHORT).show();
-                    usernameInput.setEnabled(false);
-                    passwordInput.setEnabled(false);
+                    usernameInput.setEnabled(true);
+                    passwordInput.setEnabled(true);
                     progressBar.setVisibility(View.GONE);
                 } else {
                     auth.login(username, password, new API.Callback<Token>() {
@@ -64,8 +64,8 @@ public class LoginPage extends AppCompatActivity {
 
                         @Override
                         public void onFinal() {
-                            usernameInput.setEnabled(false);
-                            passwordInput.setEnabled(false);
+                            usernameInput.setEnabled(true);
+                            passwordInput.setEnabled(true);
                             progressBar.setVisibility(View.GONE);
                         }
                     });

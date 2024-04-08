@@ -1,5 +1,7 @@
 package com.example.testapp.api;
 
+import androidx.annotation.NonNull;
+
 import com.example.testapp.model.EventModel;
 import com.example.testapp.model.Token;
 import com.example.testapp.model.TravelPlan;
@@ -9,8 +11,10 @@ import com.example.testapp.model.Voting;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
+import okio.BufferedSource;
 import okio.Timeout;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,7 +24,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Controller {
-    static public final LocalDate fakeDate = LocalDate.of(1999, 1, 1);
     static private final String BASEURL = "http://10.0.2.2:8080/";
     static private final Retrofit retrofit = new Retrofit.Builder().baseUrl(BASEURL)
             .addConverterFactory(GsonConverterFactory.create()).build();
@@ -28,7 +31,12 @@ public class Controller {
     static private final Retrofit retrofitScalar = new Retrofit.Builder().baseUrl(BASEURL)
             .addConverterFactory(ScalarsConverterFactory.create()).build();
     static private final Service apiServiceScalar = retrofitScalar.create(Service.class);
-    static private final boolean TESTING = false;
+    static private boolean TESTING = true;
+
+    static {
+        API.ping().setOnResponse(str -> {
+        }).setOnFailure(res -> TESTING = !res.isSuccessful()).fetch();
+    }
 
     public static Service getService() {
         return TESTING ? new TestingService() : apiService;
@@ -39,19 +47,34 @@ public class Controller {
     }
 
     static class TestingService implements Service {
+        private static final ArrayList<User> users = new ArrayList<>();
+
+        static {
+            users.add(new User("admin", "password"));
+        }
+
         @Override
-        public Call<Token> register(User.Create user) {
-            return null;
+        public Call<Token> register(User user) {
+            users.add(user);
+            return new ByPassCall<>(new Token("Testing Token"));
         }
 
         @Override
         public Call<Message> logOut(String token) {
-            return null;
+            return new ByPassCall<>(new Message("Logout"));
         }
 
         @Override
         public Call<Token> authenticate(User user) {
-            return new ByPassCall<>(new Token("Testing Token"));
+            for (User u : users) {
+                if (u.equals(user)) return new ByPassCall<>(new Token("Testing Token"));
+            }
+            return new ByPassCallGeneral<Token>() {
+                @Override
+                public void enqueue(@NonNull Callback<Token> callback) {
+                    callback.onResponse(this, ResponseType.Error(403));
+                }
+            };
         }
 
         @Override
@@ -144,18 +167,28 @@ public class Controller {
             return null;
         }
 
-        static class ByPassCall<T> implements Call<T> {
-            T response;
+        static class ResponseType {
+            public static <T> Response<T> Error(int code) {
+                return Response.error(code, new ResponseBody() {
+                    @Override
+                    public MediaType contentType() {
+                        return null;
+                    }
 
-            public ByPassCall(T response) {
-                this.response = response;
+                    @Override
+                    public long contentLength() {
+                        return 0;
+                    }
+
+                    @Override
+                    public BufferedSource source() {
+                        return null;
+                    }
+                });
             }
+        }
 
-            @Override
-            public void enqueue(Callback<T> callback) {
-                callback.onResponse(this, Response.success(this.response));
-            }
-
+        static abstract class ByPassCallGeneral<T> implements Call<T> {
             @Override
             public retrofit2.Response<T> execute() {
                 return null;
@@ -188,6 +221,19 @@ public class Controller {
             @Override
             public Timeout timeout() {
                 return null;
+            }
+        }
+
+        static class ByPassCall<T> extends ByPassCallGeneral<T> {
+            T response;
+
+            public ByPassCall(T response) {
+                this.response = response;
+            }
+
+            @Override
+            public void enqueue(Callback<T> callback) {
+                callback.onResponse(this, Response.success(this.response));
             }
         }
     }

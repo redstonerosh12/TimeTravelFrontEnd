@@ -16,12 +16,12 @@ import retrofit2.Call;
 
 public class API {
     public static APIBuilder<String> ping() {
-        return new APIBuilder<>(Controller.getService().ping());
+        return new APIBuilder<>(Controller.getServiceScalar().ping());
     }
 
     public static class Auth {
         public static APIBuilder<Token> register(String username, String password, String email) {
-            return new APIBuilder<>(Controller.getService().register(new User.Create(username, password, email)));
+            return new APIBuilder<>(Controller.getService().register(new User(username, password, email)));
         }
 
         public static APIBuilder<Service.Message> logOut(String token) {
