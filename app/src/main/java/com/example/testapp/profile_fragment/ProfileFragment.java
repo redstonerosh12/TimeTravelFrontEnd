@@ -1,5 +1,6 @@
 package com.example.testapp.profile_fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,9 +8,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.testapp.LoginPage;
 import com.example.testapp.R;
+import com.example.testapp.middleware.Auth;
 
 import java.util.HashMap;
 
@@ -24,19 +29,19 @@ public class ProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     //    change to api call
     public static HashMap<String, String> profileData = new HashMap<String, String>();
+
     static {
         profileData.put("name", "Chani Kynes");
         profileData.put("email", "ChaniK@youtwitface.ar");
         profileData.put("number", "+65 98765432");
         profileData.put("address", "No 15 You street, Sietch Tabr road, Twit City, Face state");
     }
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -59,6 +64,7 @@ public class ProfileFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +86,14 @@ public class ProfileFragment extends Fragment {
         number.setText(profileData.get("number"));
         TextView address = (TextView) inf.findViewById(R.id.profileAddress);
         address.setText(profileData.get("address"));
+        Button b = inf.findViewById(R.id.logout);
+        b.setOnClickListener(view ->
+                Auth.getInstance().logout(response -> {
+                    Toast.makeText(getActivity(), "Successfully Logout", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getActivity(), LoginPage.class);
+                    startActivity(intent);
+                })
+        );
         return inf;
     }
 }

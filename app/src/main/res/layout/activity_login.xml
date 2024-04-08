@@ -75,6 +75,15 @@
         android:visibility="gone"
         />
 
+    <TextView
+        android:id="@+id/offlineMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:text="Offline Mode" />
 
 
 </RelativeLayout>

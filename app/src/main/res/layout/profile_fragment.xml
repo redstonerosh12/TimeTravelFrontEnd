@@ -12,6 +12,13 @@
     android:paddingRight="15dp"
     android:weightSum="5"
     >
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -243,4 +250,5 @@
             android:contentDescription="friends_arrow"
             android:src="@drawable/ui_element_dropdown_button_collapsed" />
     </LinearLayout>
+
 </LinearLayout>
