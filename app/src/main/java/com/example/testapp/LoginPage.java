@@ -2,7 +2,6 @@ package com.example.testapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -22,17 +21,13 @@ public class LoginPage extends AppCompatActivity {
     EditText passwordInput;
     MaterialButton loginbtn;
     MaterialButton signupbtn;
-
     ProgressBar progressBar;
-    public static String myuserkey = "User:";
-    public static String mypasswordkey = "Password:";
-    public static String myemailkey = "Email:";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Auth auth = Auth.getInstance(getSharedPreferences("com.example.android.travelplanner", MODE_PRIVATE));
-        if (auth.isAuth()) redirect();
-        else {
+        Auth auth = Auth.getInstance(this);
+        if (!auth.isAuth()) {
             setContentView(R.layout.activity_login);
 
             progressBar = findViewById(R.id.progress_circular);
@@ -59,7 +54,7 @@ public class LoginPage extends AppCompatActivity {
                         @Override
                         public void onResponse(Token token) {
                             Toast.makeText(LoginPage.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-                            redirect();
+                            startActivity(new Intent(LoginPage.this, MainActivity.class));
                         }
 
                         @Override
@@ -82,11 +77,5 @@ public class LoginPage extends AppCompatActivity {
                 startActivity(intent);
             });
         }
-    }
-
-    private void redirect() {
-        Log.i("Nav", "Going to Main");
-        Intent intent = new Intent(LoginPage.this, MainActivity.class);
-        startActivity(intent);
     }
 }

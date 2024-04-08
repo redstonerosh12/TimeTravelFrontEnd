@@ -1,29 +1,45 @@
 package com.example.testapp.middleware;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.activity.ComponentActivity;
+
+import com.example.testapp.LoginPage;
+import com.example.testapp.MainActivity;
 import com.example.testapp.api.API;
 import com.example.testapp.api.Service;
 import com.example.testapp.model.Token;
 import com.example.testapp.model.User;
 
 public class Auth {
+    private final static String AUTH_CODE = "Auth";
     private static String username;
     private static Auth instance;
     private static String token;
     private static SharedPreferences mPreferences;
     private final String TOKEN_KEY = "Token_key";
     private final String USERNAME_KEY = "Username_key";
-    private final String AUTH_CODE = "Auth";
 
     private Auth(SharedPreferences sharedPreferences) {
         mPreferences = sharedPreferences;
         refresh();
     }
 
-    public static Auth getInstance(SharedPreferences sharedPreferences) {
-        if (instance == null) instance = new Auth(sharedPreferences);
+    public static Auth getInstance() {
+        return instance;
+    }
+
+    public static Auth getInstance(ComponentActivity activity) {
+        if (instance == null)
+            instance = new Auth(activity.getSharedPreferences("com.example.android.testapp", Context.MODE_PRIVATE));
+        String className = activity.getClass().getSimpleName();
+        boolean authenticated = instance.isAuth();
+        if (className.equals("SignupPage") || className.equals("LoginPage")) {
+            if (authenticated) activity.startActivity(new Intent(activity, MainActivity.class));
+        } else if (!authenticated) activity.startActivity(new Intent(activity, LoginPage.class));
         return instance;
     }
 
@@ -62,11 +78,19 @@ public class Auth {
                 }).fetch();
     }
 
-    public void register(String username, String password, String email) {
+    public void register(String username, String password, String email, API.Callback<Token> callback) {
         Log.e(AUTH_CODE, "Registering");
         API.Auth.register(username, password, email)
-                .setOnResponse(token -> saveUserAndToken(username, token.getToken()))
-                .setOnFailure(response -> Log.e(AUTH_CODE, "Fail to Register"))
+                .setOnResponse(token -> {
+                    saveUserAndToken(username, token.getToken());
+                    callback.onResponse(token);
+                    callback.onFinal();
+                })
+                .setOnFailure(response -> {
+                    callback.onFailure(response);
+                    Log.e(AUTH_CODE, "Fail to Register");
+                    callback.onFinal();
+                })
                 .fetch();
     }
 
@@ -75,7 +99,7 @@ public class Auth {
         preferencesEditor.putString(TOKEN_KEY, null);
         preferencesEditor.putString(USERNAME_KEY, null);
         preferencesEditor.apply();
-        final String LOGOUT_CODE = AUTH_CODE + ": logout";
+        final String LOGOUT_CODE = AUTH_CODE + ":logout";
         Log.i(LOGOUT_CODE, "Logging out");
         Log.i(LOGOUT_CODE, token);
         String tokenHolder = token;
@@ -85,7 +109,7 @@ public class Auth {
             Log.i(LOGOUT_CODE, "Log out Successful");
             callback.onResponse(message);
         }).setOnFailure(response -> {
-            Log.i(LOGOUT_CODE + ":logout", response.toString());
+            Log.i(LOGOUT_CODE, response.toString());
         }).fetch();
     }
 
