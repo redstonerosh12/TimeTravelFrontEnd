@@ -1,22 +1,22 @@
 package com.example.testapp.model;
 
-import android.util.Log;
-
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class EventModel {
     private String id;
     private String creator;
     private String title;
-    private ZonedDateTime startTime;
-    private ZonedDateTime endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String description;
     private Status placeStatus;
     private String location;
 
-    public EventModel(String id, String creator, String title, ZonedDateTime startTime, ZonedDateTime endTime, String description, Status placeStatus, String location) {
+    public EventModel(String id, String creator, String title, LocalDateTime startTime, LocalDateTime endTime, String description, Status placeStatus, String location) {
         this.id = id;
         this.creator = creator;
         this.title = title;
@@ -27,8 +27,24 @@ public class EventModel {
         this.location = location;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public String getTime() {
+        return String.format(Locale.getDefault(), "%02d%02d-%02d%02d", startTime.getHour(), startTime.getMinute(), endTime.getHour(), endTime.getMinute());
     }
 
     @Override
@@ -51,21 +67,6 @@ public class EventModel {
         SUGGESTED;
     }
 
-    static class Loc {
-        private String name;
-        private int lat;
-        private int lon;
-
-        @Override
-        public String toString() {
-            return "Loc{" +
-                    "name='" + name + '\'' +
-                    ", lat=" + lat +
-                    ", lon=" + lon +
-                    '}';
-        }
-    }
-
     public static class Create {
         private String title;
         private String startTime;
@@ -74,12 +75,11 @@ public class EventModel {
         private String placeStatus;
         private String location;
 
-        public Create(String title, ZonedDateTime startTime, ZonedDateTime endTime, String description, Status placeStatus, String location) {
+        public Create(String title, LocalDateTime startTime, LocalDateTime endTime, String description, Status placeStatus, String location) {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT.withZone(ZoneId.systemDefault());
             this.title = title;
-            this.startTime = startTime.format(formatter);
-            Log.e("Debugger", this.startTime);
-            this.endTime = endTime.format(formatter);
+            this.startTime = ZonedDateTime.of(startTime, ZoneId.systemDefault()).format(formatter);
+            this.endTime = ZonedDateTime.of(endTime, ZoneId.systemDefault()).format(formatter);
             this.description = description;
             this.placeStatus = placeStatus.toString();
             this.location = location;

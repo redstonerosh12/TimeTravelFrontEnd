@@ -27,6 +27,13 @@ public class TravelPlan {
         this.endDate = parseDate(endDate);
     }
 
+    public TravelPlan(int id, String title, LocalDate startDate, LocalDate endDate, String creator, String joinCode, ArrayList<EventModel> events) {
+        this(id, title, startDate, endDate);
+        this.creator = creator;
+        this.joinCode = joinCode;
+        this.events = events;
+    }
+
     public static LocalDate intDateConvertor(int[] date) {
         return LocalDate.of(date[0], date[1], date[2]);
     }
@@ -37,6 +44,10 @@ public class TravelPlan {
         d[1] = date.getMonthValue();
         d[2] = date.getDayOfMonth();
         return d;
+    }
+
+    public ArrayList<EventModel> getEvents() {
+        return events;
     }
 
     public String getTitle() {
