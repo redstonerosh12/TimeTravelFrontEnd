@@ -21,6 +21,8 @@ import com.example.testapp.home_fragment.CreateEventActivity;
 import com.example.testapp.home_fragment.RecyclerViewInterface;
 
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 /**
@@ -67,21 +69,40 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface 
 
     public static void setUpEventModelList(){
         eventModelList.clear();
-        eventModelList.add( new ConcreteEventModel("0600-0700", "drink tea", "wake up and drink tea", "1", true));
-        eventModelList.add( new ConcreteEventModel("0700-0800", "drink coffee", "wake up and drink coffee", "2", true));
-        eventModelList.add( new ConcreteEventModel("0800-0900", "eat breakfast", "go eat at the buffet", "3", false));
-        eventModelList.add( new ConcreteEventModel("0600-0700", "drink tea", "wake up and drink tea", "4", false));
-        eventModelList.add( new ConcreteEventModel("0700-0800", "drink coffee", "wake up and drink coffee", "5", false));
-        eventModelList.add( new ConcreteEventModel("0800-0900", "eat breakfast", "go eat at the buffet", "6",false));
-        eventModelList.add( new ConcreteEventModel("0600-0700", "drink tea", "wake up and drink tea", "7",false));
-        eventModelList.add( new ConcreteEventModel("0700-0800", "drink coffee", "wake up and drink coffee", "8",false));
-        eventModelList.add( new ConcreteEventModel("0800-0900", "eat breakfast", "go eat at the buffet", "9",false));
-        eventModelList.add( new ConcreteEventModel("0600-0700", "drink tea", "wake up and drink tea", "10",false));
-        eventModelList.add( new ConcreteEventModel("0700-0800", "drink coffee", "wake up and drink coffee", "11",false));
-        eventModelList.add( new ConcreteEventModel("0800-0900", "eat breakfast", "go eat at the buffet", "12",false));
-        eventModelList.add( new ConcreteEventModel("0600-0700", "drink tea", "wake up and drink tea", "13",true));
-        eventModelList.add( new ConcreteEventModel("0700-0800", "drink coffee", "wake up and drink coffee", "14",true));
-        eventModelList.add( new ConcreteEventModel("0800-0900", "eat breakfast", "go eat at the buffet", "14",false));
+        ZonedDateTime six = ZonedDateTime.of(2024, 4, 1, 6, 0, 0, 0, ZoneId.systemDefault()); // Year, month, day, hour, minute, second, nanosecond, ZoneId
+        ZonedDateTime seven = ZonedDateTime.of(2024, 4, 1, 7, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime eight = ZonedDateTime.of(2024, 4, 1, 8, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime nine = ZonedDateTime.of(2024, 4, 1, 9, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime ten = ZonedDateTime.of(2024, 4, 1, 10, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime eleven = ZonedDateTime.of(2024, 4, 1, 11, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime twelve = ZonedDateTime.of(2024, 4, 1, 12, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime thirteen = ZonedDateTime.of(2024, 4, 1, 13, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime fourteen = ZonedDateTime.of(2024, 4, 1, 14, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime fifteen = ZonedDateTime.of(2024, 4, 1, 15, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime sixteen = ZonedDateTime.of(2024, 4, 1, 16, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime seventeen = ZonedDateTime.of(2024, 4, 1, 17, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime eighteen = ZonedDateTime.of(2024, 4, 1, 18, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime nineteen = ZonedDateTime.of(2024, 4, 1, 19, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime twenty = ZonedDateTime.of(2024, 4, 1, 20, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime twentyOne = ZonedDateTime.of(2024, 4, 1, 21, 0, 0, 0, ZoneId.systemDefault());
+
+
+
+        eventModelList.add( new ConcreteEventModel(six, seven, "drink tea", "wake up and drink tea", "1", true));
+        eventModelList.add( new ConcreteEventModel(seven, eight, "drink coffee", "wake up and drink coffee", "2", true));
+        eventModelList.add( new ConcreteEventModel(eight, nine, "eat breakfast", "go eat at the buffet", "3", false));
+        eventModelList.add( new ConcreteEventModel(nine, ten, "drink tea", "wake up and drink tea", "4", false));
+        eventModelList.add( new ConcreteEventModel(ten, eleven, "drink coffee", "wake up and drink coffee", "5", false));
+        eventModelList.add( new ConcreteEventModel(eleven, twelve, "eat breakfast", "go eat at the buffet", "6",false));
+        eventModelList.add( new ConcreteEventModel(twelve, thirteen, "drink tea", "wake up and drink tea", "7",false));
+        eventModelList.add( new ConcreteEventModel(thirteen, fourteen, "drink coffee", "wake up and drink coffee", "8",false));
+        eventModelList.add( new ConcreteEventModel(fourteen, fifteen, "eat breakfast", "go eat at the buffet", "9",false));
+        eventModelList.add( new ConcreteEventModel(fifteen, sixteen, "drink tea", "wake up and drink tea", "10",false));
+        eventModelList.add( new ConcreteEventModel(sixteen, seventeen, "drink coffee", "wake up and drink coffee", "11",false));
+        eventModelList.add( new ConcreteEventModel(seventeen, eighteen, "eat breakfast", "go eat at the buffet", "12",false));
+        eventModelList.add( new ConcreteEventModel(eighteen, nineteen, "drink tea", "wake up and drink tea", "13",true));
+        eventModelList.add( new ConcreteEventModel(nineteen, twenty, "drink coffee", "wake up and drink coffee", "14",true));
+        eventModelList.add( new ConcreteEventModel(twenty, twentyOne, "eat breakfast", "go eat at the buffet", "15",false));
 
 
 
