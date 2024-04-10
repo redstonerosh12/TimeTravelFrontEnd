@@ -1,5 +1,6 @@
 package com.example.testapp.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -15,6 +16,10 @@ public class EventModel {
     private String description;
     private Status placeStatus;
     private String location;
+
+    public Status getPlaceStatus() {
+        return placeStatus;
+    }
 
     public EventModel(String id, String creator, String title, LocalDateTime startTime, LocalDateTime endTime, String description, Status placeStatus, String location) {
         this.id = id;
@@ -45,6 +50,10 @@ public class EventModel {
 
     public String getTime() {
         return String.format(Locale.getDefault(), "%02d%02d-%02d%02d", startTime.getHour(), startTime.getMinute(), endTime.getHour(), endTime.getMinute());
+    }
+
+    public LocalDate getDate() {
+        return startTime.toLocalDate();
     }
 
     @Override

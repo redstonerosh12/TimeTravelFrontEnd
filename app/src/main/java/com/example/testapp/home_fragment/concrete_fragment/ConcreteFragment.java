@@ -101,6 +101,9 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        RecyclerView recyclerView = view.findViewById(R.id.ConcreteRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
         AppCompatButton createEventButton = view.findViewById(R.id.goToCreateEventActivityButton);
         createEventButton.setOnClickListener(v -> {
             Fragment concreteFragment = ConcreteFragment.this;
@@ -113,13 +116,16 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface 
         TextView yearSelected = view.findViewById(R.id.textView2); //this is constraintLayout playing its tricks
         CommonDateSelected commonDateSelection = MainActivity.getCommonDateSelected();
 
+        String travelPlanId = "1";
+        commonDateSelection.nextDay();
+        LocalDate date = commonDateSelection.selectedDate.toLocalDate();
 
         String dateSelectedText = commonDateSelection.getDMMM();
         dateSelected.setText(dateSelectedText);
         yearSelected.setText(commonDateSelection.getYYYY());
 
-        AppCompatButton prevDayButton = view.findViewById(R.id.previousDayButton);
         AppCompatButton nextDayButton = view.findViewById(R.id.nextDayButton);
+        AppCompatButton prevDayButton = view.findViewById(R.id.previousDayButton);
 
         prevDayButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +134,7 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface 
                 dateSelected.setText(commonDateSelection.getDMMM());
                 yearSelected.setText(commonDateSelection.getYYYY());
                 Log.d("CommonDateSelected.button", commonDateSelection.getDMMM());
+                updateRecycleView(recyclerView, travelPlanId, commonDateSelection.selectedDate.toLocalDate());
             }
         });
 
@@ -138,16 +145,14 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface 
                 dateSelected.setText(commonDateSelection.getDMMM());
                 yearSelected.setText(commonDateSelection.getYYYY());
                 Log.d("CommonDateSelected.button", commonDateSelection.getDMMM());
+                updateRecycleView(recyclerView, travelPlanId, commonDateSelection.selectedDate.toLocalDate());
             }
         });
 
-        RecyclerView recyclerView = view.findViewById(R.id.ConcreteRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        Log.e("Debugger", "Get Concrete Events");
-        //TODO: Get from page selected
-        String travelPlanId = "1";
-        LocalDate date = LocalDate.of(2024, 4, 11);
+        updateRecycleView(recyclerView, travelPlanId, date);
+    }
 
+    public void updateRecycleView(RecyclerView recyclerView, String travelPlanId, LocalDate date) {
         DataSource.getEventsByDate(travelPlanId, date, EventModel.Status.CONCRETE, new API.Callback<ArrayList<EventModel>>() {
             @Override
             public void onFailure(Response<ArrayList<EventModel>> response) {
@@ -155,8 +160,8 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface 
             }
 
             @Override
-            public void onResponse(ArrayList<EventModel> response) {
-                recyclerView.setAdapter(new RecyclerConcreteEventAdapter(requireContext(), response, ConcreteFragment.this));
+            public void onResponse(ArrayList<EventModel> events) {
+                recyclerView.setAdapter(new RecyclerConcreteEventAdapter(requireContext(), events, ConcreteFragment.this));
             }
         });
     }
