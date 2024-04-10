@@ -34,7 +34,7 @@
             android:hint="Email Address"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:padding="10dp"
             android:background="@drawable/rounder_corner"
             android:inputType="text"
@@ -47,7 +47,7 @@
             android:hint="Username"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:padding="10dp"
             android:background="@drawable/rounder_corner"
             android:inputType="text"
@@ -60,7 +60,7 @@
             android:hint="Password"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:padding="10dp"
             android:background="@drawable/rounder_corner"
             android:inputType="textPassword"
@@ -73,7 +73,7 @@
             android:hint="Confirm Password"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:padding="10dp"
             android:background="@drawable/rounder_corner"
             android:inputType="textPassword"
@@ -84,15 +84,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="Create Account"
-            android:textSize="24dp"/>
+            android:textSize="26dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/go_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="Go Back"
-            android:textSize="24dp"/>
+            android:backgroundTint="@color/delete_event_button_color"
+            android:textSize="26dp"/>
 
 
     </LinearLayout>

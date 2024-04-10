@@ -24,7 +24,7 @@ public class LoginPage extends AppCompatActivity {
     MaterialButton loginbtn;
     MaterialButton signupbtn;
     ProgressBar progressBar;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
