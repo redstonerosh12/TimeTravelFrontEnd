@@ -9,6 +9,8 @@ import com.example.testapp.model.User;
 import com.example.testapp.model.Voting;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import okhttp3.MediaType;
@@ -51,9 +53,25 @@ public class Controller {
 
     static class TestingService implements Service {
         private static final ArrayList<User> users = new ArrayList<>();
+        private static final ArrayList<TravelPlan> travelPlans = new ArrayList<>();
 
         static {
-            users.add(new User("admin", "password"));
+            User user = new User("admin", "password");
+            users.add(user);
+            LocalDate date = LocalDate.of(2024,4,1);
+            ArrayList<EventModel> eventTP1 = new ArrayList<>();
+            LocalDateTime dt = LocalDateTime.of(date, LocalTime.of(8,0));
+            eventTP1.add(new EventModel("1", user.getUsername(),"Breakfast",dt.plusHours(0), dt.plusHours(1), "Prata", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("2", user.getUsername(),"Stretching",dt.plusHours(1), dt.plusHours(2), "Leg and Arm", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("3", user.getUsername(),"Walk in the park",dt.plusHours(2), dt.plusHours(3), "Fast walking speed", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("4", user.getUsername(),"Meeting friend",dt.plusHours(3), dt.plusHours(4), "Roshan at home", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("5", user.getUsername(),"Lunch",dt.plusHours(4), dt.plusHours(5), "Chicken Rice", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("6", user.getUsername(),"Cafe",dt.plusHours(5), dt.plusHours(6), "Latte", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("7", user.getUsername(),"Tea break 1",dt.plusHours(6), dt.plusHours(7), "Black Tea", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("8", user.getUsername(),"Buy car",dt.plusHours(7), dt.plusHours(8), "Porcho", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("9", user.getUsername(),"Watch movie",dt.plusHours(8), dt.plusHours(9), "Panda 1", EventModel.Status.CONCRETE, "Changi Airport"));
+
+            travelPlans.add(new TravelPlan(1, "Malaysia", date, date.plusDays(1),user.getUsername(),"asdawq",eventTP1));
         }
 
         @Override
@@ -157,7 +175,7 @@ public class Controller {
 
         @Override
         public Call<TravelPlan> getTravelPlan(String token, String travelPlanId) {
-            return null;
+            return new ByPassCall<>(travelPlans.get(Integer.parseInt(travelPlanId) - 1));
         }
 
         @Override
