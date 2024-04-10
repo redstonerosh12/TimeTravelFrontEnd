@@ -14,7 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.testapp.CommonDateSelected;
+import com.example.testapp.MainActivity;
 import com.example.testapp.R;
 import com.example.testapp.api.API;
 import com.example.testapp.api.DataSource;
@@ -104,6 +107,38 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface 
             Context context = concreteFragment.requireContext();
             Intent createEventIntent = new Intent(context, CreateEventActivity.class);
             concreteFragment.startActivity(createEventIntent);
+        });
+
+        TextView dateSelected = view.findViewById(R.id.dateSelected);
+        TextView yearSelected = view.findViewById(R.id.textView2); //this is constraintLayout playing its tricks
+        CommonDateSelected commonDateSelection = MainActivity.getCommonDateSelected();
+
+
+        String dateSelectedText = commonDateSelection.getDMMM();
+        dateSelected.setText(dateSelectedText);
+        yearSelected.setText(commonDateSelection.getYYYY());
+
+        AppCompatButton prevDayButton = view.findViewById(R.id.previousDayButton);
+        AppCompatButton nextDayButton = view.findViewById(R.id.nextDayButton);
+
+        prevDayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commonDateSelection.prevDay();
+                dateSelected.setText(commonDateSelection.getDMMM());
+                yearSelected.setText(commonDateSelection.getYYYY());
+                Log.d("CommonDateSelected.button", commonDateSelection.getDMMM());
+            }
+        });
+
+        nextDayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commonDateSelection.nextDay();
+                dateSelected.setText(commonDateSelection.getDMMM());
+                yearSelected.setText(commonDateSelection.getYYYY());
+                Log.d("CommonDateSelected.button", commonDateSelection.getDMMM());
+            }
         });
 
         RecyclerView recyclerView = view.findViewById(R.id.ConcreteRecyclerView);
