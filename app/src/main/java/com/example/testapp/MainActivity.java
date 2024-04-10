@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.testapp.calendar_fragment.CalendarFragment;
@@ -15,10 +16,12 @@ import com.example.testapp.home_fragment.HomeFragment;
 import com.example.testapp.middleware.Auth;
 import com.example.testapp.profile_fragment.ProfileFragment;
 
+import java.time.ZonedDateTime;
+
 public class MainActivity extends AppCompatActivity {
     public Boolean selectedPlan = true;
     public ActivityMainBinding binding;
-
+    public static CommonDateSelected commonDateSelected = CommonDateSelected.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,4 +62,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
     }
+
+    public static CommonDateSelected getCommonDateSelected(){
+        return commonDateSelected;
+    }
+
+
+
 }
