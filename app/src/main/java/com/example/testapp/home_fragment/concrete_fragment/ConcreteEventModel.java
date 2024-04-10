@@ -2,6 +2,8 @@ package com.example.testapp.home_fragment.concrete_fragment;
 
 import com.example.testapp.home_fragment.EventModel;
 
+import java.time.ZonedDateTime;
+
 public class ConcreteEventModel extends EventModel {
 
 
@@ -10,8 +12,8 @@ public class ConcreteEventModel extends EventModel {
 
 
 
-    public ConcreteEventModel(String eventTime, String eventHeader, String eventDescription, String eventID, Boolean eventOwnedByUser) {
-        super(eventTime, eventHeader, eventDescription, eventID, eventOwnedByUser);
+    public ConcreteEventModel(ZonedDateTime eventStartTimeInDateTime, ZonedDateTime eventEndTimeInDateTime, String eventHeader, String eventDescription, String eventID, Boolean eventOwnedByUser) {
+        super(eventStartTimeInDateTime, eventEndTimeInDateTime, eventHeader, eventDescription, eventID, eventOwnedByUser);
 
     }
 
