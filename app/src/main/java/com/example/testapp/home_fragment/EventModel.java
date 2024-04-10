@@ -1,10 +1,16 @@
 package com.example.testapp.home_fragment;
 
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public abstract class EventModel {
     public static final String CONCRETE = "CONCRETE";
     public static final String VOTING = "VOTING";
     public static final String SUGGESTED = "SUGGESTED";
 
+    public ZonedDateTime eventStartTimeInDateTime;
+    public ZonedDateTime eventEndTimeInDateTime;
     public String eventTime;
     public String eventHeader;
     public String eventDescription;
@@ -12,8 +18,16 @@ public abstract class EventModel {
 
     public Boolean eventOwnedByUser;
 
-    public EventModel(String eventTime, String eventHeader, String eventDescription, String eventID, Boolean eventOwnedByUser) {
-        this.eventTime = eventTime;
+    public EventModel(ZonedDateTime eventStartTimeInDateTime, ZonedDateTime eventEndTimeInDateTime, String eventHeader, String eventDescription, String eventID, Boolean eventOwnedByUser) {
+        this.eventStartTimeInDateTime = eventStartTimeInDateTime;
+        this.eventEndTimeInDateTime = eventEndTimeInDateTime;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
+        String formattedStartTime = formatter.format(this.eventStartTimeInDateTime);
+        String formattedEndTime = formatter.format(this.eventEndTimeInDateTime);
+
+
+        this.eventTime = formattedStartTime + "-"+ formattedEndTime;
         this.eventHeader = eventHeader;
         this.eventDescription = eventDescription;
         this.eventID = eventID;
@@ -39,5 +53,8 @@ public abstract class EventModel {
     public Boolean getEventOwnedByUser(){
         return eventOwnedByUser;
     }
+
+    public ZonedDateTime getEventStartTimeInDateTime(){ return eventStartTimeInDateTime; }
+    public ZonedDateTime getEventEndTimeInDateTime(){ return eventEndTimeInDateTime; }
     public abstract String getEventType();
 }
