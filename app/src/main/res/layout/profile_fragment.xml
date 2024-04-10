@@ -7,11 +7,24 @@
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="20dp"
+    android:paddingTop="10dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:weightSum="5"
     >
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="Logout"
+        android:backgroundTint="@color/delete_event_button_color"
+        android:textSize="22sp"
+        app:icon="@drawable/logout"
+        app:iconSize="22sp"
+        />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -243,4 +256,7 @@
             android:contentDescription="friends_arrow"
             android:src="@drawable/ui_element_dropdown_button_collapsed" />
     </LinearLayout>
+
+
+
 </LinearLayout>
