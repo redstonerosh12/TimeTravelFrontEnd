@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.Locale;
 
 public class EventModel {
@@ -126,6 +127,13 @@ public class EventModel {
                     description,
                     Status.valueOf(placeStatus),
                     location);
+        }
+    }
+
+    public static class SortbyTime implements Comparator<EventModel> {
+        public int compare(EventModel a, EventModel b)
+        {
+            return a.startTime.compareTo(b.startTime);
         }
     }
 }
