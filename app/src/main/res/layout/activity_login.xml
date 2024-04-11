@@ -15,18 +15,20 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/texttravel"/>
+            android:text="~Welcome~"
+            android:textSize="40dp"
+            android:fontFamily="@font/anandablack"/>
         <ImageView
-            android:layout_width="180dp"
-            android:layout_height="180dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:src="@drawable/ic_launcher_round" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="60dp"
             android:hint="Username"
             android:textColor="@color/black"
             android:textColorHint="@color/black"

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Translate animation for the first bounce -->
+    <translate
+        android:fromYDelta="-100%"
+        android:toYDelta="0%"
+        android:duration="1000"
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator" />
+    <translate
+        android:fromYDelta="0%"
+        android:toYDelta="-10%"
+        android:duration="500"
+        android:startOffset="1000"
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator" />
+    <translate
+        android:fromYDelta="-10%"
+        android:toYDelta="15%"
+        android:duration="250"
+        android:startOffset="1500"
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator" />
+    <translate
+        android:fromYDelta="-25%"
+        android:toYDelta="0%"
+        android:duration="100"
+        android:startOffset="1750"
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator" />
+
+</set>
+
