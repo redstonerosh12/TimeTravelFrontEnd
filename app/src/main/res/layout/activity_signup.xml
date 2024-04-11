@@ -20,6 +20,7 @@
             android:text="Sign Up"
             android:textSize="50dp"
             android:textColor="@color/black"
+            android:fontFamily="@raw/varela_round_regular"
             android:fontFeatureSettings=""/>
         <ImageView
             android:layout_width="160dp"
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:hint="Email Address"
+            android:fontFamily="@raw/varela_round_regular"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textSize="24sp"
@@ -45,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="Username"
+            android:fontFamily="@raw/varela_round_regular"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textSize="24sp"
@@ -58,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="Password"
+            android:fontFamily="@raw/varela_round_regular"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textSize="24sp"
@@ -71,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="Confirm Password"
+            android:fontFamily="@raw/varela_round_regular"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textSize="24sp"
@@ -84,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="Create Account"
+            android:fontFamily="@raw/varela_round_regular"
             android:textSize="26dp"/>
 
         <com.google.android.material.button.MaterialButton
@@ -91,6 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Go Back"
+            android:fontFamily="@raw/varela_round_regular"
             android:backgroundTint="@color/delete_event_button_color"
             android:textSize="26dp"/>
 

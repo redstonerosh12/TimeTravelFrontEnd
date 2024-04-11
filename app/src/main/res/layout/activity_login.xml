@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:hint="Username"
+            android:fontFamily="@raw/varela_round_regular"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textSize="24sp"
@@ -43,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="Password"
+            android:fontFamily="@raw/varela_round_regular"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textSize="24sp"
@@ -56,12 +58,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text=" Login "
+            android:fontFamily="@raw/varela_round_regular"
             android:textSize="26dp"/>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/sign_up"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign Up"
+            android:fontFamily="@raw/varela_round_regular"
             android:textSize="26dp"/>
     </LinearLayout>
     <ProgressBar
