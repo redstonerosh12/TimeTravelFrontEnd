@@ -16,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.testapp.LoginPage;
 import com.example.testapp.R;
 import com.example.testapp.home_fragment.CreateEventActivity;
 import com.example.testapp.home_fragment.concrete_fragment.ConcreteEventModel;
@@ -41,25 +43,24 @@ public class ProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private RecyclerView tripRecyclerView;
-    private RecyclerTripAdapter recyclerTripAdapter;
-    private List<TripModel> tripList;
-
-//    private static ArrayList<ConcreteEventModel> tripModelList = new ArrayList<>();
-
     //    change to api call
     public static HashMap<String, String> profileData = new HashMap<String, String>();
+
     static {
         profileData.put("name", Auth.getInstance().getUsername());
 //        profileData.put("email", "ChaniK@youtwitface.ar");
         // profileData.put("number", "+65 98765432");
         // profileData.put("address", "No 15 You street, Sietch Tabr road, Twit City, Face state");
     }
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+    private RecyclerView tripRecyclerView;
+
+//    private static ArrayList<ConcreteEventModel> tripModelList = new ArrayList<>();
+    private RecyclerTripAdapter recyclerTripAdapter;
+    private List<TripModel> tripList;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -159,6 +160,17 @@ public class ProfileFragment extends Fragment {
                 profileFragment.startActivity(joinTripIntent);
             }
         });
+
+        Button logoutButton = view.findViewById(R.id.logout);
+
+        logoutButton.setOnClickListener(v -> {
+            Auth.getInstance().logout(response -> {
+                Toast.makeText(getActivity(), "Successfully Logout", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), LoginPage.class);
+                startActivity(intent);
+            });
+        });
+
 
 //        setUpTripModelList();
 //
