@@ -1,5 +1,7 @@
 package com.example.testapp.api;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.testapp.middleware.Auth;
@@ -55,6 +57,8 @@ public class Controller {
     static class TestingService implements Service {
         private static final ArrayList<User> users = new ArrayList<>();
         private static final ArrayList<TravelPlan> travelPlans = new ArrayList<>();
+        private static final TravelPlan travelPlan;
+        private static final String CONTROLLER_TESTING = "Controller:Testing";
 
         static {
             User user = new User("admin", "password");
@@ -117,12 +121,7 @@ public class Controller {
 
         @Override
         public Call<ArrayList<TravelPlan>> getTravelPlans(String token) {
-            ArrayList<TravelPlan> fakeData = new ArrayList<>();
-            LocalDate date = LocalDate.of(1999, 1, 1);
-            fakeData.add(new TravelPlan(1, "Testing Plan", date, date));
-            fakeData.add(new TravelPlan(2, "Testing Plan2", date, date));
-            fakeData.add(new TravelPlan(3, "Testing Plan3", date, date));
-            return new ByPassCall<>(fakeData);
+            return new ByPassCall<>(travelPlans);
         }
 
         @Override
@@ -157,7 +156,9 @@ public class Controller {
 
         @Override
         public Call<EventModel.GET> createEvent(String token, String travelPlanId, EventModel.Create event) {
-            return new ByPassCall<>(event.toGET(Auth.getInstance().getUsername()));
+            EventModel.GET getEvent = event.toGET(Auth.getInstance().getUsername());
+            travelPlan.getEvents().add(getEvent.getEvent());
+            return new ByPassCall<>(getEvent);
         }
 
         @Override
