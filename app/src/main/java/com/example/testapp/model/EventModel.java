@@ -1,5 +1,7 @@
 package com.example.testapp.model;
 
+import com.example.testapp.model.lib.StartEndDateTime;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -8,22 +10,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.Locale;
 
-public class EventModel {
+public class EventModel extends StartEndDateTime {
     private String id;
     private String creator;
     private String title;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
     private String description;
     private Status placeStatus;
     private String location;
 
     public EventModel(String id, String creator, String title, LocalDateTime startTime, LocalDateTime endTime, String description, Status placeStatus, String location) {
+        super();
         this.id = id;
         this.creator = creator;
         this.title = title;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.setStartTime(startTime);
+        this.setEndTime(endTime);
         this.description = description;
         this.placeStatus = placeStatus;
         this.location = location;
@@ -50,11 +51,13 @@ public class EventModel {
     }
 
     public String getTime() {
+        LocalDateTime startTime = getStartTime();
+        LocalDateTime endTime = getEndTime();
         return String.format(Locale.getDefault(), "%02d%02d-%02d%02d", startTime.getHour(), startTime.getMinute(), endTime.getHour(), endTime.getMinute());
     }
 
     public LocalDate getDate() {
-        return startTime.toLocalDate();
+        return getStartTime().toLocalDate();
     }
 
     @Override
@@ -63,8 +66,8 @@ public class EventModel {
                 "id='" + id + '\'' +
                 ", creator='" + creator + '\'' +
                 ", title='" + title + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
+                ", startTime='" + getStartTime() + '\'' +
+                ", endTime='" + getEndTime() + '\'' +
                 ", description='" + description + '\'' +
                 ", placeStatus='" + placeStatus + '\'' +
                 ", location='" + location + '\'' +
@@ -149,7 +152,8 @@ public class EventModel {
 
     public static class SortbyTime implements Comparator<EventModel> {
         public int compare(EventModel a, EventModel b) {
-            return a.startTime.compareTo(b.startTime);
+            return a.getStartTime().compareTo(b.getStartTime());
         }
     }
 }
+

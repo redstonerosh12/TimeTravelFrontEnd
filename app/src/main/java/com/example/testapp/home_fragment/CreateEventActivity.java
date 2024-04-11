@@ -16,19 +16,27 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.testapp.api.API;
+import com.example.testapp.api.DataSource;
 import com.example.testapp.home_fragment.concrete_fragment.ConcreteFragment;
 import com.example.testapp.home_fragment.suggested_fragment.SuggestedFragment;
 import com.example.testapp.middleware.Auth;
 import com.example.testapp.model.EventModel;
+import com.example.testapp.model.lib.DateTimeAVL;
+import com.example.testapp.model.lib.StartEndDateTime;
 
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import retrofit2.Response;
+
 public class CreateEventActivity extends AppCompatActivity {
     private final String CREATEEVENT = "CreateEvent";
     protected boolean isOwnerOfTravelPlan = true; //TODO get boolean from database
+    private DateTimeAVL dtAVL;
+    private LocalDate selectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,19 @@ public class CreateEventActivity extends AppCompatActivity {
         EditText editReasonVisit = findViewById(R.id.editReasonVisit);
         EditText editLowerCost = findViewById(R.id.editLowerCost);
         EditText editUpperCost = findViewById(R.id.editUpperCost);
+//        //Testing
+//        editTitle.setText("asd");
+//        editStartTime.setText("1100");
+//        editEndTime.setText("1200");
+//        editStartDay.setText("12");
+//        editStartMonth.setText("4");
+//        editStartYear.setText("2024");
+//        editAddress.setText("2024");
+//        editReasonVisit.setText("2024");
+//        editLowerCost.setText("1");
+//        editUpperCost.setText("2");
+
+
         ArrayList<EditText> allFields = new ArrayList<>(Arrays.asList(editTitle, editStartTime, editEndTime, editAddress, editReasonVisit, editLowerCost, editUpperCost));
 
         AppCompatButton submitForm = findViewById(R.id.SubmitFormCreateEvent);
@@ -103,36 +124,72 @@ public class CreateEventActivity extends AppCompatActivity {
                         if (eventStartTimeInDateTime != null && eventEndTimeInDateTime != null) {
                             Log.d(CREATEEVENT, "Passed all the form checks");
                             if (selectedEventTypeId == radioConcreteId || selectedEventTypeId == radioSuggestedId) {
-                                EventModel.Status status = selectedEventTypeId == radioConcreteId ? EventModel.Status.CONCRETE : EventModel.Status.SUGGESTED;
                                 String travelPlanID = "1"; //FIXME: Get from global variable
                                 String title = extractText(editTitle);
                                 String location = extractText(editAddress);
                                 String description = createDescriptionForEventModel(editAddress, editReasonVisit, editLowerCost, editUpperCost);
+                                EventModel.Status status = selectedEventTypeId == radioConcreteId ? EventModel.Status.CONCRETE : EventModel.Status.SUGGESTED;
                                 EventModel.Create creatingEvent = new EventModel.Create(title, eventStartTimeInDateTime, eventEndTimeInDateTime, description, status, location);
+
                                 Log.d(CREATEEVENT + ":Creating", creatingEvent.toString());
 
-                                API.Event.create(Auth.getInstance(), travelPlanID, creatingEvent)
-                                        .setOnResponse(eventGet -> {
-                                            EventModel event = eventGet.getEvent();
-                                            Log.d(CREATEEVENT + ":Created", event.toString());
-                                            Toast.makeText(CreateEventActivity.this, "Event Created",Toast.LENGTH_LONG).show();
-                                            //FIXME: Crash with intent
-                                            //Intent returnIntent = new Intent(CreateEventActivity.this, status == EventModel.Status.CONCRETE ? ConcreteFragment.class : SuggestedFragment.class);
-                                            //startActivity(returnIntent);
-                                        })
-                                        .setOnFailure(res -> {
-                                        }).fetch();
+                                // Check for conflict only for Concrete Events
+                                if (status == EventModel.Status.CONCRETE) {
+                                    StartEndDateTime set = new StartEndDateTime(eventStartTimeInDateTime, eventEndTimeInDateTime);
+                                    LocalDate currentDate = LocalDate.of(year, month, day);
+                                    if (dtAVL == null || !selectedDate.equals(currentDate)) {
+                                        Log.e("MainActivity", "Renew AVL");
+                                        selectedDate = currentDate;
+                                        DataSource.getEventsByDate(travelPlanID, selectedDate, EventModel.Status.CONCRETE, new API.Callback<ArrayList<EventModel>>() {
+                                            @Override
+                                            public void onFailure(Response<ArrayList<EventModel>> response) {
+                                                Log.e("MainActivity", "FAILED");
+                                            }
+
+                                            @Override
+                                            public void onResponse(ArrayList<EventModel> events) {
+                                                if (events.isEmpty())
+                                                    createEvent(travelPlanID, creatingEvent);
+                                                else {
+                                                    dtAVL = new DateTimeAVL(events);
+                                                    Log.e("MainActivity", set.toString());
+                                                    boolean conflict = dtAVL.checkConflict(set);
+                                                    Log.e("MainActivity", Boolean.toString(conflict));
+                                                    if (conflict)
+                                                        createToast("Starttime and Endtime is conflicting with another event");
+                                                    else createEvent(travelPlanID, creatingEvent);
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        boolean conflict = dtAVL.checkConflict(set);
+                                        if (conflict) {
+                                            createToast("Starttime and Endtime is conflicting with another event");
+                                        } else createEvent(travelPlanID, creatingEvent);
+                                    }
+                                } else createEvent(travelPlanID, creatingEvent);
                             }
                         }
                     } catch (DateTimeException e) {
                         createToast("Date and/or time input is invalid!");
                     }
                 }
-                //TODO: make check for data validity, Concrete selected time cannot clash with existent concrete time etc.
             }
         });
+    }
 
-
+    private void createEvent(String travelPlanID, EventModel.Create creatingEvent) {
+        API.Event.create(Auth.getInstance(), travelPlanID, creatingEvent)
+                .setOnResponse(eventGet -> {
+                    EventModel event = eventGet.getEvent();
+                    Log.d(CREATEEVENT + ":Created", event.toString());
+                    Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_LONG).show();
+                    //FIXME: Crash with intent
+                    //Intent returnIntent = new Intent(CreateEventActivity.this, status == EventModel.Status.CONCRETE ? ConcreteFragment.class : SuggestedFragment.class);
+                    //startActivity(returnIntent);
+                })
+                .setOnFailure(res -> {
+                }).fetch();
     }
 
     protected void createToast(String message) {
