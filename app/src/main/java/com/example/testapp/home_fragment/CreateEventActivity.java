@@ -1,48 +1,39 @@
 package com.example.testapp.home_fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
 import com.example.testapp.R;
-import android.os.Bundle;
+
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.testapp.home_fragment.HomeFragment;
-import com.example.testapp.home_fragment.concrete_fragment.ConcreteEventModel;
+import com.example.testapp.api.API;
 import com.example.testapp.home_fragment.concrete_fragment.ConcreteFragment;
-import com.example.testapp.home_fragment.suggested_fragment.SuggestedEventModel;
-import com.example.testapp.profile_fragment.ProfileFragment;
-import com.google.android.material.navigation.NavigationBarView;
+import com.example.testapp.home_fragment.suggested_fragment.SuggestedFragment;
+import com.example.testapp.middleware.Auth;
+import com.example.testapp.model.EventModel;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.lang.reflect.Array;
 import java.time.DateTimeException;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CreateEventActivity extends AppCompatActivity {
+    private final String CREATEEVENT = "CreateEvent";
     protected boolean isOwnerOfTravelPlan = true; //TODO get boolean from database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_event_form);
-
 
         RadioGroup concreteOrSuggested = findViewById(R.id.radioConcreteSuggestedOption);
         int radioConcreteId = R.id.radioButtonConcrete;
@@ -61,22 +52,15 @@ public class CreateEventActivity extends AppCompatActivity {
 
         AppCompatButton submitForm = findViewById(R.id.SubmitFormCreateEvent);
 
-        if(!isOwnerOfTravelPlan){
+        if (!isOwnerOfTravelPlan) {
             concreteOrSuggested.setVisibility(View.GONE);
             RadioButton suggestedRadioButton = findViewById(R.id.radioButtonSuggested);
             suggestedRadioButton.setChecked(true);
         }
 
-        ArrayList<ConcreteEventModel> concreteEventModelList = new ArrayList<>();
-
-
-
-
         submitForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ZonedDateTime eventStartTimeInDateTime = null;
-                ZonedDateTime eventEndTimeInDateTime = null;
                 int selectedEventTypeId = concreteOrSuggested.getCheckedRadioButtonId();
 
                 if (selectedEventTypeId == -1) {
@@ -87,11 +71,11 @@ public class CreateEventActivity extends AppCompatActivity {
                     createToast("Start time must be numerical!");
                 } else if (!isNumericallyFilled(editEndTime)) {
                     createToast("End time must be numerical!");
-                } else if(!isNumericallyFilled(editStartDay)){
+                } else if (!isNumericallyFilled(editStartDay)) {
                     createToast("Day should be numerical!");
-                } else if(!isNumericallyFilled(editStartMonth)){
+                } else if (!isNumericallyFilled(editStartMonth)) {
                     createToast("Month should be numerical!");
-                } else if(!isNumericallyFilled(editStartYear)){
+                } else if (!isNumericallyFilled(editStartYear)) {
                     createToast("Year should be numerical!");
                 } else if (!isNumericallyFilled(editLowerCost)) {
                     createToast("Lower cost must be numerical!");
@@ -102,56 +86,49 @@ public class CreateEventActivity extends AppCompatActivity {
                 } else if (!isValidLowerToUpperRange(editLowerCost, editUpperCost)) {
                     createToast("Lower cost range should be lesser than the Upper cost range!");
                 } else {
-
                     try {
                         Integer year = extractInt(editStartYear);
                         Integer month = extractInt(editStartMonth);
                         Integer day = extractInt(editStartDay);
                         String startTime = extractText(editStartTime);
                         String endTime = extractText(editEndTime);
-                        Integer startHour = Integer.parseInt(startTime.substring(0, 2));
-                        Integer startMin = Integer.parseInt(startTime.substring(2));
-                        Integer endHour = Integer.parseInt(endTime.substring(0, 2));
-                        Integer endMin = Integer.parseInt(endTime.substring(2));
+                        int startHour = Integer.parseInt(startTime.substring(0, 2));
+                        int startMin = Integer.parseInt(startTime.substring(2));
+                        int endHour = Integer.parseInt(endTime.substring(0, 2));
+                        int endMin = Integer.parseInt(endTime.substring(2));
 
-                        eventStartTimeInDateTime = ZonedDateTime.of(year, month, day, startHour, startMin, 0, 0, ZoneId.systemDefault());
-                        eventEndTimeInDateTime = ZonedDateTime.of(year, month, day, endHour, endMin, 0, 0, ZoneId.systemDefault());
+                        LocalDateTime eventStartTimeInDateTime = LocalDateTime.of(year, month, day, startHour, startMin, 0, 0);
+                        LocalDateTime eventEndTimeInDateTime = LocalDateTime.of(year, month, day, endHour, endMin, 0, 0);
 
+                        if (eventStartTimeInDateTime != null && eventEndTimeInDateTime != null) {
+                            Log.d(CREATEEVENT, "Passed all the form checks");
+                            if (selectedEventTypeId == radioConcreteId || selectedEventTypeId == radioSuggestedId) {
+                                EventModel.Status status = selectedEventTypeId == radioConcreteId ? EventModel.Status.CONCRETE : EventModel.Status.SUGGESTED;
+                                String travelPlanID = "1"; //FIXME: Get from global variable
+                                String title = extractText(editTitle);
+                                String location = extractText(editAddress);
+                                String description = createDescriptionForEventModel(editAddress, editReasonVisit, editLowerCost, editUpperCost);
+                                EventModel.Create creatingEvent = new EventModel.Create(title, eventStartTimeInDateTime, eventEndTimeInDateTime, description, status, location);
+                                Log.d(CREATEEVENT + ":Creating", creatingEvent.toString());
 
+                                API.Event.create(Auth.getInstance(), travelPlanID, creatingEvent)
+                                        .setOnResponse(eventGet -> {
+                                            EventModel event = eventGet.getEvent();
+                                            Log.d(CREATEEVENT + ":Created", event.toString());
+                                            Toast.makeText(CreateEventActivity.this, "Event Created",Toast.LENGTH_LONG).show();
+                                            //FIXME: Crash with intent
+                                            //Intent returnIntent = new Intent(CreateEventActivity.this, status == EventModel.Status.CONCRETE ? ConcreteFragment.class : SuggestedFragment.class);
+                                            //startActivity(returnIntent);
+                                        })
+                                        .setOnFailure(res -> {
+                                        }).fetch();
+                            }
+                        }
                     } catch (DateTimeException e) {
                         createToast("Date and/or time input is invalid!");
                     }
                 }
-
                 //TODO: make check for data validity, Concrete selected time cannot clash with existent concrete time etc.
-
-                if(eventStartTimeInDateTime != null && eventEndTimeInDateTime != null) {
-                    Log.d("CreateEvent", "Passed all the form checks");
-                    //make the concrete event model
-
-
-                    String eventHeader = extractText(editTitle);
-                    String eventDescription = createDescriptionForEventModel(editAddress, editReasonVisit, editLowerCost, editUpperCost);
-                    String eventID = "TODO MIDDLEWARE";
-                    boolean eventOwnedByUser = true; //TODO see how to pass info of user token who created to database
-
-                    if (selectedEventTypeId == radioConcreteId) {
-                        ConcreteEventModel newEvent = new ConcreteEventModel(eventStartTimeInDateTime, eventEndTimeInDateTime, eventHeader, eventDescription, eventID, eventOwnedByUser);
-                        Log.d("CreateEvent.NewEvent", "Made a concrete model");
-                        Log.d("CreateEvent.NewEvent.Data", newEvent.getEventTime() + eventHeader + eventDescription + eventID + eventOwnedByUser);
-                    }
-                    else if (selectedEventTypeId == radioSuggestedId){
-                        SuggestedEventModel newEvent = new SuggestedEventModel(eventStartTimeInDateTime, eventEndTimeInDateTime, eventHeader, eventDescription, eventID, eventOwnedByUser);
-                        Log.d("CreateEvent.NewEvent", "Made a suggested model");
-                        Log.d("CreateEvent.NewEvent.Data", newEvent.getEventTime() + eventHeader + eventDescription + eventID + eventOwnedByUser);
-
-                    }
-
-
-                    Intent returnIntent = new Intent(CreateEventActivity.this, ConcreteFragment.class);
-                    startActivity(returnIntent);
-                }
-
             }
         });
 
@@ -195,7 +172,7 @@ public class CreateEventActivity extends AppCompatActivity {
         return lowerVal < upperVal;
     }
 
-    protected Integer extractInt(EditText numericalField){
+    protected Integer extractInt(EditText numericalField) {
         return Integer.parseInt(extractText(numericalField));
     }
 

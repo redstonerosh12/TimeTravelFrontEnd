@@ -2,6 +2,7 @@ package com.example.testapp.api;
 
 import androidx.annotation.NonNull;
 
+import com.example.testapp.middleware.Auth;
 import com.example.testapp.model.EventModel;
 import com.example.testapp.model.Token;
 import com.example.testapp.model.TravelPlan;
@@ -156,7 +157,7 @@ public class Controller {
 
         @Override
         public Call<EventModel.GET> createEvent(String token, String travelPlanId, EventModel.Create event) {
-            return null;
+            return new ByPassCall<>(event.toGET(Auth.getInstance().getUsername()));
         }
 
         @Override

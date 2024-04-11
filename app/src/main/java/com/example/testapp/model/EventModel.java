@@ -18,10 +18,6 @@ public class EventModel {
     private Status placeStatus;
     private String location;
 
-    public Status getPlaceStatus() {
-        return placeStatus;
-    }
-
     public EventModel(String id, String creator, String title, LocalDateTime startTime, LocalDateTime endTime, String description, Status placeStatus, String location) {
         this.id = id;
         this.creator = creator;
@@ -31,6 +27,10 @@ public class EventModel {
         this.description = description;
         this.placeStatus = placeStatus;
         this.location = location;
+    }
+
+    public Status getPlaceStatus() {
+        return placeStatus;
     }
 
     public String getTitle() {
@@ -95,6 +95,12 @@ public class EventModel {
             this.location = location;
         }
 
+        public GET toGET(String creator) {
+            int[] convertedStartTime = DateTime.intToDateTime(ZonedDateTime.parse(startTime).toLocalDateTime());
+            int[] convertedEndTime = DateTime.intToDateTime(ZonedDateTime.parse(endTime).toLocalDateTime());
+            return new GET("100", creator, title, convertedStartTime, convertedEndTime, description, placeStatus, location);
+        }
+
         @Override
         public String toString() {
             return "Create{" +
@@ -118,6 +124,17 @@ public class EventModel {
         private String placeStatus;
         private String location;
 
+        public GET(String id, String creator, String title, int[] startTime, int[] endTime, String description, String placeStatus, String location) {
+            this.id = id;
+            this.creator = creator;
+            this.title = title;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.description = description;
+            this.placeStatus = placeStatus;
+            this.location = location;
+        }
+
         public EventModel getEvent() {
             return new EventModel(id,
                     creator,
@@ -131,8 +148,7 @@ public class EventModel {
     }
 
     public static class SortbyTime implements Comparator<EventModel> {
-        public int compare(EventModel a, EventModel b)
-        {
+        public int compare(EventModel a, EventModel b) {
             return a.startTime.compareTo(b.startTime);
         }
     }
