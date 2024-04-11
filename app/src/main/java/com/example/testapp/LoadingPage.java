@@ -18,13 +18,15 @@ public class LoadingPage extends AppCompatActivity {
     ImageView image;
     ImageView image_2;
     MediaPlayer whoosh;
+    int flag = 0;
     private static int SPLASH_SCREEN = 3000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.loadingscreen);
-        whoosh = MediaPlayer.create(LoadingPage.this,R.raw.little_whoosh);
+        whoosh = MediaPlayer.create(LoadingPage.this, R.raw.little_whoosh);
         whoosh.start();
 
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
@@ -34,13 +36,13 @@ public class LoadingPage extends AppCompatActivity {
         image_2 = findViewById(R.id.text_image);
         image.setAnimation(topAnim);
         image_2.setAnimation(bottomAnim);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(LoadingPage.this, LoginPage.class);
-                startActivity(intent);
-
-            }
-        },SPLASH_SCREEN);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(LoadingPage.this, LoginPage.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }, SPLASH_SCREEN);
+        }
     }
-}
