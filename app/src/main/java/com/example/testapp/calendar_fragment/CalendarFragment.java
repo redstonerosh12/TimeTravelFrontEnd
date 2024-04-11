@@ -83,7 +83,7 @@ public class CalendarFragment extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
-                commonDateSelection.setSelectedDate(ZonedDateTime.of(year, month, day, 0, 0, 0, 0, ZoneId.systemDefault()));
+                commonDateSelection.setSelectedDate(ZonedDateTime.of(year, month + 1, day, 0, 0, 0, 0, ZoneId.systemDefault()));
                 System.out.println(commonDateSelection.getDMMM());
                 Intent intent = new Intent(getActivity(), IndividualDayActivity.class);
                 startActivity(intent);
