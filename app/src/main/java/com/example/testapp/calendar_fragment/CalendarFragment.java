@@ -12,10 +12,14 @@ import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
+import com.example.testapp.CommonDateSelected;
 import com.example.testapp.IndividualDayActivity;
+import com.example.testapp.MainActivity;
 import com.example.testapp.R;
 
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -74,15 +78,12 @@ public class CalendarFragment extends Fragment {
         calendarView = (CalendarView) inf.findViewById(R.id.calendarOverview);
         calendar = Calendar.getInstance();
         getDate();
-
+        CommonDateSelected commonDateSelection = MainActivity.getCommonDateSelected();
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
-                Toast.makeText(getActivity(), day+"/"+month+"/"+year, Toast.LENGTH_SHORT).show();
+                commonDateSelection.setSelectedDate(ZonedDateTime.of(year, month + 1, day, 0, 0, 0, 0, ZoneId.systemDefault()));
                 Intent intent = new Intent(getActivity(), IndividualDayActivity.class);
-                intent.putExtra("day", day);
-                intent.putExtra("month", month);
-                intent.putExtra("year", year);
                 startActivity(intent);
             }
         });
@@ -93,7 +94,6 @@ public class CalendarFragment extends Fragment {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
         calendar.setTimeInMillis(date);
         String selected_date = simpleDateFormat.format(calendar.getTime());
-        Toast.makeText(getActivity(), selected_date, Toast.LENGTH_SHORT).show();
     }
     public void setDate(int day, int month, int year) {
         calendar.set(Calendar.YEAR, year);
