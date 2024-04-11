@@ -22,6 +22,7 @@ import com.example.testapp.home_fragment.CreateEventActivity;
 import com.example.testapp.home_fragment.concrete_fragment.ConcreteEventModel;
 import com.example.testapp.home_fragment.concrete_fragment.ConcreteFragment;
 import com.example.testapp.home_fragment.concrete_fragment.RecyclerConcreteEventAdapter;
+import com.example.testapp.middleware.Auth;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -54,8 +55,8 @@ public class ProfileFragment extends Fragment {
     //    change to api call
     public static HashMap<String, String> profileData = new HashMap<String, String>();
     static {
-        profileData.put("name", "Chani Kynes");
-        profileData.put("email", "ChaniK@youtwitface.ar");
+        profileData.put("name", Auth.getInstance().getUsername());
+//        profileData.put("email", "ChaniK@youtwitface.ar");
         // profileData.put("number", "+65 98765432");
         // profileData.put("address", "No 15 You street, Sietch Tabr road, Twit City, Face state");
     }
