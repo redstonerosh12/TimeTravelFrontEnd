@@ -117,7 +117,6 @@ public class ConcreteFragment extends Fragment implements RecyclerViewInterface 
         CommonDateSelected commonDateSelection = MainActivity.getCommonDateSelected();
 
         String travelPlanId = "1";
-        commonDateSelection.nextDay();
         LocalDate date = commonDateSelection.selectedDate.toLocalDate();
 
         String dateSelectedText = commonDateSelection.getDMMM();

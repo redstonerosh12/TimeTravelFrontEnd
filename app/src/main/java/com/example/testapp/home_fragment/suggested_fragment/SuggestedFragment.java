@@ -19,13 +19,16 @@ import android.widget.TextView;
 import com.example.testapp.CommonDateSelected;
 import com.example.testapp.MainActivity;
 import com.example.testapp.R;
+import com.example.testapp.api.API;
+import com.example.testapp.api.DataSource;
 import com.example.testapp.home_fragment.CreateEventActivity;
 import com.example.testapp.home_fragment.RecyclerViewInterface;
-import com.example.testapp.home_fragment.concrete_fragment.ConcreteFragment;
+import com.example.testapp.model.EventModel;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
+
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,17 +41,10 @@ public class SuggestedFragment extends Fragment implements RecyclerViewInterface
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private static ArrayList<SuggestedEventModel> suggestedEventModelList = new ArrayList<>();
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-
-    private static ArrayList<SuggestedEventModel> suggestedEventModelList = new ArrayList<>();
-
-    public SuggestedFragment() {
-        // Required empty public constructor
-    }
 
     /**
      * Use this factory method to create a new instance of
@@ -68,49 +64,6 @@ public class SuggestedFragment extends Fragment implements RecyclerViewInterface
         return fragment;
     }
 
-
-    public static void setUpEventModelList(){
-        suggestedEventModelList.clear();
-
-        ZonedDateTime six = ZonedDateTime.of(2024, 4, 1, 6, 0, 0, 0, ZoneId.systemDefault()); // Year, month, day, hour, minute, second, nanosecond, ZoneId
-        ZonedDateTime seven = ZonedDateTime.of(2024, 4, 1, 7, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime eight = ZonedDateTime.of(2024, 4, 1, 8, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime nine = ZonedDateTime.of(2024, 4, 1, 9, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime ten = ZonedDateTime.of(2024, 4, 1, 10, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime eleven = ZonedDateTime.of(2024, 4, 1, 11, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime twelve = ZonedDateTime.of(2024, 4, 1, 12, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime thirteen = ZonedDateTime.of(2024, 4, 1, 13, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime fourteen = ZonedDateTime.of(2024, 4, 1, 14, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime fifteen = ZonedDateTime.of(2024, 4, 1, 15, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime sixteen = ZonedDateTime.of(2024, 4, 1, 16, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime seventeen = ZonedDateTime.of(2024, 4, 1, 17, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime eighteen = ZonedDateTime.of(2024, 4, 1, 18, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime nineteen = ZonedDateTime.of(2024, 4, 1, 19, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime twenty = ZonedDateTime.of(2024, 4, 1, 20, 0, 0, 0, ZoneId.systemDefault());
-        ZonedDateTime twentyOne = ZonedDateTime.of(2024, 4, 1, 21, 0, 0, 0, ZoneId.systemDefault());
-
-        suggestedEventModelList.add( new SuggestedEventModel(six, seven, "drink tea", "wake up and drink tea", "1", true));
-        suggestedEventModelList.add( new SuggestedEventModel(seven, eight, "drink coffee", "wake up and drink coffee", "2", true));
-        suggestedEventModelList.add( new SuggestedEventModel(eight, nine, "eat breakfast", "go eat at the buffet", "3", false));
-        suggestedEventModelList.add( new SuggestedEventModel(nine, ten, "drink tea", "wake up and drink tea", "4", false));
-        suggestedEventModelList.add( new SuggestedEventModel(ten, eleven, "drink coffee", "wake up and drink coffee", "5", false));
-        suggestedEventModelList.add( new SuggestedEventModel(eleven, twelve, "eat breakfast", "go eat at the buffet", "6",false));
-        suggestedEventModelList.add( new SuggestedEventModel(twelve, thirteen, "drink tea", "wake up and drink tea", "7",false));
-        suggestedEventModelList.add( new SuggestedEventModel(thirteen, fourteen, "drink coffee", "wake up and drink coffee", "8",false));
-        suggestedEventModelList.add( new SuggestedEventModel(fourteen, fifteen, "eat breakfast", "go eat at the buffet", "9",false));
-        suggestedEventModelList.add( new SuggestedEventModel(fifteen, sixteen, "drink tea", "wake up and drink tea", "10",false));
-        suggestedEventModelList.add( new SuggestedEventModel(sixteen, seventeen, "drink coffee", "wake up and drink coffee", "11",false));
-        suggestedEventModelList.add( new SuggestedEventModel(seventeen, eighteen, "eat breakfast", "go eat at the buffet", "12",false));
-        suggestedEventModelList.add( new SuggestedEventModel(eighteen, nineteen, "drink tea", "wake up and drink tea", "13",true));
-        suggestedEventModelList.add( new SuggestedEventModel(nineteen, twenty, "drink coffee", "wake up and drink coffee", "14",true));
-        suggestedEventModelList.add( new SuggestedEventModel(twenty, twentyOne, "eat breakfast", "go eat at the buffet", "14",false));
-
-
-
-
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,8 +82,11 @@ public class SuggestedFragment extends Fragment implements RecyclerViewInterface
 
 
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView recyclerView = view.findViewById(R.id.SuggestedRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         AppCompatButton createEventButton = view.findViewById(R.id.goToCreateEventActivityButton);
         createEventButton.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +103,9 @@ public class SuggestedFragment extends Fragment implements RecyclerViewInterface
         TextView yearSelected = view.findViewById(R.id.textView6); //this is constraintLayout playing its tricks
         CommonDateSelected commonDateSelection = MainActivity.getCommonDateSelected();
 
+        String travelPlanId = "1";
+        LocalDate date = commonDateSelection.selectedDate.toLocalDate();
+
         String dateSelectedText = commonDateSelection.getDMMM();
         dateSelected.setText(dateSelectedText);
         yearSelected.setText(commonDateSelection.getYYYY());
@@ -161,6 +120,7 @@ public class SuggestedFragment extends Fragment implements RecyclerViewInterface
                 dateSelected.setText(commonDateSelection.getDMMM());
                 yearSelected.setText(commonDateSelection.getYYYY());
                 Log.d("CommonDateSelected.button", commonDateSelection.getDMMM());
+                updateRecycleView(recyclerView, travelPlanId, commonDateSelection.selectedDate.toLocalDate());
             }
         });
 
@@ -171,22 +131,25 @@ public class SuggestedFragment extends Fragment implements RecyclerViewInterface
                 dateSelected.setText(commonDateSelection.getDMMM());
                 yearSelected.setText(commonDateSelection.getYYYY());
                 Log.d("CommonDateSelected.button", commonDateSelection.getDMMM());
+                updateRecycleView(recyclerView, travelPlanId, commonDateSelection.selectedDate.toLocalDate());
             }
         });
 
-        setUpEventModelList();
+        updateRecycleView(recyclerView, travelPlanId, date);
+    }
 
-        RecyclerSuggestedEventAdapter adapter = new RecyclerSuggestedEventAdapter(requireContext(), suggestedEventModelList, this);
-        Log.d("Recycler", "Adapter in suggested fragment has gotten recycler from mainActivity successfully");
+    public void updateRecycleView(RecyclerView recyclerView, String travelPlanId, LocalDate date) {
+        DataSource.getEventsByDate(travelPlanId, date, EventModel.Status.SUGGESTED, new API.Callback<ArrayList<EventModel>>() {
+            @Override
+            public void onFailure(Response<ArrayList<EventModel>> response) {
 
-        RecyclerView recyclerView = view.findViewById(R.id.SuggestedRecyclerView);
-        Log.d("Recycler", "I have gotten suggested recyclerView");
+            }
 
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager( new LinearLayoutManager(requireContext()));
-
-
-
+            @Override
+            public void onResponse(ArrayList<EventModel> events) {
+                recyclerView.setAdapter(new RecyclerSuggestedEventAdapter(requireContext(), events, SuggestedFragment.this));
+            }
+        });
     }
 
     @Override

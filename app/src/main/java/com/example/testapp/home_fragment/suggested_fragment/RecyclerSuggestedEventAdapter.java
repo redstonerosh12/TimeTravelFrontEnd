@@ -14,19 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testapp.R;
 import com.example.testapp.home_fragment.RecyclerViewInterface;
+import com.example.testapp.middleware.Auth;
+import com.example.testapp.model.EventModel;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
-
-public class RecyclerSuggestedEventAdapter extends RecyclerView.Adapter<RecyclerSuggestedEventAdapter.MyViewHolder>{
+public class RecyclerSuggestedEventAdapter extends RecyclerView.Adapter<RecyclerSuggestedEventAdapter.MyViewHolder> {
     private final RecyclerViewInterface recyclerViewInterface;
-
     Context context;
-    ArrayList<SuggestedEventModel> eventModelList;
+    ArrayList<EventModel> eventModelList;
 
-    public RecyclerSuggestedEventAdapter(Context context, ArrayList<SuggestedEventModel> eventModelList,
-                                        RecyclerViewInterface recyclerViewInterface) {
+    public RecyclerSuggestedEventAdapter(Context context, ArrayList<EventModel> eventModelList,
+                                         RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.eventModelList = eventModelList;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -37,25 +38,16 @@ public class RecyclerSuggestedEventAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public RecyclerSuggestedEventAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflator = LayoutInflater.from(context);
-
-
         View view = inflator.inflate(R.layout.recycle_suggested_event_view_one_row, parent, false);
-
         return new RecyclerSuggestedEventAdapter.MyViewHolder(view, recyclerViewInterface, eventModelList);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerSuggestedEventAdapter.MyViewHolder holder, int position) {
-
-        holder.eventTimeAndTitle.setText(eventModelList.get(position).eventTime + " " +
-                eventModelList.get(position).eventHeader);
-
-        holder.eventDescription.setText(eventModelList.get(position).eventDescription);
-
+        EventModel event = eventModelList.get(position);
+        holder.eventTimeAndTitle.setText(String.format(Locale.getDefault(), "%s %s", event.getTime(), event.getTitle()));
+        holder.eventDescription.setText(event.getDescription());
         holder.dropdownIndicator.setImageResource(R.drawable.ui_element_dropdown_button_collapsed);
-
-
-
     }
 
     @Override
@@ -64,13 +56,13 @@ public class RecyclerSuggestedEventAdapter extends RecyclerView.Adapter<Recycler
         return eventModelList.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         ImageView dropdownIndicator;
         TextView eventTimeAndTitle, eventDescription;
         Button pushToVotingButton, deleteEventButton;
 
-        public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface, ArrayList<SuggestedEventModel> eventModelList) {
+        public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface, ArrayList<EventModel> eventModelList) {
             super(itemView);
 
             dropdownIndicator = itemView.findViewById(R.id.toggle_dropdown);
@@ -79,35 +71,25 @@ public class RecyclerSuggestedEventAdapter extends RecyclerView.Adapter<Recycler
             pushToVotingButton = itemView.findViewById(R.id.pushToVotingButton);
             deleteEventButton = itemView.findViewById(R.id.deleteEventButton);
 
-
-            itemView.setOnClickListener( new View.OnClickListener(){
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view){
-
-                    if(recyclerViewInterface != null){
+                public void onClick(View view) {
+                    if (recyclerViewInterface != null) {
                         int position = getAdapterPosition();
-
-                        if(position != RecyclerView.NO_POSITION){
-
-
-
-                            if(eventDescription.getVisibility() == View.GONE){
+                        if (position != RecyclerView.NO_POSITION) {
+                            if (eventDescription.getVisibility() == View.GONE) {
                                 eventDescription.setVisibility(View.VISIBLE);
                                 dropdownIndicator.setImageResource(R.drawable.ui_element_dropdown_button_expanded);
-                                if(eventModelList.get(position).getEventOwnedByUser()){ //if user owns event
+                                if (eventModelList.get(position).getCreator().equals(Auth.getInstance().getUsername())) {
                                     deleteEventButton.setVisibility(View.VISIBLE);
                                     pushToVotingButton.setVisibility(View.VISIBLE);
                                 }
-
-                            }
-                            else{
+                            } else {
                                 eventDescription.setVisibility(View.GONE);
                                 dropdownIndicator.setImageResource(R.drawable.ui_element_dropdown_button_collapsed);
                                 deleteEventButton.setVisibility(View.GONE);
                                 pushToVotingButton.setVisibility(View.GONE);
-
                             }
-
                             recyclerViewInterface.onItemClick(position);
                         }
                     }

@@ -16,6 +16,7 @@ public class DataSource {
                             events.add(event);
                         }
                     }
+                    events.sort(new EventModel.SortbyTime()); //FIXME: Might not need if server return sorted
                     callback.onResponse(events);
                 })
                 .setOnFailure(res -> {

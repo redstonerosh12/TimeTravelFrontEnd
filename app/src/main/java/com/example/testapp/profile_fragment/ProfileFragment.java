@@ -16,12 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.testapp.LoginPage;
 import com.example.testapp.R;
 import com.example.testapp.home_fragment.CreateEventActivity;
 import com.example.testapp.home_fragment.concrete_fragment.ConcreteEventModel;
 import com.example.testapp.home_fragment.concrete_fragment.ConcreteFragment;
 import com.example.testapp.home_fragment.concrete_fragment.RecyclerConcreteEventAdapter;
+import com.example.testapp.middleware.Auth;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -44,21 +47,11 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private RecyclerView tripRecyclerView;
-    private RecyclerTripAdapter recyclerTripAdapter;
-    private List<TripModel> tripList;
 
 //    private static ArrayList<ConcreteEventModel> tripModelList = new ArrayList<>();
-
-    //    change to api call
-    public static HashMap<String, String> profileData = new HashMap<String, String>();
-    static {
-        profileData.put("name", "Chani Kynes");
-        profileData.put("email", "ChaniK@youtwitface.ar");
-        // profileData.put("number", "+65 98765432");
-        // profileData.put("address", "No 15 You street, Sietch Tabr road, Twit City, Face state");
-    }
+    private RecyclerTripAdapter recyclerTripAdapter;
+    private List<TripModel> tripList;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -115,7 +108,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View inf = inflater.inflate(R.layout.profile_fragment, container, false);
         TextView name = (TextView) inf.findViewById(R.id.profileName);
-        name.setText(profileData.get("name"));
+        name.setText(Auth.getInstance().getUsername());
         /*
         TextView email = (TextView) inf.findViewById(R.id.profileEmail);
         email.setText(profileData.get("email"));
@@ -158,6 +151,17 @@ public class ProfileFragment extends Fragment {
                 profileFragment.startActivity(joinTripIntent);
             }
         });
+
+        Button logoutButton = view.findViewById(R.id.logout);
+
+        logoutButton.setOnClickListener(v -> {
+            Auth.getInstance().logout(response -> {
+                Toast.makeText(getActivity(), "Successfully Logout", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), LoginPage.class);
+                startActivity(intent);
+            });
+        });
+
 
 //        setUpTripModelList();
 //

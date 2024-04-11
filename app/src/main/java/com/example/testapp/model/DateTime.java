@@ -11,4 +11,8 @@ public class DateTime {
             throw new IllegalArgumentException("Datetime array needs length 7");
         }
     }
+
+    public static int[] intToDateTime(LocalDateTime dateTime) {
+        return new int[]{dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth(), dateTime.getHour(), dateTime.getMinute(), dateTime.getSecond(), dateTime.getNano()};
+    }
 }
