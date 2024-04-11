@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainContainer"
     android:orientation="vertical"
     android:background="@color/background"
@@ -10,8 +11,7 @@
     android:paddingTop="10dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:weightSum="5"
-    >
+    android:weightSum="5">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/logout"
@@ -46,19 +46,9 @@
             android:layout_height="wrap_content"
             android:paddingStart="20dp"
             android:paddingEnd="38dp"
-            android:text="@string/profile_subheader"
+            android:text="Welcome"
             android:textSize="18sp"
             android:textColor="@color/black"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:paddingStart="0dp"
-            android:paddingEnd="20dp"
-            android:text="@string/profile_change"
-            android:fontFamily="@raw/varela_round_regular"
-            android:textColor="#756AB6"
             />
     </LinearLayout>
     <LinearLayout
@@ -69,13 +59,14 @@
         android:orientation="horizontal"
         android:id="@+id/personalDetails"
         >
-        <ImageView
-            android:layout_width="91dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/default_profile"
-            android:paddingStart="15dp"
-            android:paddingTop="15dp"
-            android:src="@drawable/simple_user_default_icon_free_png" />
+
+<!--        <ImageView-->
+<!--            android:layout_width="91dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:contentDescription="@string/default_profile"-->
+<!--            android:paddingStart="15dp"-->
+<!--            android:paddingTop="15dp"-->
+<!--            android:src="@drawable/simple_user_default_icon_free_png" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,175 +79,85 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:id="@+id/profileName"
                 android:fontFamily="@raw/varela_round_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:text="@string/profile_name"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/profileEmail"
-                android:fontFamily="@raw/varela_round_regular"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:text="@string/profile_email"
-                android:paddingTop="5dp"
-                />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/black"
-                android:layout_marginTop="5dp"
                 android:layout_marginStart="1dp"
-                android:layout_marginEnd="20dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/profileNumber"
-                android:fontFamily="@raw/varela_round_regular"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:text="@string/profile_number"
-                android:paddingTop="4dp"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="1dp"
                 android:layout_marginEnd="20dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@raw/varela_round_regular"
-                android:id="@+id/profileAddress"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:text="@string/profile_address"
-                android:paddingTop="4dp"
-                />
+                android:background="@color/black" />
+
+<!--            <TextView-->
+<!--                android:id="@+id/profileEmail"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@raw/varela_round_regular"-->
+<!--                android:paddingTop="5dp"-->
+<!--                android:text="@string/profile_email"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="18sp" />-->
+
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
+
+    <Button
+        android:id="@+id/buttonCreateTrip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_rectangle_with_bg"
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:paddingLeft="25dp"
-            android:paddingTop="18dp"
-            android:paddingBottom="18dp"
-            android:fontFamily="@raw/varela_round_regular"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:text="Friends"/>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical|end"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:contentDescription="friends_arrow"
-            android:src="@drawable/ui_element_dropdown_button_collapsed" />
-    </LinearLayout>
-    <LinearLayout
+        android:scaleX="0.95"
+        android:text="Create Trip" />
+
+    <Button
+        android:id="@+id/buttonJoinTrip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_rectangle_with_bg"
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:paddingLeft="25dp"
-            android:paddingTop="18dp"
-            android:paddingBottom="18dp"
-            android:fontFamily="@raw/varela_round_regular"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:text="Travels"/>
+        android:scaleX="0.95"
+        android:text="Join Trip" />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical|end"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:contentDescription="friends_arrow"
-            android:src="@drawable/ui_element_dropdown_button_collapsed" />
-    </LinearLayout>
     <LinearLayout
+        android:id="@+id/TripListTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_rectangle_with_bg"
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
-        >
+        android:layout_height="23dp"
+        android:layout_gravity="center">
+
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:paddingLeft="25dp"
-            android:paddingTop="18dp"
-            android:paddingBottom="18dp"
-            android:fontFamily="@raw/varela_round_regular"
+            android:layout_weight="4"
+            android:paddingStart="20dp"
+            android:paddingEnd="38dp"
+            android:text="Your Trips"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:text="Settings"/>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical|end"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:contentDescription="friends_arrow"
-            android:src="@drawable/ui_element_dropdown_button_collapsed" />
+            android:textSize="18sp" />
     </LinearLayout>
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_rectangle_with_bg"
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        android:layout_height="270dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="25dp"
-            android:paddingTop="18dp"
-            android:paddingBottom="18dp"
-            android:fontFamily="@raw/varela_round_regular"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:text="Help"/>
+            android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical|end"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:contentDescription="friends_arrow"
-            android:src="@drawable/ui_element_dropdown_button_collapsed" />
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/TripRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/TripListTitle"
+                tools:layout_editor_absoluteX="0dp" />
 
+        </LinearLayout>
 
+    </ScrollView>
 
 </LinearLayout>
