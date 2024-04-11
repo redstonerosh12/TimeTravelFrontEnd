@@ -8,11 +8,23 @@
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="20dp"
+    android:paddingTop="10dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:weightSum="5"
-    >
+    android:weightSum="5">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="Logout"
+        android:backgroundTint="@color/delete_event_button_color"
+        android:textSize="22sp"
+        app:icon="@drawable/logout"
+        app:iconSize="22sp"
+        />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +46,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="20dp"
             android:paddingEnd="38dp"
-            android:text="@string/profile_subheader"
+            android:text="Welcome"
             android:textSize="18sp"
             android:textColor="@color/black"
             />
@@ -48,13 +60,13 @@
         android:id="@+id/personalDetails"
         >
 
-        <ImageView
-            android:layout_width="91dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/default_profile"
-            android:paddingStart="15dp"
-            android:paddingTop="15dp"
-            android:src="@drawable/simple_user_default_icon_free_png" />
+<!--        <ImageView-->
+<!--            android:layout_width="91dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:contentDescription="@string/default_profile"-->
+<!--            android:paddingStart="15dp"-->
+<!--            android:paddingTop="15dp"-->
+<!--            android:src="@drawable/simple_user_default_icon_free_png" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,6 +79,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:id="@+id/profileName"
                 android:fontFamily="@raw/varela_round_regular"
                 android:textSize="18sp"
@@ -81,15 +94,15 @@
                 android:layout_marginEnd="20dp"
                 android:background="@color/black" />
 
-            <TextView
-                android:id="@+id/profileEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@raw/varela_round_regular"
-                android:paddingTop="5dp"
-                android:text="@string/profile_email"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+<!--            <TextView-->
+<!--                android:id="@+id/profileEmail"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@raw/varela_round_regular"-->
+<!--                android:paddingTop="5dp"-->
+<!--                android:text="@string/profile_email"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="18sp" />-->
 
         </LinearLayout>
     </LinearLayout>

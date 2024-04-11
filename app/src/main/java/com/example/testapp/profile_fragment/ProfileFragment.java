@@ -116,9 +116,9 @@ public class ProfileFragment extends Fragment {
         View inf = inflater.inflate(R.layout.profile_fragment, container, false);
         TextView name = (TextView) inf.findViewById(R.id.profileName);
         name.setText(profileData.get("name"));
+        /*
         TextView email = (TextView) inf.findViewById(R.id.profileEmail);
         email.setText(profileData.get("email"));
-        /*
         TextView number = (TextView) inf.findViewById(R.id.profileNumber);
         number.setText(profileData.get("number"));
         TextView address = (TextView) inf.findViewById(R.id.profileAddress);
