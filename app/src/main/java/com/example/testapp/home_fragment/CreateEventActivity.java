@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.example.testapp.MainActivity;
 import com.example.testapp.R;
 
 import android.util.Log;
@@ -184,9 +185,9 @@ public class CreateEventActivity extends AppCompatActivity {
                     EventModel event = eventGet.getEvent();
                     Log.d(CREATEEVENT + ":Created", event.toString());
                     Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_LONG).show();
-                    //FIXME: Crash with intent
-                    //Intent returnIntent = new Intent(CreateEventActivity.this, status == EventModel.Status.CONCRETE ? ConcreteFragment.class : SuggestedFragment.class);
-                    //startActivity(returnIntent);
+                    //FIXME: Change Intent to go back to Concrete or Suggested
+                    Intent returnIntent = new Intent(CreateEventActivity.this, MainActivity.class);
+                    startActivity(returnIntent);
                 })
                 .setOnFailure(res -> {
                 }).fetch();
