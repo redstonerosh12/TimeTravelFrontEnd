@@ -1,6 +1,6 @@
 package com.example.testapp.model.lib;
 
-import android.util.Log;
+import androidx.annotation.NonNull;
 
 import com.example.testapp.model.EventModel;
 
@@ -31,5 +31,26 @@ public class DateTimeAVL extends AVLTree {
 
     public boolean checkConflict(StartEndTime set) {
         return checkConflict(set.getStartTime(), set.getEndTime());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return traverseNode(root);
+    }
+
+    public String traverseNode(AVLNode node) {
+        String info = (new StartEndTime(node.startTime, node.endTime)).toString();
+        if (node.right != null || node.left != null) {
+            if (node.left != null) {
+                info += " left > " + traverseNode(node.left);
+            }
+            if (node.right != null) {
+                info += " right > " + traverseNode(node.right);
+            }
+        } else {
+            info += "(end)";
+        }
+        return info;
     }
 }

@@ -52,6 +52,7 @@ public class AVLTest {
             System.out.println(set.toTime());
         }
         avl = new DateTimeAVL(events);
+        System.out.println(avl);
     }
 
     @Test
