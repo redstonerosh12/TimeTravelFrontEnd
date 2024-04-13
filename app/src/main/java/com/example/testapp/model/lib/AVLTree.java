@@ -117,6 +117,28 @@ public class AVLTree {
         return node;
     }
 
+    AVLNode successorStart(LocalTime key) {
+        AVLNode parent = null;
+        AVLNode node = null;
+        AVLNode z = root;
+        while (z != null) {
+            node = z;
+            if (key.compareTo(z.startTime) == -1) {
+                z = z.left;
+            } else {
+                z = z.right;
+            }
+        }
+        if (node.startTime.compareTo(key) == 1) {
+            return node;
+        }
+        parent = node.parent;
+        while (parent != null && node == parent.right) {
+            node = parent;
+            parent = parent.parent;
+        }
+        return parent;
+    }
     AVLNode successorEnd(LocalTime key) {
         AVLNode parent = null;
         AVLNode node = null;
@@ -162,20 +184,59 @@ public class AVLTree {
         }
         return parent;
     }
-
-    boolean checkConflict(LocalTime startTime, LocalTime endTime) {
-        if (successorEnd(startTime) == null && predecessorStart(endTime) == null) {
-            if (root.startTime.isAfter(startTime) || root.endTime.isBefore(endTime)) {
-                return true;
+    AVLNode predecessorEnd(LocalTime key) {
+        AVLNode parent = null;
+        AVLNode node = null;
+        AVLNode z = root;
+        while (z != null) {
+            node = z;
+            if (key.compareTo(z.endTime) == -1) {
+                z = z.left;
+            } else {
+                z = z.right;
             }
         }
-        if (successorEnd(startTime) == null || predecessorStart(endTime) == null) {
+        if (node.endTime.compareTo(key) == -1) {
+            return node;
+        }
+        parent = node.parent;
+        while (parent != null && node == parent.left) {
+            node = parent;
+            parent = parent.parent;
+        }
+        return parent;
+    }
+
+    boolean checkConflict(LocalTime startTime, LocalTime endTime) {
+        Object test3 = predecessorEnd(endTime);
+        Object test4 = predecessorEnd(endTime);
+        Object test5 = successorEnd(endTime);
+        if (predecessorEnd(endTime) == null && successorStart(startTime) != null) {
+            if (successorStart(startTime).startTime.equals(endTime)) {
+                return false;
+            }
+            return true;
+        }
+
+        else if (successorStart(predecessorEnd(endTime).endTime) == null) {
+            return true;
+        }
+        else if (successorStart(predecessorEnd(endTime).endTime).startTime.equals(endTime) && predecessorEnd(endTime).endTime.equals(startTime)) {
             return false;
-        } else if (successorEnd(startTime).startTime.equals(startTime) && predecessorStart(endTime).startTime.equals(endTime) || predecessorStart(endTime).endTime.equals(endTime)) {
+        }
+        else if (successorEnd(endTime).endTime.isAfter(endTime) && successorEnd(endTime).startTime.isBefore(endTime)) {
             return true;
-        } else if (successorEnd(startTime).startTime.isBefore(endTime) && !successorEnd(startTime).startTime.equals(startTime)) {
-            return true;
-        } else if (predecessorStart(endTime).startTime.isAfter(startTime) && !predecessorStart(endTime).startTime.equals(endTime)) {
+        }
+        else if (predecessorEnd(endTime).endTime.isBefore(endTime) && predecessorEnd(endTime).startTime.isBefore(endTime)) {
+            if ((successorStart(startTime).startTime.isAfter(endTime) || successorStart(startTime).startTime.equals(endTime)) && predecessorEnd(endTime).endTime.isBefore(startTime) || predecessorEnd(endTime).endTime.equals(startTime)) {
+                test3 = successorEnd(startTime).startTime;
+                if (successorStart(startTime).startTime.isBefore(endTime)) {
+                    return true;
+                } else if (successorEnd(startTime).startTime.isBefore(startTime) || successorEnd(startTime).startTime.equals(startTime) && (successorEnd(startTime).endTime.isAfter(endTime) || successorEnd(startTime).endTime.equals(endTime))) {
+                    return true;
+                }
+                return false;
+            }
             return true;
         }
         return false;
