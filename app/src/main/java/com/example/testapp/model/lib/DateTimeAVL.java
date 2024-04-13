@@ -8,16 +8,23 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class DateTimeAVL extends AVLTree {
+    private int number_of_datetime = 0;
+
     public DateTimeAVL(ArrayList<EventModel> dateTimeArrayList) {
-        Log.e("DateTimeAVL", "Creating AVL");
-        for (StartEndDateTime set: dateTimeArrayList) {
-            Log.e("DateTimeAVL", set.toString());
+        for (StartEndDateTime set : dateTimeArrayList) {
             insert(set.getStartTime().toLocalTime(), set.getEndTime().toLocalTime());
+            number_of_datetime++;
         }
     }
+
+    public int getNumber_of_datetime() {
+        return number_of_datetime;
+    }
+
     void insert(LocalTime startTime, LocalTime endTime) {
         root = insert(root, startTime, endTime);
     }
+
     public boolean checkConflict(StartEndDateTime set) {
         return checkConflict(set.getStartTime().toLocalTime(), set.getEndTime().toLocalTime());
     }

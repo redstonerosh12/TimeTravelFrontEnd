@@ -18,8 +18,6 @@ import android.widget.Toast;
 
 import com.example.testapp.api.API;
 import com.example.testapp.api.DataSource;
-import com.example.testapp.home_fragment.concrete_fragment.ConcreteFragment;
-import com.example.testapp.home_fragment.suggested_fragment.SuggestedFragment;
 import com.example.testapp.middleware.Auth;
 import com.example.testapp.model.EventModel;
 import com.example.testapp.model.lib.DateTimeAVL;
@@ -34,7 +32,7 @@ import java.util.Arrays;
 import retrofit2.Response;
 
 public class CreateEventActivity extends AppCompatActivity {
-    private final String CREATEEVENT = "CreateEvent";
+    private final String TAG = "CreateEvent";
     protected boolean isOwnerOfTravelPlan = true; //TODO get boolean from database
     private DateTimeAVL dtAVL;
     private LocalDate selectedDate;
@@ -57,17 +55,17 @@ public class CreateEventActivity extends AppCompatActivity {
         EditText editReasonVisit = findViewById(R.id.editReasonVisit);
         EditText editLowerCost = findViewById(R.id.editLowerCost);
         EditText editUpperCost = findViewById(R.id.editUpperCost);
-//        //Testing
-//        editTitle.setText("asd");
-//        editStartTime.setText("1100");
-//        editEndTime.setText("1200");
-//        editStartDay.setText("12");
-//        editStartMonth.setText("4");
-//        editStartYear.setText("2024");
-//        editAddress.setText("2024");
-//        editReasonVisit.setText("2024");
-//        editLowerCost.setText("1");
-//        editUpperCost.setText("2");
+        //Testing
+        editTitle.setText("asd");
+        editStartTime.setText("1100");
+        editEndTime.setText("1200");
+        editStartDay.setText("12");
+        editStartMonth.setText("4");
+        editStartYear.setText("2024");
+        editAddress.setText("2024");
+        editReasonVisit.setText("2024");
+        editLowerCost.setText("1");
+        editUpperCost.setText("2");
 
 
         ArrayList<EditText> allFields = new ArrayList<>(Arrays.asList(editTitle, editStartTime, editEndTime, editAddress, editReasonVisit, editLowerCost, editUpperCost));
@@ -123,7 +121,7 @@ public class CreateEventActivity extends AppCompatActivity {
                         LocalDateTime eventEndTimeInDateTime = LocalDateTime.of(year, month, day, endHour, endMin, 0, 0);
 
                         if (eventStartTimeInDateTime != null && eventEndTimeInDateTime != null) {
-                            Log.d(CREATEEVENT, "Passed all the form checks");
+                            Log.d(TAG, "Passed all the form checks");
                             if (selectedEventTypeId == radioConcreteId || selectedEventTypeId == radioSuggestedId) {
                                 String travelPlanID = "1"; //FIXME: Get from global variable
                                 String title = extractText(editTitle);
@@ -132,11 +130,12 @@ public class CreateEventActivity extends AppCompatActivity {
                                 EventModel.Status status = selectedEventTypeId == radioConcreteId ? EventModel.Status.CONCRETE : EventModel.Status.SUGGESTED;
                                 EventModel.Create creatingEvent = new EventModel.Create(title, eventStartTimeInDateTime, eventEndTimeInDateTime, description, status, location);
 
-                                Log.d(CREATEEVENT + ":Creating", creatingEvent.toString());
+                                Log.d(TAG + ":Creating", creatingEvent.toString());
 
                                 // Check for conflict only for Concrete Events
                                 if (status == EventModel.Status.CONCRETE) {
                                     StartEndDateTime set = new StartEndDateTime(eventStartTimeInDateTime, eventEndTimeInDateTime);
+                                    Log.e(TAG, set.toString());
                                     LocalDate currentDate = LocalDate.of(year, month, day);
                                     if (dtAVL == null || !selectedDate.equals(currentDate)) {
                                         Log.e("MainActivity", "Renew AVL");
@@ -183,7 +182,7 @@ public class CreateEventActivity extends AppCompatActivity {
         API.Event.create(Auth.getInstance(), travelPlanID, creatingEvent)
                 .setOnResponse(eventGet -> {
                     EventModel event = eventGet.getEvent();
-                    Log.d(CREATEEVENT + ":Created", event.toString());
+                    Log.d(TAG + ":Created", event.toString());
                     Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_LONG).show();
                     //FIXME: Change Intent to go back to Concrete or Suggested
                     Intent returnIntent = new Intent(CreateEventActivity.this, MainActivity.class);

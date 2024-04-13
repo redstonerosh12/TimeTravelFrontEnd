@@ -60,6 +60,10 @@ public class EventModel extends StartEndDateTime {
         return getStartTime().toLocalDate();
     }
 
+    public String setToString() {
+        return super.toString();
+    }
+
     @Override
     public String toString() {
         return "Event{" +

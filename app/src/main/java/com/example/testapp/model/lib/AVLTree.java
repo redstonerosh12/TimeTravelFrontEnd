@@ -116,6 +116,7 @@ public class AVLTree {
         // return the (unchanged) node pointer
         return node;
     }
+
     AVLNode successorEnd(LocalTime key) {
         AVLNode parent = null;
         AVLNode node = null;
@@ -138,6 +139,7 @@ public class AVLTree {
         }
         return parent;
     }
+
     AVLNode predecessorStart(LocalTime key) {
         AVLNode parent = null;
         AVLNode node = null;
@@ -160,6 +162,7 @@ public class AVLTree {
         }
         return parent;
     }
+
     boolean checkConflict(LocalTime startTime, LocalTime endTime) {
         if (successorEnd(startTime) == null && predecessorStart(endTime) == null) {
             if (root.startTime.isAfter(startTime) || root.endTime.isBefore(endTime)) {
@@ -168,18 +171,16 @@ public class AVLTree {
         }
         if (successorEnd(startTime) == null || predecessorStart(endTime) == null) {
             return false;
-        }
-        else if (successorEnd(startTime).startTime.equals(startTime) && predecessorStart(endTime).endTime.equals(endTime)) {
+        } else if (successorEnd(startTime).startTime.equals(startTime) && predecessorStart(endTime).startTime.equals(endTime) || predecessorStart(endTime).endTime.equals(endTime)) {
             return true;
-        }
-        else if (successorEnd(startTime).startTime.isBefore(endTime) && !successorEnd(startTime).startTime.equals(startTime)) {
+        } else if (successorEnd(startTime).startTime.isBefore(endTime) && !successorEnd(startTime).startTime.equals(startTime)) {
             return true;
-        }
-        else if (predecessorStart(endTime).startTime.isAfter(startTime) && !predecessorStart(endTime).startTime.equals(endTime)) {
+        } else if (predecessorStart(endTime).startTime.isAfter(startTime) && !predecessorStart(endTime).startTime.equals(endTime)) {
             return true;
         }
         return false;
     }
+
     void inOrder(AVLNode node) {
         if (node != null) {
             inOrder(node.left);
@@ -187,6 +188,7 @@ public class AVLTree {
             inOrder(node.right);
         }
     }
+
     void preOrder(AVLNode node) {
         if (node != null) {
             System.out.println(node.startTime + " ");
