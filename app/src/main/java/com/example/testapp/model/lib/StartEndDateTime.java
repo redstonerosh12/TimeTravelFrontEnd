@@ -1,6 +1,7 @@
 package com.example.testapp.model.lib;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class StartEndDateTime {
     private LocalDateTime startTime;
@@ -31,6 +32,9 @@ public class StartEndDateTime {
         this.endTime = endTime;
     }
 
+    public StartEndTime toTime() {
+        return new StartEndTime(startTime.toLocalTime(), endTime.toLocalTime());
+    }
     @Override
     public String toString() {
         return "StartEndDateTime{" +

@@ -9,6 +9,7 @@ import com.example.testapp.model.EventModel;
 import com.example.testapp.model.User;
 import com.example.testapp.model.lib.DateTimeAVL;
 import com.example.testapp.model.lib.StartEndDateTime;
+import com.example.testapp.model.lib.StartEndTime;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -48,7 +49,7 @@ public class AVLTest {
         events.add(new EventModel("9", user.getUsername(), "Watch movie", dt.plusHours(8), dt.plusHours(9), "Panda 1", EventModel.Status.CONCRETE, "Changi Airport"));
 
         for (EventModel set : events) {
-            System.out.println(set.setToString());
+            System.out.println(set.toTime());
         }
         avl = new DateTimeAVL(events);
     }
@@ -59,36 +60,58 @@ public class AVLTest {
     }
 
     @Test
+    public void dateTimeAVL_conflict1_1() {
+        assertTrue(avl.checkConflict(new StartEndTime("1100-1159")));
+    }
+
+    @Test
     public void dateTimeAVL_conflict1() {
-        assertTrue(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(11, 0)), LocalDateTime.of(date, LocalTime.of(12, 0)))));
+        assertTrue(avl.checkConflict(new StartEndTime("1100-1201")));
+    }
+
+    @Test
+    public void dateTimeAVL_conflict1_2() {
+        assertTrue(avl.checkConflict(new StartEndTime("1101-1201")));
     }
 
     @Test
     public void dateTimeAVL_conflict2() {
-        assertFalse(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(12, 0)), LocalDateTime.of(date, LocalTime.of(13, 0)))));
+        // There is empty time period 1200-1300 only
+        assertFalse(avl.checkConflict(new StartEndTime("1200-1300")));
     }
 
     @Test
     public void dateTimeAVL_conflict3() {
-        assertTrue(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(13, 0)), LocalDateTime.of(date, LocalTime.of(14, 0)))));
+        assertTrue(avl.checkConflict(new StartEndTime("1300-1400")));
     }
 
     @Test
     public void dateTimeAVL_conflict4() {
-        assertTrue(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(11, 0)), LocalDateTime.of(date, LocalTime.of(13, 0)))));
+        // There is empty time period 1200-1300 only
+        assertTrue(avl.checkConflict(new StartEndTime("1100-1300")));
+    }
+
+    @Test
+    public void dateTimeAVL_conflict4_1_1() {
+        // There is empty time period 1200-1300 only
+        assertTrue(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(11, 0)), LocalDateTime.of(date, LocalTime.of(14, 0)))));
     }
 
     @Test
     public void dateTimeAVL_conflict4_1() {
+        // There is empty time period 1200-1300 only
         assertTrue(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(11, 1)), LocalDateTime.of(date, LocalTime.of(13, 0)))));
     }
 
     @Test
     public void dateTimeAVL_conflict4_2() {
+        // There is empty time period 1200-1300 only
         assertTrue(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(11, 0)), LocalDateTime.of(date, LocalTime.of(13, 1)))));
     }
+
     @Test
     public void dateTimeAVL_conflict4_3() {
+        // There is empty time period 1200-1300 only
         assertTrue(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(11, 1)), LocalDateTime.of(date, LocalTime.of(13, 1)))));
     }
 
@@ -124,21 +147,40 @@ public class AVLTest {
 
     @Test
     public void dateTimeAVL_deconflict_between1() {
+        // There is empty time period 1200-1300 only
         assertFalse(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(12, 40)), LocalDateTime.of(date, LocalTime.of(13, 0)))));
     }
 
     @Test
     public void dateTimeAVL_deconflict_between2() {
+        // There is empty time period 1200-1300 only
         assertFalse(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(12, 0)), LocalDateTime.of(date, LocalTime.of(12, 1)))));
     }
 
     @Test
     public void dateTimeAVL_deconflict_between3() {
+        // There is empty time period 1200-1300 only
         assertFalse(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(12, 0)), LocalDateTime.of(date, LocalTime.of(13, 0)))));
     }
 
     @Test
     public void dateTimeAVL_conflict_between4() {
+        // There is empty time period 1200-1300 only
         assertTrue(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(12, 0)), LocalDateTime.of(date, LocalTime.of(14, 0)))));
+    }
+
+    @Test
+    public void dateTimeAVL_conflict_between5() {
+        assertTrue(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(12, 0)), LocalDateTime.of(date, LocalTime.of(20, 0)))));
+    }
+
+    @Test
+    public void dateTimeAVL_conflict_between6() {
+        assertTrue(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(12, 1)), LocalDateTime.of(date, LocalTime.of(23, 0)))));
+    }
+
+    @Test
+    public void dateTimeAVL_conflict_between7() {
+        assertTrue(avl.checkConflict(new StartEndDateTime(LocalDateTime.of(date, LocalTime.of(5, 1)), LocalDateTime.of(date, LocalTime.of(12, 10)))));
     }
 }

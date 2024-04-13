@@ -28,4 +28,8 @@ public class DateTimeAVL extends AVLTree {
     public boolean checkConflict(StartEndDateTime set) {
         return checkConflict(set.getStartTime().toLocalTime(), set.getEndTime().toLocalTime());
     }
+
+    public boolean checkConflict(StartEndTime set) {
+        return checkConflict(set.getStartTime(), set.getEndTime());
+    }
 }
