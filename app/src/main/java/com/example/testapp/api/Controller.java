@@ -74,7 +74,7 @@ public class Controller {
             eventTP1.add(new EventModel("6", user.getUsername(),"Cafe",dt.plusHours(5), dt.plusHours(6), "Latte", EventModel.Status.CONCRETE, "Changi Airport"));
             eventTP1.add(new EventModel("7", user.getUsername(),"Tea break 1",dt.plusHours(6), dt.plusHours(7), "Black Tea", EventModel.Status.CONCRETE, "Changi Airport"));
             eventTP1.add(new EventModel("8", user.getUsername(),"Buy car",dt.plusHours(7), dt.plusHours(8), "Porcho", EventModel.Status.CONCRETE, "Changi Airport"));
-            eventTP1.add(new EventModel("9", user.getUsername(),"Watch movie",dt.plusHours(8), dt.plusHours(9), "Panda 1", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("9", user.getUsername(),"Watch movie",dt.plusHours(8), dt.plusHours(10), "Panda 1", EventModel.Status.CONCRETE, "Changi Airport"));
 
 
             eventTP1.add(new EventModel("10", user.getUsername(),"Breakfast",dt.plusHours(-1), dt.plusHours(0), "Bread", EventModel.Status.SUGGESTED, "Changi Airport"));

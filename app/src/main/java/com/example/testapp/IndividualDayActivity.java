@@ -8,9 +8,21 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class IndividualDayActivity extends AppCompatActivity {
-    String date;
+import com.example.testapp.api.API;
+import com.example.testapp.api.DataSource;
+import com.example.testapp.home_fragment.RecyclerViewInterface;
+import com.example.testapp.model.EventModel;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+import retrofit2.Response;
+
+public class IndividualDayActivity extends AppCompatActivity implements RecyclerViewInterface {
+    LocalDate date;
     String year;
     CommonDateSelected commonDateSelection = MainActivity.getCommonDateSelected();
     TextView ddmm;
@@ -18,6 +30,7 @@ public class IndividualDayActivity extends AppCompatActivity {
     AppCompatButton nextDayButton;
     AppCompatButton prevDayButton;
     TextView backButton;
+    String travelPlanId = "1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +42,17 @@ public class IndividualDayActivity extends AppCompatActivity {
         nextDayButton = findViewById(R.id.nextDayButton);
         prevDayButton = findViewById(R.id.previousDayButton);
         backButton = findViewById(R.id.back_button);
+        RecyclerView recyclerView = findViewById(R.id.individual_day_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        date = commonDateSelection.selectedDate.toLocalDate();
         prevDayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 commonDateSelection.prevDay();
                 ddmm.setText(commonDateSelection.getDMMM());
                 yyyy.setText(commonDateSelection.getYYYY());
+                Log.d("CommonDateSelected.button", commonDateSelection.getDMMM());
+                updateRecycleView(recyclerView, travelPlanId, commonDateSelection.selectedDate.toLocalDate());
             }
         });
         nextDayButton.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +61,8 @@ public class IndividualDayActivity extends AppCompatActivity {
                 commonDateSelection.nextDay();
                 ddmm.setText(commonDateSelection.getDMMM());
                 yyyy.setText(commonDateSelection.getYYYY());
+                Log.d("CommonDateSelected.button", commonDateSelection.getDMMM());
+                updateRecycleView(recyclerView, travelPlanId, commonDateSelection.selectedDate.toLocalDate());
             }
         });
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -53,5 +73,22 @@ public class IndividualDayActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        updateRecycleView(recyclerView, travelPlanId, date);
+    }
+    public void updateRecycleView(RecyclerView recyclerView, String travelPlanId, LocalDate date) {
+        DataSource.getEventsByDate(travelPlanId, date, EventModel.Status.CONCRETE, new API.Callback<ArrayList<EventModel>>() {
+            @Override
+            public void onFailure(Response<ArrayList<EventModel>> response) {
+            }
+
+            @Override
+            public void onResponse(ArrayList<EventModel> events) {
+                recyclerView.setAdapter(new RecyclerIndividualDayAdapter(recyclerView.getContext(), events, IndividualDayActivity.this));
+                System.out.println(events);
+            }
+        });
+    }
+    @Override
+    public void onItemClick(int position) {
     }
 }
