@@ -3,11 +3,12 @@ package com.example.testapp.model;
 import android.annotation.SuppressLint;
 
 import com.example.testapp.api.API;
-import com.example.testapp.middleware.Auth;
+import com.example.testapp.model.lib.APIDate;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import okhttp3.ResponseBody;
 
@@ -46,6 +47,18 @@ public class TravelPlan {
         return d;
     }
 
+    public static API.APIBuilder<TravelPlan> create(String title, LocalDate startDate, LocalDate endDate) {
+        return API.TravelPlans.create(new Create(title, startDate, endDate));
+    }
+
+    public static API.APIBuilder<TravelPlan> join(String joinCode) {
+        return API.TravelPlans.joinTravelPlan(joinCode);
+    }
+
+    public static API.APIBuilder<ArrayList<TravelPlan>> getTravelPlans() {
+        return API.TravelPlans.get();
+    }
+
     public ArrayList<EventModel> getEvents() {
         return events;
     }
@@ -82,8 +95,8 @@ public class TravelPlan {
         return String.valueOf(id);
     }
 
-    public API.APIBuilder<ResponseBody> update(Auth auth) {
-        return API.TravelPlans.update(auth, this);
+    public API.APIBuilder<ResponseBody> update() {
+        return API.TravelPlans.update(this);
     }
 
     @Override
@@ -114,6 +127,36 @@ public class TravelPlan {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             this.startDate = startDate.format(formatter);
             this.endDate = endDate.format(formatter);
+        }
+
+        public TravelPlan toTravelPlan(int id, String creator, String joinCode) {
+            LocalDate startDate = APIDate.formatString(this.startDate);
+            LocalDate endDate = APIDate.formatString(this.endDate);
+            return new TravelPlan(id, title, startDate, endDate, creator, joinCode, new ArrayList<>());
+        }
+    }
+
+    public static class GET {
+        private String title;
+        private int id;
+        private int[] startDate;
+        private int[] endDate;
+        private String creator;
+        private String joinCode;
+        private ArrayList<EventModel.GET> events;
+
+        public TravelPlan build() {
+            return new TravelPlan(id, title, intDateConvertor(startDate), intDateConvertor(endDate), creator, joinCode, events.stream().map(EventModel.GET::getEvent).collect(Collectors.toCollection(ArrayList::new)));
+        }
+
+        public GET(TravelPlan travelPlan) {
+            title = travelPlan.title;
+            id = travelPlan.id;
+            startDate = travelPlan.startDate;
+            endDate = travelPlan.endDate;
+            creator = travelPlan.creator;
+            joinCode = travelPlan.joinCode;
+            events = travelPlan.events.stream().map(EventModel.GET::new).collect(Collectors.toCollection(ArrayList::new));
         }
     }
 }

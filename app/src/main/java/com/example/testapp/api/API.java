@@ -8,13 +8,21 @@ import com.example.testapp.model.EventModel;
 import com.example.testapp.model.Token;
 import com.example.testapp.model.TravelPlan;
 import com.example.testapp.model.User;
+import com.example.testapp.model.lib.APIDate;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
+
 public class API {
+    private static String getToken() {
+        com.example.testapp.middleware.Auth auth = com.example.testapp.middleware.Auth.getInstance();
+        return auth != null ? auth.getToken() : "";
+    }
+
     public static APIBuilder<String> ping() {
         return new APIBuilder<>(Controller.getServiceScalar().ping());
     }
@@ -34,28 +42,28 @@ public class API {
     }
 
     public static class TravelPlans {
-        public static APIBuilder<TravelPlan> create(com.example.testapp.middleware.Auth auth, TravelPlan.Create travelPlan) {
-            return new APIBuilder<>(Controller.getService().createTravelPlan(auth.getToken(), travelPlan));
+        public static APIBuilder<TravelPlan> create(TravelPlan.Create travelPlan) {
+            return new APIBuilder<>(Controller.getService().createTravelPlan(getToken(), travelPlan));
         }
 
-        public static APIBuilder<ArrayList<com.example.testapp.model.TravelPlan>> get(com.example.testapp.middleware.Auth auth) {
-            return new APIBuilder<>(Controller.getService().getTravelPlans(auth.getToken()));
+        public static APIBuilder<ArrayList<com.example.testapp.model.TravelPlan>> get() {
+            return new APIBuilder<>(Controller.getService().getTravelPlans(getToken()));
         }
 
-        public static APIBuilder<ResponseBody> update(com.example.testapp.middleware.Auth auth, TravelPlan travelPlan) {
-            return new APIBuilder<>(Controller.getService().updateTravelPlan(auth.getToken(), travelPlan.getId(), new TravelPlan.Create(travelPlan)));
+        public static APIBuilder<ResponseBody> update(TravelPlan travelPlan) {
+            return new APIBuilder<>(Controller.getService().updateTravelPlan(getToken(), travelPlan.getId(), new TravelPlan.Create(travelPlan)));
         }
 
-        public static APIBuilder<ResponseBody> delete(com.example.testapp.middleware.Auth auth, String travelPlanId) {
-            return new APIBuilder<>(Controller.getService().deleteTravelPlan(auth.getToken(), travelPlanId));
+        public static APIBuilder<ResponseBody> delete(String travelPlanId) {
+            return new APIBuilder<>(Controller.getService().deleteTravelPlan(getToken(), travelPlanId));
         }
 
         public static APIBuilder<String> renewJoinlink(com.example.testapp.middleware.Auth auth, String travelPlanId) {
             return new APIBuilder<>(Controller.getServiceScalar().renewJoinlink(auth.getToken(), travelPlanId));
         }
 
-        public static APIBuilder<TravelPlan> joinTravelPlan(com.example.testapp.middleware.Auth auth, String joinCode) {
-            return new APIBuilder<>(Controller.getService().joinTravelPlan(auth.getToken(), joinCode));
+        public static APIBuilder<TravelPlan> joinTravelPlan(String joinCode) {
+            return new APIBuilder<>(Controller.getService().joinTravelPlan(getToken(), joinCode));
         }
 
         /**
@@ -64,10 +72,18 @@ public class API {
          * @param auth         Auth object
          * @param travelPlanId Travel Plan information
          * @return the image at the specified URL
-         * @see APIBuilder<TravelPlan>
+         * @see APIBuilder<TravelPlan.GET>
          */
-        public static APIBuilder<TravelPlan> getTravelPlan(com.example.testapp.middleware.Auth auth, String travelPlanId) {
-            return new APIBuilder<>(Controller.getService().getTravelPlan(auth.getToken(), travelPlanId));
+        public static APIBuilder<TravelPlan.GET> getTravelPlan(String travelPlanId) {
+            return new APIBuilder<>(Controller.getService().getTravelPlan(getToken(), travelPlanId));
+        }
+
+        public static APIBuilder<ArrayList<EventModel.GET>> getConcreteEvents(String travelPlanId, LocalDate date) {
+            return new APIBuilder<>(Controller.getService().getConcreteEvents(getToken(), travelPlanId, APIDate.formatDate(date)));
+        }
+
+        public static APIBuilder<ArrayList<EventModel.GET>> getSuggestedEvents(String travelPlanId, LocalDate date) {
+            return new APIBuilder<>(Controller.getService().getSuggestedEvents(getToken(), travelPlanId, APIDate.formatDate(date)));
         }
     }
 
@@ -80,17 +96,17 @@ public class API {
             return new APIBuilder<>(Controller.getService().updateEvent(auth.getToken(), travelPlanId, event.getId(), event));
         }
 
-        public static APIBuilder<EventModel.GET> getEvent(com.example.testapp.middleware.Auth auth, String travelPlanId, String eventId) {
-            return new APIBuilder<>(Controller.getService().getEvent(auth.getToken(), travelPlanId, eventId));
+        public static APIBuilder<EventModel.GET> getEvent(String travelPlanId, String eventId) {
+            return new APIBuilder<>(Controller.getService().getEvent(getToken(), travelPlanId, eventId));
         }
 
-        public static APIBuilder<String> delete(com.example.testapp.middleware.Auth auth, String travelPlanId, String eventId) {
-            return new APIBuilder<>(Controller.getServiceScalar().deleteEvent(auth.getToken(), travelPlanId, eventId));
+        public static APIBuilder<String> delete(String travelPlanId, String eventId) {
+            return new APIBuilder<>(Controller.getServiceScalar().deleteEvent(getToken(), travelPlanId, eventId));
         }
-
     }
 
     public static class APIBuilder<T> {
+        private final String TAG = "APIBuilder";
         private final Call<T> call;
         private Response<T> response;
         private Failure<T> failure;
@@ -113,9 +129,9 @@ public class API {
             call.enqueue(new retrofit2.Callback<T>() {
                 @Override
                 public void onResponse(@NonNull Call<T> call, @NonNull retrofit2.Response<T> res) {
-                    Log.i("Debugger", res.raw().request().toString());
-                    if (res.raw().request().body() != null)
-                        Log.i("Debugger", res.raw().request().body().toString());
+                    Log.i(TAG, res.raw().request().toString());
+                    Log.i(TAG, res.toString());
+                    if (res.body() != null) Log.i(TAG, res.body().toString());
                     if (res.isSuccessful() && res.body() != null) response.onResponse(res.body());
                     else {
                         Log.e("API:Failure", res.toString());
@@ -129,14 +145,14 @@ public class API {
                 @Override
                 public void onFailure(@NonNull Call<T> call, @NonNull Throwable throwable) {
                     //Executing the call failed (this is not an http error)
-                    Log.e("API:Critical", throwable.toString());
-                    Log.e("API:Critical", call.toString());
+                    Log.e(TAG, call.request().toString());
+                    Log.e(TAG + ":Critical", throwable.toString());
                 }
             });
         }
     }
 
-    public static abstract class Callback<T> implements Response<T>, Failure<T>{
+    public static abstract class Callback<T> implements Response<T>, Failure<T> {
         public void onFinal() {
         }
     }

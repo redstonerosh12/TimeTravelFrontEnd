@@ -14,16 +14,19 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoadingPage extends AppCompatActivity {
+    private static int SPLASH_SCREEN = 3000;
     Animation topAnim, bottomAnim;
     ImageView image;
     ImageView image_2;
     MediaPlayer whoosh;
     int flag = 0;
-    private static int SPLASH_SCREEN = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        startActivity(new Intent(LoadingPage.this, MainActivity.class));
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.loadingscreen);
         whoosh = MediaPlayer.create(LoadingPage.this, R.raw.little_whoosh);
@@ -36,13 +39,10 @@ public class LoadingPage extends AppCompatActivity {
         image_2 = findViewById(R.id.text_image);
         image.setAnimation(topAnim);
         image_2.setAnimation(bottomAnim);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(LoadingPage.this, LoginPage.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }, SPLASH_SCREEN);
-        }
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(LoadingPage.this, LoginPage.class);
+            startActivity(intent);
+            finish();
+        }, SPLASH_SCREEN);
     }
+}

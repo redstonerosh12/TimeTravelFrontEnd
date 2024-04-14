@@ -17,8 +17,6 @@ import com.example.testapp.home_fragment.RecyclerViewInterface;
 
 import java.util.ArrayList;
 
-
-
 public class RecyclerVotingEventAdapter extends RecyclerView.Adapter<RecyclerVotingEventAdapter.MyViewHolder>{
     private final RecyclerViewInterface recyclerViewInterface;
 

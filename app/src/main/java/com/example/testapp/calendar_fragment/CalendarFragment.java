@@ -18,6 +18,7 @@ import com.example.testapp.MainActivity;
 import com.example.testapp.R;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
@@ -82,7 +83,7 @@ public class CalendarFragment extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
-                commonDateSelection.setSelectedDate(ZonedDateTime.of(year, month + 1, day, 0, 0, 0, 0, ZoneId.systemDefault()));
+                commonDateSelection.setSelectedDate(LocalDate.of(year, month + 1, day));
                 Intent intent = new Intent(getActivity(), IndividualDayActivity.class);
                 startActivity(intent);
             }

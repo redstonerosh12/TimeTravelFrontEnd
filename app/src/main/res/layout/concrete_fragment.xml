@@ -60,7 +60,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/yearSelected"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -81,7 +81,7 @@
         android:layout_gravity="center"
         android:background="@drawable/event_bubble_base"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/yearSelected"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -129,7 +129,7 @@
 <!--    </LinearLayout>-->
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ConcreteRecyclerView"
+        android:id="@+id/RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="320dp"
         android:layout_marginTop="10dp"

@@ -42,7 +42,7 @@ public interface Service {
      * Controller: travel-plan-controller
      */
     @GET("/api/v1/travelplans/{travelPlanId}")
-    Call<TravelPlan> getTravelPlan(@Header("Authorization") String token, @Path("travelPlanId") String travelPlanId);
+    Call<TravelPlan.GET> getTravelPlan(@Header("Authorization") String token, @Path("travelPlanId") String travelPlanId);
 
     @PUT("/api/v1/travelplans/{travelPlanId}")
     Call<ResponseBody> updateTravelPlan(@Header("Authorization") String token, @Path("travelPlanId") String travelPlanId, @Body TravelPlan.Create travelPlan);
@@ -59,8 +59,14 @@ public interface Service {
     @POST("/api/v1/travelplans/{travelPlanId}/joinlink")
     Call<String> renewJoinlink(@Header("Authorization") String token, @Path("travelPlanId") String travelPlanId);
 
-    @POST("/api/v1/travelplans/join/{joinCode}") //FIXME: Unable to join
+    @POST("/api/v1/travelplans/join/{joinCode}")
     Call<TravelPlan> joinTravelPlan(@Header("Authorization") String token, @Path("joinCode") String joinCode);
+
+    @GET("/api/v1/travelplans/{travelPlanId}/events/concrete/{date}")
+    Call<ArrayList<EventModel.GET>> getConcreteEvents(@Header("Authorization") String token, @Path("travelPlanId") String travelPlanId, @Path("date") String date);
+
+    @GET("/api/v1/travelplans/{travelPlanId}/events/suggested/{date}")
+    Call<ArrayList<EventModel.GET>> getSuggestedEvents(@Header("Authorization") String token, @Path("travelPlanId") String travelPlanId, @Path("date") String date);
 
     /**
      * Controller: event-controller

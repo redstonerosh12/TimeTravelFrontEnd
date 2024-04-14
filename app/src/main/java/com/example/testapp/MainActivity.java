@@ -1,36 +1,55 @@
 package com.example.testapp;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.testapp.calendar_fragment.CalendarFragment;
 import com.example.testapp.databinding.ActivityMainBinding;
 import com.example.testapp.home_fragment.HomeFragment;
+import com.example.testapp.lib.AppCompatActivity;
 import com.example.testapp.middleware.Auth;
 import com.example.testapp.profile_fragment.ProfileFragment;
 
-import java.time.ZonedDateTime;
-
 public class MainActivity extends AppCompatActivity {
+    public static CommonDateSelected commonDateSelected = CommonDateSelected.getInstance();
     public Boolean selectedPlan = true;
     public ActivityMainBinding binding;
-    public static CommonDateSelected commonDateSelected = CommonDateSelected.getInstance();
+
+    public static CommonDateSelected getCommonDateSelected() {
+        return commonDateSelected;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Auth auth = Auth.getInstance(this);
-        if(auth.isAuth()) {
+
+        if (auth.isAuth()) {
             binding = ActivityMainBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
+
             Intent intent = getIntent();
             boolean fromCalendar = intent.getBooleanExtra("from_calendar", false);
+
+            MenuItem home = binding.bottomNavigationView.getMenu().getItem(0);
+            MenuItem calendar = binding.bottomNavigationView.getMenu().getItem(1);
+
+            config.setDisableNavFunction(() -> {
+                home.setVisible(false);
+                calendar.setVisible(false);
+            });
+
+            config.setEnableNavFunction(() -> {
+                home.setVisible(true);
+                calendar.setVisible(true);
+            });
+
             if (fromCalendar) {
                 replaceFragment(new CalendarFragment());
                 binding.bottomNavigationView.setSelectedItemId(R.id.CalendarNav);
@@ -62,11 +81,4 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
     }
-
-    public static CommonDateSelected getCommonDateSelected(){
-        return commonDateSelected;
-    }
-
-
-
 }

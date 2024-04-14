@@ -45,7 +45,7 @@
         </activity>
 
         <activity
-            android:name=".profile_fragment.CreateTripActivity"
+            android:name=".profile_fragment.CreateTravelPlanActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,7 +56,7 @@
         </activity>
 
         <activity
-            android:name=".profile_fragment.JoinTripActivity"
+            android:name=".profile_fragment.JoinTravelPlanActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

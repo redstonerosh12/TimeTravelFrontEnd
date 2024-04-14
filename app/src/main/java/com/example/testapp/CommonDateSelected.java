@@ -3,15 +3,16 @@ package com.example.testapp;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class CommonDateSelected {
-    public  ZonedDateTime selectedDate;
+    public LocalDate selectedDate;
     private static CommonDateSelected instance;
 
     private CommonDateSelected(){
-        selectedDate =  ZonedDateTime.now();
+        selectedDate =  LocalDate.now();
     }
 
     public static CommonDateSelected getInstance(){
@@ -40,10 +41,10 @@ public class CommonDateSelected {
         selectedDate = selectedDate.plusDays(-1);
      }
 
-     public void setSelectedDate(ZonedDateTime selectedDate){
+     public void setSelectedDate(LocalDate selectedDate){
         this.selectedDate = selectedDate;
      }
-     public ZonedDateTime getSelectedDate(){
+     public LocalDate getSelectedDate(){
         return selectedDate;
     }
 }
