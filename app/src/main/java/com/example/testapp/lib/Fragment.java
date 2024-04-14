@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.example.testapp.model.lib.Toast;
 
 public class Fragment extends androidx.fragment.app.Fragment {
+    protected final static ConfigurationManager config = ConfigurationManager.getInstance();
     protected final String TAG;
     protected Toast toast;
 
