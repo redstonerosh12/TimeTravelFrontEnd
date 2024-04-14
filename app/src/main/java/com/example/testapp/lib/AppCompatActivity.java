@@ -9,6 +9,11 @@ public class AppCompatActivity extends androidx.appcompat.app.AppCompatActivity 
     protected final String TAG;
     protected Toast toast;
 
+    public AppCompatActivity() {
+        super();
+        TAG = this.getClass().getSimpleName();
+    }
+
     public AppCompatActivity(int contentLayoutId) {
         super(contentLayoutId);
         TAG = this.getClass().getSimpleName();

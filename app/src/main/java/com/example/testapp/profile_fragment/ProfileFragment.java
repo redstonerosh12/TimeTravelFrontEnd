@@ -58,7 +58,7 @@ public class ProfileFragment extends Fragment {
 
         TravelPlan.getTravelPlans()
                 .setOnResponse(travelPlans -> {
-                    Log.d(TAG,travelPlans.toString());
+                    Log.d(TAG, travelPlans.toString());
                     boolean exist = false;
                     for (TravelPlan travelPlan : travelPlans) {
                         if (travelPlan.getId().equals(config.getId())) {
@@ -66,7 +66,10 @@ public class ProfileFragment extends Fragment {
                             break;
                         }
                     }
-                    if (!exist) config.setId(null);
+                    if (!exist) {
+                        if (travelPlans.isEmpty()) config.setId(null);
+                        else config.setId(travelPlans.get(0).getId());
+                    }
                     tripRecyclerView.swapAdapter(new RecyclerTripAdapter(travelPlans), true);
                 })
                 .setOnFailure(res -> {
