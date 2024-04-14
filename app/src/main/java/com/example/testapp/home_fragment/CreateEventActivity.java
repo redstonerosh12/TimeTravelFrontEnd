@@ -121,12 +121,15 @@ public class CreateEventActivity extends AppCompatActivity {
                         if (eventStartTimeInDateTime != null && eventEndTimeInDateTime != null) {
                             Log.d(TAG, "Passed all the form checks");
                             if (selectedEventTypeId == radioConcreteId || selectedEventTypeId == radioSuggestedId) {
-                                String travelPlanID = config.getId();
                                 String title = extractText(editTitle);
                                 String location = extractText(editAddress);
-                                String description = createDescriptionForEventModel(editAddress, editReasonVisit, editLowerCost, editUpperCost);
+                                String description = extractText(editReasonVisit);
+
+                                double minCost = Double.parseDouble(editLowerCost.getText().toString());
+                                double maxCost = Double.parseDouble(editLowerCost.getText().toString());
+
                                 EventModel.Status status = selectedEventTypeId == radioConcreteId ? EventModel.Status.CONCRETE : EventModel.Status.SUGGESTED;
-                                EventModel.Create creatingEvent = new EventModel.Create(title, eventStartTimeInDateTime, eventEndTimeInDateTime, description, status, location);
+                                EventModel.Create creatingEvent = new EventModel.Create(title, eventStartTimeInDateTime, eventEndTimeInDateTime, description, status, location, minCost, maxCost);
 
                                 Log.d(TAG + ":Creating", creatingEvent.toString());
 
@@ -137,16 +140,16 @@ public class CreateEventActivity extends AppCompatActivity {
                                     if (dtAVL == null || !selectedDate.equals(currentDate)) {
                                         Log.e("MainActivity", "Renew AVL");
                                         selectedDate = currentDate;
-                                        DataSource.getEventsByDate(travelPlanID, selectedDate, EventModel.Status.CONCRETE, new API.Callback<ArrayList<EventModel>>() {
+                                        DataSource.getEventsByDate(config.getId(), selectedDate, EventModel.Status.CONCRETE, new API.Callback<ArrayList<EventModel.GET>>() {
                                             @Override
-                                            public void onFailure(Response<ArrayList<EventModel>> response) {
+                                            public void onFailure(Response<ArrayList<EventModel.GET>> response) {
                                                 Log.e("MainActivity", "FAILED");
                                             }
 
                                             @Override
-                                            public void onResponse(ArrayList<EventModel> events) {
+                                            public void onResponse(ArrayList<EventModel.GET> events) {
                                                 if (events.isEmpty())
-                                                    createEvent(travelPlanID, creatingEvent);
+                                                    createEvent(creatingEvent);
                                                 else {
                                                     dtAVL = new DateTimeAVL(events);
                                                     Log.e("MainActivity", set.toString());
@@ -154,7 +157,7 @@ public class CreateEventActivity extends AppCompatActivity {
                                                     Log.e("MainActivity", Boolean.toString(conflict));
                                                     if (conflict)
                                                         createToast("Starttime and Endtime is conflicting with another event");
-                                                    else createEvent(travelPlanID, creatingEvent);
+                                                    else createEvent(creatingEvent);
                                                 }
                                             }
                                         });
@@ -162,9 +165,9 @@ public class CreateEventActivity extends AppCompatActivity {
                                         boolean conflict = dtAVL.checkConflict(set);
                                         if (conflict) {
                                             createToast("Starttime and Endtime is conflicting with another event");
-                                        } else createEvent(travelPlanID, creatingEvent);
+                                        } else createEvent(creatingEvent);
                                     }
-                                } else createEvent(travelPlanID, creatingEvent);
+                                } else createEvent(creatingEvent);
                             }
                         }
                     } catch (DateTimeException e) {
@@ -175,8 +178,8 @@ public class CreateEventActivity extends AppCompatActivity {
         });
     }
 
-    private void createEvent(String travelPlanID, EventModel.Create creatingEvent) {
-        API.Event.create(Auth.getInstance(), travelPlanID, creatingEvent)
+    private void createEvent(EventModel.Create creatingEvent) {
+        API.Event.create(Auth.getInstance(), config.getId(), creatingEvent)
                 .setOnResponse(eventGet -> {
                     EventModel event = eventGet.getEvent();
                     Log.d(TAG + ":Created", event.toString());

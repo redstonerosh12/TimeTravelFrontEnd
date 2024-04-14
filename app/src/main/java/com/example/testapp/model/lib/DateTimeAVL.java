@@ -8,9 +8,10 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class DateTimeAVL extends AVLTree {
-    public DateTimeAVL(ArrayList<EventModel> dateTimeArrayList) {
+    public DateTimeAVL(ArrayList<EventModel.GET> dateTimeArrayList) {
         Log.e("DateTimeAVL", "Creating AVL");
-        for (StartEndDateTime set: dateTimeArrayList) {
+        for (EventModel.GET get: dateTimeArrayList) {
+            StartEndDateTime set = get.getEvent();
             Log.e("DateTimeAVL", set.toString());
             insert(set.getStartTime().toLocalTime(), set.getEndTime().toLocalTime());
         }

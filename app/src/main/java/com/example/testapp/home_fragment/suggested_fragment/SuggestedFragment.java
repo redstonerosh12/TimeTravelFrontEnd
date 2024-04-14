@@ -19,7 +19,7 @@ public class SuggestedFragment extends CommonFragment {
     }
 
     @Override
-    protected RecyclerView.Adapter<?> setAdapter(ArrayList<EventModel> events) {
+    protected RecyclerView.Adapter<?> setAdapter(ArrayList<EventModel.GET> events) {
         return new RecyclerSuggestedEventAdapter(events, SuggestedFragment.this);
     }
 }
