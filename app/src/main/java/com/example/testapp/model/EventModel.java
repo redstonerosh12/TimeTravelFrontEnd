@@ -1,7 +1,5 @@
 package com.example.testapp.model;
 
-import android.util.Log;
-
 import com.example.testapp.model.lib.DateTime;
 import com.example.testapp.model.lib.StartEndDateTime;
 
@@ -182,7 +180,6 @@ public class EventModel extends StartEndDateTime {
         }
 
         public EventModel getEvent() {
-            Log.e("asd", toString());
             return new EventModel(id,
                     creator,
                     title,
