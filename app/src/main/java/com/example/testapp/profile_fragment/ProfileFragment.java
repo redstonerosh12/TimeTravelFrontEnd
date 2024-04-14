@@ -35,12 +35,12 @@ public class ProfileFragment extends Fragment {
         name.setText(Auth.getInstance().getUsername());
 
         // Create Trip
-        AppCompatButton createTripButton = view.findViewById(R.id.buttonCreateTrip);
-        createTripButton.setOnClickListener(v -> goTo(CreateTripActivity.class));
+        AppCompatButton createTripButton = view.findViewById(R.id.buttonCreateTravelPlan);
+        createTripButton.setOnClickListener(v -> goTo(CreateTravelPlanActivity.class));
 
         // Join Trip
-        AppCompatButton joinTripButton = view.findViewById(R.id.buttonJoinTrip);
-        joinTripButton.setOnClickListener(v -> goTo(JoinTripActivity.class));
+        AppCompatButton joinTripButton = view.findViewById(R.id.buttonJoinTravelPlan);
+        joinTripButton.setOnClickListener(v -> goTo(JoinTravelPlanActivity.class));
 
         // Logout
         Button logoutButton = view.findViewById(R.id.logout);
@@ -52,9 +52,9 @@ public class ProfileFragment extends Fragment {
         });
 
         // Get Trips
-        tripRecyclerView = view.findViewById(R.id.TripRecyclerView);
+        tripRecyclerView = view.findViewById(R.id.TravelPlanRecyclerView);
         tripRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        tripRecyclerView.setAdapter(new RecyclerTripAdapter(new ArrayList<>()));
+        tripRecyclerView.setAdapter(new RecyclerTravelPlanAdapter(new ArrayList<>()));
 
         TravelPlan.getTravelPlans()
                 .setOnResponse(travelPlans -> {
@@ -70,7 +70,7 @@ public class ProfileFragment extends Fragment {
                         if (travelPlans.isEmpty()) config.setId(null);
                         else config.setId(travelPlans.get(0).getId());
                     }
-                    tripRecyclerView.swapAdapter(new RecyclerTripAdapter(travelPlans), true);
+                    tripRecyclerView.swapAdapter(new RecyclerTravelPlanAdapter(travelPlans), true);
                 })
                 .setOnFailure(res -> {
 

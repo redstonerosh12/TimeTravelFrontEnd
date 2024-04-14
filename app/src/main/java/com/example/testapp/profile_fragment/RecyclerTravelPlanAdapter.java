@@ -1,7 +1,5 @@
 package com.example.testapp.profile_fragment;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,24 +19,24 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
-public class RecyclerTripAdapter extends RecyclerView.Adapter<RecyclerTripAdapter.TripViewHolder> {
+public class RecyclerTravelPlanAdapter extends RecyclerView.Adapter<RecyclerTravelPlanAdapter.TravelPlanViewHolder> {
     private final List<TravelPlan> tripList;
     private final ConfigurationManager config = ConfigurationManager.getInstance();
-    private TripViewHolder selectedHolder;
+    private TravelPlanViewHolder selectedHolder;
 
-    public RecyclerTripAdapter(List<TravelPlan> tripList) {
+    public RecyclerTravelPlanAdapter(List<TravelPlan> tripList) {
         this.tripList = tripList;
     }
 
     @NonNull
     @Override
-    public TripViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TravelPlanViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_trip_view_one_row, parent, false);
-        return new TripViewHolder(view);
+        return new TravelPlanViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TripViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TravelPlanViewHolder holder, int position) {
         TravelPlan trip = tripList.get(position);
         String id = trip.getId();
         holder.countryTextView.setText(trip.getTitle());
@@ -68,12 +65,12 @@ public class RecyclerTripAdapter extends RecyclerView.Adapter<RecyclerTripAdapte
         return tripList.size();
     }
 
-    public static class TripViewHolder extends RecyclerView.ViewHolder {
+    public static class TravelPlanViewHolder extends RecyclerView.ViewHolder {
         private final TextView countryTextView;
         private final Button selectButton;
         private final MaterialButton joinCodeButton;
 
-        public TripViewHolder(@NonNull View itemView) {
+        public TravelPlanViewHolder(@NonNull View itemView) {
             super(itemView);
             countryTextView = itemView.findViewById(R.id.tripCountry);
             selectButton = itemView.findViewById(R.id.selectButton);
