@@ -9,32 +9,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.testapp.home_fragment.RecyclerViewInterface;
-import com.example.testapp.middleware.Auth;
 import com.example.testapp.model.EventModel;
 
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class RecyclerIndividualDayAdapter extends RecyclerView.Adapter<RecyclerIndividualDayAdapter.MyViewHolder>{
-    private final RecyclerViewInterface recyclerViewInterface;
-    Context context;
-    ArrayList<EventModel> eventModelList;
-    public RecyclerIndividualDayAdapter(Context context, ArrayList<EventModel> eventModelList,
-                                        RecyclerViewInterface recyclerViewInterface) {
-        this.context = context;
+    ArrayList<EventModel.GET> eventModelList;
+    public RecyclerIndividualDayAdapter(ArrayList<EventModel.GET> eventModelList) {
         this.eventModelList = eventModelList;
-        this.recyclerViewInterface = recyclerViewInterface;
     }
     @NonNull
     @Override
-    public RecyclerIndividualDayAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflator = LayoutInflater.from(context);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflator = LayoutInflater.from(parent.getContext());
         View view = inflator.inflate(R.layout.recycle_individual_day_event, parent, false);
-        return new RecyclerIndividualDayAdapter.MyViewHolder(view, recyclerViewInterface, eventModelList);
+        return new MyViewHolder(view);
     }
-    public void onBindViewHolder(@NonNull RecyclerIndividualDayAdapter.MyViewHolder holder, int position) {
-        EventModel event = eventModelList.get(position);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        EventModel event = eventModelList.get(position).getEvent();
         long timeDifference = event.getStartTime().until(event.getEndTime(), ChronoUnit.HOURS);
         ViewGroup.LayoutParams params = holder.eventCard.getLayoutParams();
         params.height = 200 * (int) timeDifference;
@@ -49,7 +42,7 @@ public class RecyclerIndividualDayAdapter extends RecyclerView.Adapter<RecyclerI
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView eventDescription, eventTimestamp;
         CardView eventCard;
-        public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface, ArrayList<EventModel> eventModelList) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             eventDescription = itemView.findViewById(R.id.event_display);
             eventTimestamp = itemView.findViewById(R.id.time_display);

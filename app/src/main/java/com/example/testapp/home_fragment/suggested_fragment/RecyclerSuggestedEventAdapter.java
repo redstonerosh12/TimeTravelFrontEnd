@@ -21,9 +21,9 @@ import java.util.Locale;
 
 public class RecyclerSuggestedEventAdapter extends RecyclerView.Adapter<RecyclerSuggestedEventAdapter.MyViewHolder> {
     private final RecyclerViewInterface recyclerViewInterface;
-    ArrayList<EventModel> eventModelList;
+    ArrayList<EventModel.GET> eventModelList;
 
-    public RecyclerSuggestedEventAdapter(ArrayList<EventModel> eventModelList,
+    public RecyclerSuggestedEventAdapter(ArrayList<EventModel.GET> eventModelList,
                                          RecyclerViewInterface recyclerViewInterface) {
         this.eventModelList = eventModelList;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -32,15 +32,15 @@ public class RecyclerSuggestedEventAdapter extends RecyclerView.Adapter<Recycler
 
     @NonNull
     @Override
-    public RecyclerSuggestedEventAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflator = LayoutInflater.from(parent.getContext());
         View view = inflator.inflate(R.layout.recycle_suggested_event_view_one_row, parent, false);
-        return new RecyclerSuggestedEventAdapter.MyViewHolder(view, recyclerViewInterface, eventModelList);
+        return new MyViewHolder(view, recyclerViewInterface);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerSuggestedEventAdapter.MyViewHolder holder, int position) {
-        EventModel event = eventModelList.get(position);
+        EventModel event = eventModelList.get(position).getEvent();
         holder.eventTimeAndTitle.setText(String.format(Locale.getDefault(), "%s %s", event.getTime(), event.getTitle()));
         holder.eventDescription.setText(event.getDescription());
         holder.dropdownIndicator.setImageResource(R.drawable.ui_element_dropdown_button_collapsed);
@@ -58,7 +58,7 @@ public class RecyclerSuggestedEventAdapter extends RecyclerView.Adapter<Recycler
         TextView eventTimeAndTitle, eventDescription;
         Button pushToVotingButton, deleteEventButton;
 
-        public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface, ArrayList<EventModel> eventModelList) {
+        public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
             dropdownIndicator = itemView.findViewById(R.id.toggle_dropdown);

@@ -44,7 +44,7 @@ public abstract class CommonFragment extends Fragment implements RecyclerViewInt
 
         recyclerView = view.findViewById(R.id.RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        recyclerView.setAdapter(new RecyclerConcreteEventAdapter(new ArrayList<>(), this));
+        recyclerView.setAdapter(new RecyclerConcreteEventAdapter(new ArrayList<>()));
 
         AppCompatButton createEventButton = view.findViewById(R.id.goToCreateEventActivityButton);
         createEventButton.setOnClickListener(v -> goTo(CreateEventActivity.class));
@@ -75,20 +75,20 @@ public abstract class CommonFragment extends Fragment implements RecyclerViewInt
     }
 
     public void updateRecycleView() {
-        DataSource.getEventsByDate(config.getId(), commonDateSelection.selectedDate, status, new API.Callback<ArrayList<EventModel>>() {
+        DataSource.getEventsByDate(config.getId(), commonDateSelection.selectedDate, status, new API.Callback<ArrayList<EventModel.GET>>() {
             @Override
-            public void onFailure(Response<ArrayList<EventModel>> response) {
+            public void onFailure(Response<ArrayList<EventModel.GET>> response) {
 
             }
 
             @Override
-            public void onResponse(ArrayList<EventModel> events) {
+            public void onResponse(ArrayList<EventModel.GET> events) {
                 recyclerView.swapAdapter(setAdapter(events), false);
             }
         });
     }
 
-    protected abstract RecyclerView.Adapter<?> setAdapter(ArrayList<EventModel> events);
+    protected abstract RecyclerView.Adapter<?> setAdapter(ArrayList<EventModel.GET> events);
 
     @Override
     public void onItemClick(int position) {

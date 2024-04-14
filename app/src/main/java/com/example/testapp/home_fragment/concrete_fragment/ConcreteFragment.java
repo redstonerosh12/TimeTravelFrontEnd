@@ -19,7 +19,7 @@ public class ConcreteFragment extends CommonFragment {
     }
 
     @Override
-    protected RecyclerView.Adapter<?> setAdapter(ArrayList<EventModel> events) {
-        return new RecyclerConcreteEventAdapter(events, this);
+    protected RecyclerView.Adapter<?> setAdapter(ArrayList<EventModel.GET> events) {
+        return new RecyclerConcreteEventAdapter(events);
     }
 }

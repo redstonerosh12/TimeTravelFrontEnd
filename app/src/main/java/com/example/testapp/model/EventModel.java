@@ -1,5 +1,6 @@
 package com.example.testapp.model;
 
+import com.example.testapp.api.API;
 import com.example.testapp.model.lib.DateTime;
 import com.example.testapp.model.lib.StartEndDateTime;
 
@@ -82,6 +83,10 @@ public class EventModel extends StartEndDateTime {
                 ", placeStatus='" + placeStatus + '\'' +
                 ", location='" + location + '\'' +
                 '}';
+    }
+
+    public API.APIBuilder<String> delete(String travelPlanId) {
+        return API.Event.delete(travelPlanId, id);
     }
 
     public enum Status {

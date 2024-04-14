@@ -96,14 +96,13 @@ public class API {
             return new APIBuilder<>(Controller.getService().updateEvent(auth.getToken(), travelPlanId, event.getId(), event));
         }
 
-        public static APIBuilder<EventModel.GET> getEvent(com.example.testapp.middleware.Auth auth, String travelPlanId, String eventId) {
-            return new APIBuilder<>(Controller.getService().getEvent(auth.getToken(), travelPlanId, eventId));
+        public static APIBuilder<EventModel.GET> getEvent(String travelPlanId, String eventId) {
+            return new APIBuilder<>(Controller.getService().getEvent(getToken(), travelPlanId, eventId));
         }
 
-        public static APIBuilder<String> delete(com.example.testapp.middleware.Auth auth, String travelPlanId, String eventId) {
-            return new APIBuilder<>(Controller.getServiceScalar().deleteEvent(auth.getToken(), travelPlanId, eventId));
+        public static APIBuilder<String> delete(String travelPlanId, String eventId) {
+            return new APIBuilder<>(Controller.getServiceScalar().deleteEvent(getToken(), travelPlanId, eventId));
         }
-
     }
 
     public static class APIBuilder<T> {

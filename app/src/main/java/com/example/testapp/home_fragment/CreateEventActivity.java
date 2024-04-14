@@ -140,14 +140,14 @@ public class CreateEventActivity extends AppCompatActivity {
                                     if (dtAVL == null || !selectedDate.equals(currentDate)) {
                                         Log.e("MainActivity", "Renew AVL");
                                         selectedDate = currentDate;
-                                        DataSource.getEventsByDate(config.getId(), selectedDate, EventModel.Status.CONCRETE, new API.Callback<ArrayList<EventModel>>() {
+                                        DataSource.getEventsByDate(config.getId(), selectedDate, EventModel.Status.CONCRETE, new API.Callback<ArrayList<EventModel.GET>>() {
                                             @Override
-                                            public void onFailure(Response<ArrayList<EventModel>> response) {
+                                            public void onFailure(Response<ArrayList<EventModel.GET>> response) {
                                                 Log.e("MainActivity", "FAILED");
                                             }
 
                                             @Override
-                                            public void onResponse(ArrayList<EventModel> events) {
+                                            public void onResponse(ArrayList<EventModel.GET> events) {
                                                 if (events.isEmpty())
                                                     createEvent(creatingEvent);
                                                 else {
