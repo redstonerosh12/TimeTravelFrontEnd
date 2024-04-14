@@ -35,7 +35,7 @@ public class Controller {
             .addConverterFactory(ScalarsConverterFactory.create()).build();
     private static final Service apiServiceScalar = retrofitScalar.create(Service.class);
     private static final boolean TESTING = true;
-    private static boolean OFFLINE = true;
+    private static boolean OFFLINE = false;
 
     public static void connect(com.example.testapp.api.Response<String> response) {
         if (!TESTING) {
