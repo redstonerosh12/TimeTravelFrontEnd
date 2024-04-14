@@ -19,7 +19,6 @@ import com.example.testapp.model.TravelPlan;
 
 public class ProfileFragment extends Fragment {
     private RecyclerView tripRecyclerView;
-    private RecyclerTripAdapter recyclerTripAdapter;
 
     public ProfileFragment() {
         super(R.layout.profile_fragment);
@@ -63,8 +62,7 @@ public class ProfileFragment extends Fragment {
                         }
                     }
                     if (!exist) config.setId(null);
-                    recyclerTripAdapter = new RecyclerTripAdapter(travelPlans);
-                    tripRecyclerView.setAdapter(recyclerTripAdapter);
+                    tripRecyclerView.setAdapter(new RecyclerTripAdapter(travelPlans));
                 })
                 .setOnFailure(res -> {
 
