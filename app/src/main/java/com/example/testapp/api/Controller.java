@@ -34,7 +34,7 @@ public class Controller {
     private static final Retrofit retrofitScalar = new Retrofit.Builder().baseUrl(BASEURL)
             .addConverterFactory(ScalarsConverterFactory.create()).build();
     private static final Service apiServiceScalar = retrofitScalar.create(Service.class);
-    private static final boolean TESTING = true;
+    private static final boolean TESTING = false;
     private static boolean OFFLINE = false;
 
     public static void connect(com.example.testapp.api.Response<String> response) {
@@ -158,6 +158,16 @@ public class Controller {
         }
 
         @Override
+        public Call<ArrayList<EventModel.GET>> getConcreteEvents(String token, String travelPlanId, String date) {
+            return null;
+        }
+
+        @Override
+        public Call<ArrayList<EventModel.GET>> getSuggestedEvents(String token, String travelPlanId, String date) {
+            return null;
+        }
+
+        @Override
         public Call<EventModel.GET> getEvent(String token, String travelPlanId, String eventId) {
             return null;
         }
@@ -205,8 +215,9 @@ public class Controller {
         }
 
         @Override
-        public Call<TravelPlan> getTravelPlan(String token, String travelPlanId) {
-            return new ByPassCall<>(travelPlans.get(Integer.parseInt(travelPlanId) - 1));
+        public Call<TravelPlan.GET> getTravelPlan(String token, String travelPlanId) {
+            TravelPlan travelPlan = travelPlans.get(Integer.parseInt(travelPlanId) - 1);
+            return new ByPassCall<>(new TravelPlan.GET(travelPlan));
         }
 
         @Override

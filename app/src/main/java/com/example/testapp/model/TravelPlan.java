@@ -8,6 +8,7 @@ import com.example.testapp.model.lib.APIDate;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import okhttp3.ResponseBody;
 
@@ -132,6 +133,30 @@ public class TravelPlan {
             LocalDate startDate = APIDate.formatString(this.startDate);
             LocalDate endDate = APIDate.formatString(this.endDate);
             return new TravelPlan(id, title, startDate, endDate, creator, joinCode, new ArrayList<>());
+        }
+    }
+
+    public static class GET {
+        private String title;
+        private int id;
+        private int[] startDate;
+        private int[] endDate;
+        private String creator;
+        private String joinCode;
+        private ArrayList<EventModel.GET> events;
+
+        public TravelPlan build() {
+            return new TravelPlan(id, title, intDateConvertor(startDate), intDateConvertor(endDate), creator, joinCode, events.stream().map(EventModel.GET::getEvent).collect(Collectors.toCollection(ArrayList::new)));
+        }
+
+        public GET(TravelPlan travelPlan) {
+            title = travelPlan.title;
+            id = travelPlan.id;
+            startDate = travelPlan.startDate;
+            endDate = travelPlan.endDate;
+            creator = travelPlan.creator;
+            joinCode = travelPlan.joinCode;
+            events = travelPlan.events.stream().map(EventModel.GET::new).collect(Collectors.toCollection(ArrayList::new));
         }
     }
 }

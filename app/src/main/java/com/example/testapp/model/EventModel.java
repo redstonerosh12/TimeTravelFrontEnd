@@ -127,6 +127,8 @@ public class EventModel extends StartEndDateTime {
         private String description;
         private String placeStatus;
         private String location;
+        private String minCost;
+        private String maxCost;
 
         public GET(String id, String creator, String title, int[] startTime, int[] endTime, String description, String placeStatus, String location) {
             this.id = id;
@@ -139,6 +141,17 @@ public class EventModel extends StartEndDateTime {
             this.location = location;
         }
 
+        public GET(EventModel eventModel) {
+            this.id = eventModel.id;
+            this.creator = eventModel.creator;
+            this.title = eventModel.title;
+            this.startTime = parseDateTime(eventModel.getStartTime());
+            this.endTime = parseDateTime(eventModel.getEndTime());
+            this.description = eventModel.description;
+            this.placeStatus = eventModel.placeStatus.toString();
+            this.location = eventModel.location;
+        }
+
         public EventModel getEvent() {
             return new EventModel(id,
                     creator,
@@ -148,6 +161,18 @@ public class EventModel extends StartEndDateTime {
                     description,
                     Status.valueOf(placeStatus),
                     location);
+        }
+
+        public static int[] parseDateTime(LocalDateTime date) {
+            int[] d = new int[7];
+            d[0] = date.getYear();
+            d[1] = date.getMonthValue();
+            d[2] = date.getDayOfMonth();
+            d[3] = date.getHour();
+            d[4] = date.getMinute();
+            d[5] = date.getSecond();
+            d[6] = date.getNano();
+            return d;
         }
     }
 
