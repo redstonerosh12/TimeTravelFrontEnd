@@ -16,4 +16,8 @@ public class ConfigurationManager {
     public void setId(String id) {
         this.id = id;
     }
+
+    public void clear() {
+        instance = new ConfigurationManager();
+    }
 }

@@ -11,10 +11,12 @@ import com.example.testapp.LoginPage;
 import com.example.testapp.MainActivity;
 import com.example.testapp.api.API;
 import com.example.testapp.api.Service;
+import com.example.testapp.lib.ConfigurationManager;
 import com.example.testapp.model.Token;
 import com.example.testapp.model.User;
 
 public class Auth {
+    private final static ConfigurationManager config = ConfigurationManager.getInstance();
     private final static String TAG = "Auth";
     private static String username;
     private static Auth instance;
@@ -107,6 +109,7 @@ public class Auth {
         token = null;
         username = null;
         API.Auth.logOut(getToken(tokenHolder)).setOnResponse(message -> {
+            config.clear();
             Log.i(LOGOUT_CODE, "Log out Successful");
             callback.onResponse(message);
         }).setOnFailure(response -> {
