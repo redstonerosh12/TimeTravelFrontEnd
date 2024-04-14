@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class DataSource {
     public static void getEventsByDate(String travelPlanId, LocalDate date, EventModel.Status status, API.Callback<ArrayList<EventModel>> callback) {
-        API.TravelPlans.getTravelPlan(Auth.getInstance(), travelPlanId)
+        API.TravelPlans.getTravelPlan(travelPlanId)
                 .setOnResponse(travelPlan -> {
                     ArrayList<EventModel> events = new ArrayList<>();
                     for(EventModel event: travelPlan.getEvents()) {

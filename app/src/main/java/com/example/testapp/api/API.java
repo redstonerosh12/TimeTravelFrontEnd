@@ -72,8 +72,8 @@ public class API {
          * @return the image at the specified URL
          * @see APIBuilder<TravelPlan>
          */
-        public static APIBuilder<TravelPlan> getTravelPlan(com.example.testapp.middleware.Auth auth, String travelPlanId) {
-            return new APIBuilder<>(Controller.getService().getTravelPlan(auth.getToken(), travelPlanId));
+        public static APIBuilder<TravelPlan> getTravelPlan(String travelPlanId) {
+            return new APIBuilder<>(Controller.getService().getTravelPlan(getToken(), travelPlanId));
         }
     }
 
