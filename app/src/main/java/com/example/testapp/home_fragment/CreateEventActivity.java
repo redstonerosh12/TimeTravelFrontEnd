@@ -3,7 +3,6 @@ package com.example.testapp.home_fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.testapp.MainActivity;
@@ -18,8 +17,7 @@ import android.widget.Toast;
 
 import com.example.testapp.api.API;
 import com.example.testapp.api.DataSource;
-import com.example.testapp.home_fragment.concrete_fragment.ConcreteFragment;
-import com.example.testapp.home_fragment.suggested_fragment.SuggestedFragment;
+import com.example.testapp.lib.AppCompatActivity;
 import com.example.testapp.middleware.Auth;
 import com.example.testapp.model.EventModel;
 import com.example.testapp.model.lib.DateTimeAVL;
@@ -34,8 +32,6 @@ import java.util.Arrays;
 import retrofit2.Response;
 
 public class CreateEventActivity extends AppCompatActivity {
-    private final String CREATEEVENT = "CreateEvent";
-    protected boolean isOwnerOfTravelPlan = true; //TODO get boolean from database
     private DateTimeAVL dtAVL;
     private LocalDate selectedDate;
 
@@ -74,7 +70,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         AppCompatButton submitForm = findViewById(R.id.SubmitFormCreateEvent);
 
-        if (!isOwnerOfTravelPlan) {
+        if (!config.isOwnerOfTravelPlan()) {
             concreteOrSuggested.setVisibility(View.GONE);
             RadioButton suggestedRadioButton = findViewById(R.id.radioButtonSuggested);
             suggestedRadioButton.setChecked(true);
@@ -123,16 +119,16 @@ public class CreateEventActivity extends AppCompatActivity {
                         LocalDateTime eventEndTimeInDateTime = LocalDateTime.of(year, month, day, endHour, endMin, 0, 0);
 
                         if (eventStartTimeInDateTime != null && eventEndTimeInDateTime != null) {
-                            Log.d(CREATEEVENT, "Passed all the form checks");
+                            Log.d(TAG, "Passed all the form checks");
                             if (selectedEventTypeId == radioConcreteId || selectedEventTypeId == radioSuggestedId) {
-                                String travelPlanID = "1"; //FIXME: Get from global variable
+                                String travelPlanID = config.getId();
                                 String title = extractText(editTitle);
                                 String location = extractText(editAddress);
                                 String description = createDescriptionForEventModel(editAddress, editReasonVisit, editLowerCost, editUpperCost);
                                 EventModel.Status status = selectedEventTypeId == radioConcreteId ? EventModel.Status.CONCRETE : EventModel.Status.SUGGESTED;
                                 EventModel.Create creatingEvent = new EventModel.Create(title, eventStartTimeInDateTime, eventEndTimeInDateTime, description, status, location);
 
-                                Log.d(CREATEEVENT + ":Creating", creatingEvent.toString());
+                                Log.d(TAG + ":Creating", creatingEvent.toString());
 
                                 // Check for conflict only for Concrete Events
                                 if (status == EventModel.Status.CONCRETE) {
@@ -183,7 +179,7 @@ public class CreateEventActivity extends AppCompatActivity {
         API.Event.create(Auth.getInstance(), travelPlanID, creatingEvent)
                 .setOnResponse(eventGet -> {
                     EventModel event = eventGet.getEvent();
-                    Log.d(CREATEEVENT + ":Created", event.toString());
+                    Log.d(TAG + ":Created", event.toString());
                     Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_LONG).show();
                     //FIXME: Change Intent to go back to Concrete or Suggested
                     Intent returnIntent = new Intent(CreateEventActivity.this, MainActivity.class);
