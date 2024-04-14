@@ -45,7 +45,8 @@ public class RecyclerTripAdapter extends RecyclerView.Adapter<RecyclerTripAdapte
         holder.countryTextView.setText(trip.getTitle());
         View.OnClickListener click = v -> {
             API.TravelPlans.getTravelPlan(id)
-                    .setOnResponse(travelPlan -> {
+                    .setOnResponse(travelPlanGet -> {
+                        TravelPlan travelPlan = travelPlanGet.build();
                         config.setSelectedTravelPlan(travelPlan);
                         holder.selected(travelPlan.getJoinCode());
                     })

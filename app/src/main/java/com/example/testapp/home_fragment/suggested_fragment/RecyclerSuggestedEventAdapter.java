@@ -1,6 +1,5 @@
 package com.example.testapp.home_fragment.suggested_fragment;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testapp.R;
 import com.example.testapp.home_fragment.RecyclerViewInterface;
-import com.example.testapp.middleware.Auth;
 import com.example.testapp.model.EventModel;
 
 import java.util.ArrayList;
@@ -23,12 +21,10 @@ import java.util.Locale;
 
 public class RecyclerSuggestedEventAdapter extends RecyclerView.Adapter<RecyclerSuggestedEventAdapter.MyViewHolder> {
     private final RecyclerViewInterface recyclerViewInterface;
-    Context context;
     ArrayList<EventModel> eventModelList;
 
-    public RecyclerSuggestedEventAdapter(Context context, ArrayList<EventModel> eventModelList,
+    public RecyclerSuggestedEventAdapter(ArrayList<EventModel> eventModelList,
                                          RecyclerViewInterface recyclerViewInterface) {
-        this.context = context;
         this.eventModelList = eventModelList;
         this.recyclerViewInterface = recyclerViewInterface;
     }
@@ -37,7 +33,7 @@ public class RecyclerSuggestedEventAdapter extends RecyclerView.Adapter<Recycler
     @NonNull
     @Override
     public RecyclerSuggestedEventAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflator = LayoutInflater.from(context);
+        LayoutInflater inflator = LayoutInflater.from(parent.getContext());
         View view = inflator.inflate(R.layout.recycle_suggested_event_view_one_row, parent, false);
         return new RecyclerSuggestedEventAdapter.MyViewHolder(view, recyclerViewInterface, eventModelList);
     }
@@ -80,10 +76,10 @@ public class RecyclerSuggestedEventAdapter extends RecyclerView.Adapter<Recycler
                             if (eventDescription.getVisibility() == View.GONE) {
                                 eventDescription.setVisibility(View.VISIBLE);
                                 dropdownIndicator.setImageResource(R.drawable.ui_element_dropdown_button_expanded);
-                                if (eventModelList.get(position).getCreator().equals(Auth.getInstance().getUsername())) {
+//                                if (eventModelList.get(position).getCreator().equals(Auth.getInstance().getUsername())) {
                                     deleteEventButton.setVisibility(View.VISIBLE);
                                     pushToVotingButton.setVisibility(View.VISIBLE);
-                                }
+//                                }
                             } else {
                                 eventDescription.setVisibility(View.GONE);
                                 dropdownIndicator.setImageResource(R.drawable.ui_element_dropdown_button_collapsed);
