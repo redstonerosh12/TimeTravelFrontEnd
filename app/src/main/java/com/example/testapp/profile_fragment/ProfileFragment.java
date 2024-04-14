@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ import com.example.testapp.R;
 import com.example.testapp.lib.Fragment;
 import com.example.testapp.middleware.Auth;
 import com.example.testapp.model.TravelPlan;
+
+import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
     private RecyclerView tripRecyclerView;
@@ -51,9 +54,11 @@ public class ProfileFragment extends Fragment {
         // Get Trips
         tripRecyclerView = view.findViewById(R.id.TripRecyclerView);
         tripRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        tripRecyclerView.setAdapter(new RecyclerTripAdapter(new ArrayList<>()));
 
         TravelPlan.getTravelPlans()
                 .setOnResponse(travelPlans -> {
+                    Log.d(TAG,travelPlans.toString());
                     boolean exist = false;
                     for (TravelPlan travelPlan : travelPlans) {
                         if (travelPlan.getId().equals(config.getId())) {
@@ -62,7 +67,7 @@ public class ProfileFragment extends Fragment {
                         }
                     }
                     if (!exist) config.setId(null);
-                    tripRecyclerView.setAdapter(new RecyclerTripAdapter(travelPlans));
+                    tripRecyclerView.swapAdapter(new RecyclerTripAdapter(travelPlans), true);
                 })
                 .setOnFailure(res -> {
 
