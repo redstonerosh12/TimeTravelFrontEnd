@@ -97,6 +97,7 @@ public class API {
     }
 
     public static class APIBuilder<T> {
+        private final String TAG = "APIBuilder";
         private final Call<T> call;
         private Response<T> response;
         private Failure<T> failure;
@@ -119,9 +120,9 @@ public class API {
             call.enqueue(new retrofit2.Callback<T>() {
                 @Override
                 public void onResponse(@NonNull Call<T> call, @NonNull retrofit2.Response<T> res) {
-                    Log.i("Debugger", res.raw().request().toString());
-                    if (res.raw().request().body() != null)
-                        Log.i("Debugger", res.raw().request().body().toString());
+                    Log.i(TAG, res.raw().request().toString());
+                    Log.i(TAG, res.toString());
+                    if (res.body() != null) Log.i(TAG, res.body().toString());
                     if (res.isSuccessful() && res.body() != null) response.onResponse(res.body());
                     else {
                         Log.e("API:Failure", res.toString());
@@ -135,8 +136,8 @@ public class API {
                 @Override
                 public void onFailure(@NonNull Call<T> call, @NonNull Throwable throwable) {
                     //Executing the call failed (this is not an http error)
-                    Log.e("API:Critical", throwable.toString());
-                    Log.e("API:Critical", call.toString());
+                    Log.e(TAG + ":Critical", throwable.toString());
+                    Log.e(TAG + ":Critical", call.toString());
                 }
             });
         }
