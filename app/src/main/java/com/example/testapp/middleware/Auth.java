@@ -15,7 +15,7 @@ import com.example.testapp.model.Token;
 import com.example.testapp.model.User;
 
 public class Auth {
-    private final static String AUTH_CODE = "Auth";
+    private final static String TAG = "Auth";
     private static String username;
     private static Auth instance;
     private static String token;
@@ -37,6 +37,7 @@ public class Auth {
             instance = new Auth(activity.getSharedPreferences("com.example.android.testapp", Context.MODE_PRIVATE));
         String className = activity.getClass().getSimpleName();
         boolean authenticated = instance.isAuth();
+        Log.e(TAG, className);
         if (className.equals("SignupPage") || className.equals("LoginPage")) {
             if (authenticated) activity.startActivity(new Intent(activity, MainActivity.class));
         } else if (!authenticated) activity.startActivity(new Intent(activity, LoginPage.class));
@@ -69,7 +70,7 @@ public class Auth {
                 .setOnResponse(tokenRes -> {
                     String token = tokenRes.getToken();
                     saveUserAndToken(username, token);
-                    Log.i(AUTH_CODE + ":login", token);
+                    Log.i(TAG + ":login", token);
                     callback.onResponse(tokenRes);
                     callback.onFinal();
                 }).setOnFailure(response -> {
@@ -79,7 +80,7 @@ public class Auth {
     }
 
     public void register(String username, String password, String email, API.Callback<Token> callback) {
-        Log.e(AUTH_CODE, "Registering");
+        Log.e(TAG, "Registering");
         API.Auth.register(username, password, email)
                 .setOnResponse(token -> {
                     saveUserAndToken(username, token.getToken());
@@ -88,7 +89,7 @@ public class Auth {
                 })
                 .setOnFailure(response -> {
                     callback.onFailure(response);
-                    Log.e(AUTH_CODE, "Fail to Register");
+                    Log.e(TAG, "Fail to Register");
                     callback.onFinal();
                 })
                 .fetch();
@@ -99,7 +100,7 @@ public class Auth {
         preferencesEditor.putString(TOKEN_KEY, null);
         preferencesEditor.putString(USERNAME_KEY, null);
         preferencesEditor.apply();
-        final String LOGOUT_CODE = AUTH_CODE + ":logout";
+        final String LOGOUT_CODE = TAG + ":logout";
         Log.i(LOGOUT_CODE, "Logging out");
         Log.i(LOGOUT_CODE, token);
         String tokenHolder = token;
