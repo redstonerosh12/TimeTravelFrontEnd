@@ -1,5 +1,7 @@
 package com.example.testapp.model;
 
+import android.util.Log;
+
 import com.example.testapp.model.lib.DateTime;
 import com.example.testapp.model.lib.StartEndDateTime;
 
@@ -8,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Locale;
 
@@ -18,8 +21,10 @@ public class EventModel extends StartEndDateTime {
     private String description;
     private Status placeStatus;
     private String location;
+    private double minCost;
+    private double maxCost;
 
-    public EventModel(String id, String creator, String title, LocalDateTime startTime, LocalDateTime endTime, String description, Status placeStatus, String location) {
+    public EventModel(String id, String creator, String title, LocalDateTime startTime, LocalDateTime endTime, String description, Status placeStatus, String location, double minCost, double maxCost) {
         super();
         this.id = id;
         this.creator = creator;
@@ -29,6 +34,12 @@ public class EventModel extends StartEndDateTime {
         this.description = description;
         this.placeStatus = placeStatus;
         this.location = location;
+        this.minCost = minCost;
+        this.maxCost = maxCost;
+    }
+
+    public EventModel(String id, String creator, String title, LocalDateTime startTime, LocalDateTime endTime, String description, Status placeStatus, String location) {
+        this(id,creator,title,startTime,endTime, description, placeStatus, location, 0, 0);
     }
 
     public Status getPlaceStatus() {
@@ -88,8 +99,10 @@ public class EventModel extends StartEndDateTime {
         private String description;
         private String placeStatus;
         private String location;
+        private double minCost;
+        private double maxCost;
 
-        public Create(String title, LocalDateTime startTime, LocalDateTime endTime, String description, Status placeStatus, String location) {
+        public Create(String title, LocalDateTime startTime, LocalDateTime endTime, String description, Status placeStatus, String location, double minCost, double maxCost) {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT.withZone(ZoneId.systemDefault());
             this.title = title;
             this.startTime = ZonedDateTime.of(startTime, ZoneId.systemDefault()).format(formatter);
@@ -97,6 +110,8 @@ public class EventModel extends StartEndDateTime {
             this.description = description;
             this.placeStatus = placeStatus.toString();
             this.location = location;
+            this.minCost = minCost;
+            this.maxCost = maxCost;
         }
 
         public GET toGET(String creator) {
@@ -114,6 +129,8 @@ public class EventModel extends StartEndDateTime {
                     ", description='" + description + '\'' +
                     ", placeStatus='" + placeStatus + '\'' +
                     ", location='" + location + '\'' +
+                    ", minCost=" + minCost +
+                    ", maxCost=" + maxCost +
                     '}';
         }
     }
@@ -127,8 +144,8 @@ public class EventModel extends StartEndDateTime {
         private String description;
         private String placeStatus;
         private String location;
-        private String minCost;
-        private String maxCost;
+        private double minCost;
+        private double maxCost;
 
         public GET(String id, String creator, String title, int[] startTime, int[] endTime, String description, String placeStatus, String location) {
             this.id = id;
@@ -152,17 +169,6 @@ public class EventModel extends StartEndDateTime {
             this.location = eventModel.location;
         }
 
-        public EventModel getEvent() {
-            return new EventModel(id,
-                    creator,
-                    title,
-                    DateTime.intToDateTime(startTime),
-                    DateTime.intToDateTime(endTime),
-                    description,
-                    Status.valueOf(placeStatus),
-                    location);
-        }
-
         public static int[] parseDateTime(LocalDateTime date) {
             int[] d = new int[7];
             d[0] = date.getYear();
@@ -173,6 +179,34 @@ public class EventModel extends StartEndDateTime {
             d[5] = date.getSecond();
             d[6] = date.getNano();
             return d;
+        }
+
+        public EventModel getEvent() {
+            Log.e("asd", toString());
+            return new EventModel(id,
+                    creator,
+                    title,
+                    DateTime.intToDateTime(startTime),
+                    DateTime.intToDateTime(endTime),
+                    description,
+                    Status.valueOf(placeStatus),
+                    location, minCost, maxCost);
+        }
+
+        @Override
+        public String toString() {
+            return "GET{" +
+                    "id='" + id + '\'' +
+                    ", creator='" + creator + '\'' +
+                    ", title='" + title + '\'' +
+                    ", startTime=" + Arrays.toString(startTime) +
+                    ", endTime=" + Arrays.toString(endTime) +
+                    ", description='" + description + '\'' +
+                    ", placeStatus='" + placeStatus + '\'' +
+                    ", location='" + location + '\'' +
+                    ", minCost=" + minCost +
+                    ", maxCost=" + maxCost +
+                    '}';
         }
     }
 
