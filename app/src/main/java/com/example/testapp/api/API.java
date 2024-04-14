@@ -8,7 +8,9 @@ import com.example.testapp.model.EventModel;
 import com.example.testapp.model.Token;
 import com.example.testapp.model.TravelPlan;
 import com.example.testapp.model.User;
+import com.example.testapp.model.lib.APIDate;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
@@ -70,10 +72,18 @@ public class API {
          * @param auth         Auth object
          * @param travelPlanId Travel Plan information
          * @return the image at the specified URL
-         * @see APIBuilder<TravelPlan>
+         * @see APIBuilder<TravelPlan.GET>
          */
-        public static APIBuilder<TravelPlan> getTravelPlan(String travelPlanId) {
+        public static APIBuilder<TravelPlan.GET> getTravelPlan(String travelPlanId) {
             return new APIBuilder<>(Controller.getService().getTravelPlan(getToken(), travelPlanId));
+        }
+
+        public static APIBuilder<ArrayList<EventModel.GET>> getConcreteEvents(String travelPlanId, LocalDate date) {
+            return new APIBuilder<>(Controller.getService().getConcreteEvents(getToken(), travelPlanId, APIDate.formatDate(date)));
+        }
+
+        public static APIBuilder<ArrayList<EventModel.GET>> getSuggestedEvents(String travelPlanId, LocalDate date) {
+            return new APIBuilder<>(Controller.getService().getSuggestedEvents(getToken(), travelPlanId, APIDate.formatDate(date)));
         }
     }
 
