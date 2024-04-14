@@ -2,7 +2,6 @@ package com.example.testapp.api;
 
 import androidx.annotation.NonNull;
 
-import com.example.testapp.middleware.Auth;
 import com.example.testapp.model.EventModel;
 import com.example.testapp.model.Token;
 import com.example.testapp.model.TravelPlan;
@@ -13,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -35,7 +35,7 @@ public class Controller {
             .addConverterFactory(ScalarsConverterFactory.create()).build();
     private static final Service apiServiceScalar = retrofitScalar.create(Service.class);
     private static final boolean TESTING = false;
-    private static boolean OFFLINE = false;
+    private static boolean OFFLINE = true;
 
     public static void connect(com.example.testapp.api.Response<String> response) {
         if (!TESTING) {
@@ -59,7 +59,7 @@ public class Controller {
         private static final ArrayList<User> users = new ArrayList<>();
         private static final ArrayList<TravelPlan> travelPlans = new ArrayList<>();
         private static final TravelPlan travelPlan;
-        private static final String CONTROLLER_TESTING = "Controller:Testing";
+        private static final String TAG = "Controller:Testing";
 
         static {
             User user = new User("admin", "password");
@@ -97,8 +97,7 @@ public class Controller {
 
         @Override
         public Call<Token> register(User user) {
-            users.add(user);
-            return new ByPassCall<>(new Token("Testing Token"));
+            return new ByPassCall<>(new Token(FakeData.register(user)));
         }
 
         @Override
@@ -108,15 +107,15 @@ public class Controller {
 
         @Override
         public Call<Token> authenticate(User user) {
-            for (User u : users) {
-                if (u.equals(user)) return new ByPassCall<>(new Token("Testing Token"));
-            }
-            return new ByPassCallGeneral<Token>() {
-                @Override
-                public void enqueue(@NonNull Callback<Token> callback) {
-                    callback.onResponse(this, ResponseType.Error(403));
-                }
-            };
+            Token token = FakeData.authenticate(user);
+            if (token == null) {
+                return new ByPassCallGeneral<Token>() {
+                    @Override
+                    public void enqueue(@NonNull Callback<Token> callback) {
+                        callback.onResponse(this, ResponseType.Error(403));
+                    }
+                };
+            } else return new ByPassCall<>(token);
         }
 
         @Override
@@ -126,15 +125,12 @@ public class Controller {
 
         @Override
         public Call<ArrayList<TravelPlan>> getTravelPlans(String token) {
-            return new AuthByPassCall<>(token, travelPlans);
+            return new AuthByPassCall<>(token, FakeData.getTravelPlans());
         }
 
         @Override
         public Call<TravelPlan> createTravelPlan(String token, TravelPlan.Create travelPlan) {
-            String joinCode = "asdsa";
-            int id = 100;
-            TravelPlan tp = travelPlan.toTravelPlan(id, Auth.getInstance().getUsername(), joinCode);
-            return new AuthByPassCall<>(token, tp);
+            return new AuthByPassCall<>(token, FakeData.createTravelPlan(travelPlan));
         }
 
         @Override
@@ -144,27 +140,25 @@ public class Controller {
 
         @Override
         public Call<TravelPlan> joinTravelPlan(String token, String joinCode) {
-            for (TravelPlan travelplan : travelPlans) {
-                if (travelplan.getJoinCode().equals(joinCode)) {
-                    return new ByPassCall<>(travelplan);
-                }
-            }
-            return new ByPassCallGeneral<TravelPlan>() {
-                @Override
-                public void enqueue(@NonNull Callback<TravelPlan> callback) {
-                    callback.onResponse(this, ResponseType.Error(404));
-                }
-            };
+            TravelPlan travelplan = FakeData.joinTravelPlan(joinCode);
+            if (travelplan == null) {
+                return new ByPassCallGeneral<TravelPlan>() {
+                    @Override
+                    public void enqueue(@NonNull Callback<TravelPlan> callback) {
+                        callback.onResponse(this, ResponseType.Error(404));
+                    }
+                };
+            } else return new ByPassCall<>(travelplan);
         }
 
         @Override
         public Call<ArrayList<EventModel.GET>> getConcreteEvents(String token, String travelPlanId, String date) {
-            return null;
+            return new ByPassCall<>(FakeData.getEvents(travelPlanId, date, EventModel.Status.CONCRETE));
         }
 
         @Override
         public Call<ArrayList<EventModel.GET>> getSuggestedEvents(String token, String travelPlanId, String date) {
-            return null;
+            return new ByPassCall<>(FakeData.getEvents(travelPlanId, date, EventModel.Status.SUGGESTED));
         }
 
         @Override
@@ -179,13 +173,13 @@ public class Controller {
 
         @Override
         public Call<String> deleteEvent(String token, String travelPlanId, String eventId) {
-            return null;
+            FakeData.deleteEvent(travelPlanId, eventId);
+            return new ByPassCall<>("");
         }
 
         @Override
         public Call<EventModel.GET> createEvent(String token, String travelPlanId, EventModel.Create event) {
-            EventModel.GET getEvent = event.toGET(Auth.getInstance().getUsername());
-            travelPlan.getEvents().add(getEvent.getEvent());
+            EventModel.GET getEvent = FakeData.createEvent(travelPlanId, event);
             return new AuthByPassCall<>(token, getEvent);
         }
 
@@ -216,8 +210,7 @@ public class Controller {
 
         @Override
         public Call<TravelPlan.GET> getTravelPlan(String token, String travelPlanId) {
-            TravelPlan travelPlan = travelPlans.get(Integer.parseInt(travelPlanId) - 1);
-            return new ByPassCall<>(new TravelPlan.GET(travelPlan));
+            return new ByPassCall<>(new TravelPlan.GET(Objects.requireNonNull(FakeData.getTravelPlan(travelPlanId))));
         }
 
         @Override
@@ -227,7 +220,23 @@ public class Controller {
 
         @Override
         public Call<ResponseBody> deleteTravelPlan(String token, String travelPlanId) {
-            return null;
+            FakeData.deleteTravelPlan(travelPlanId);
+            return new ByPassCall<>(new ResponseBody() {
+                @Override
+                public MediaType contentType() {
+                    return null;
+                }
+
+                @Override
+                public long contentLength() {
+                    return 0;
+                }
+
+                @Override
+                public BufferedSource source() {
+                    return null;
+                }
+            });
         }
 
         static class ResponseType {

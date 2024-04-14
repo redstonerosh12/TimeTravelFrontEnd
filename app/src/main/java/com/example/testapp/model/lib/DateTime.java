@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public class DateTime {
     public static LocalDateTime intToDateTime(int[] dateTime) {
-        if (dateTime.length == 5) {
+        if (dateTime.length >= 5) {
             return LocalDateTime.of(dateTime[0],
                     dateTime[1], dateTime[2], dateTime[3], dateTime[4]);
         } else {

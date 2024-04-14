@@ -145,8 +145,8 @@ public class API {
                 @Override
                 public void onFailure(@NonNull Call<T> call, @NonNull Throwable throwable) {
                     //Executing the call failed (this is not an http error)
+                    Log.e(TAG, call.request().toString());
                     Log.e(TAG + ":Critical", throwable.toString());
-                    Log.e(TAG + ":Critical", call.toString());
                 }
             });
         }
