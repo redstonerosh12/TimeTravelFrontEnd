@@ -3,14 +3,6 @@ package com.example.testapp.profile_fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +10,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.testapp.LoginPage;
 import com.example.testapp.R;
-import com.example.testapp.home_fragment.CreateEventActivity;
-import com.example.testapp.home_fragment.concrete_fragment.ConcreteEventModel;
-import com.example.testapp.home_fragment.concrete_fragment.ConcreteFragment;
-import com.example.testapp.home_fragment.concrete_fragment.RecyclerConcreteEventAdapter;
 import com.example.testapp.middleware.Auth;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -47,11 +38,11 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private RecyclerView tripRecyclerView;
+    private RecyclerView travelPlanRecyclerView;
 
-//    private static ArrayList<ConcreteEventModel> tripModelList = new ArrayList<>();
-    private RecyclerTripAdapter recyclerTripAdapter;
-    private List<TripModel> tripList;
+//    private static ArrayList<ConcreteEventModel> travelPlanModelList = new ArrayList<>();
+    private RecyclerTravelPlanAdapter recyclerTravelPlanAdapter;
+    private List<TravelPlanModel> travelPlanList;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -117,11 +108,11 @@ public class ProfileFragment extends Fragment {
         TextView address = (TextView) inf.findViewById(R.id.profileAddress);
         address.setText(profileData.get("address"));
          */
-        tripList = new ArrayList<>();
-        tripRecyclerView = inf.findViewById(R.id.TripRecyclerView);
-        tripRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerTripAdapter = new RecyclerTripAdapter(tripList);
-        tripRecyclerView.setAdapter(recyclerTripAdapter);
+        travelPlanList = new ArrayList<>();
+        travelPlanRecyclerView = inf.findViewById(R.id.TravelPlanRecyclerView);
+        travelPlanRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerTravelPlanAdapter = new RecyclerTravelPlanAdapter(travelPlanList);
+        travelPlanRecyclerView.setAdapter(recyclerTravelPlanAdapter);
 
         return inf;
     }
@@ -130,25 +121,25 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        AppCompatButton createTripButton = view.findViewById(R.id.buttonCreateTrip);
-        createTripButton.setOnClickListener(new View.OnClickListener() {
+        AppCompatButton createTravelPlanButton = view.findViewById(R.id.buttonCreateTravelPlan);
+        createTravelPlanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Fragment profileFragment = ProfileFragment.this;
                 Context context = profileFragment.requireContext();
-                Intent createTripIntent = new Intent(context, CreateTripActivity.class);
-                profileFragment.startActivity(createTripIntent);
+                Intent createTravelPlanIntent = new Intent(context, CreateTravelPlanActivity.class);
+                profileFragment.startActivity(createTravelPlanIntent);
             }
         });
 
-        AppCompatButton joinTripButton = view.findViewById(R.id.buttonJoinTrip);
-        joinTripButton.setOnClickListener(new View.OnClickListener() {
+        AppCompatButton joinTravelPlanButton = view.findViewById(R.id.buttonJoinTravelPlan);
+        joinTravelPlanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Fragment profileFragment = ProfileFragment.this;
                 Context context = profileFragment.requireContext();
-                Intent joinTripIntent = new Intent(context, JoinTripActivity.class);
-                profileFragment.startActivity(joinTripIntent);
+                Intent joinTravelPlanIntent = new Intent(context, JoinTravelPlanActivity.class);
+                profileFragment.startActivity(joinTravelPlanIntent);
             }
         });
 
@@ -174,11 +165,6 @@ public class ProfileFragment extends Fragment {
 //        recyclerView.setAdapter(adapter);
 //        recyclerView.setLayoutManager( new LinearLayoutManager(requireContext()));
 
-    }
-
-    public void addTrip(TripModel newTrip) {
-        tripList.add(newTrip);
-        recyclerTripAdapter.notifyDataSetChanged();
     }
 
 }

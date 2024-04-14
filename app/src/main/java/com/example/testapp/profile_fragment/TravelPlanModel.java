@@ -1,12 +1,19 @@
 package com.example.testapp.profile_fragment;
 
-public class TripModel {
+import com.example.testapp.model.EventModel;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class TravelPlanModel {
 
     private String country;
     private String startDate;
     private String endDate;
 
-    public TripModel(String country, String startDate, String endDate) {
+    public TravelPlanModel(String country, String startDate, String endDate) {
         this.country = country;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -36,10 +43,22 @@ public class TripModel {
         this.endDate = endDate;
     }
 
-    public TripModel getTrip() {
-        return new TripModel(
+    public TravelPlanModel getTravelPlan() {
+        return new TravelPlanModel(
                 country,
                 startDate,
                 endDate);
+    }
+
+    public static class CreateTravelPlan {
+        private String travelPlanTitle;
+        private String startDate;
+        private String endDate;
+
+        public CreateTravelPlan(String travelPlanTitle, String startDate, String endDate) {
+            this.travelPlanTitle = travelPlanTitle;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
     }
 }
