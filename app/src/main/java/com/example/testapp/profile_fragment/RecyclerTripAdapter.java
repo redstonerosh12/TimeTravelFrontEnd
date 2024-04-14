@@ -3,6 +3,7 @@ package com.example.testapp.profile_fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,10 +84,18 @@ public class RecyclerTripAdapter extends RecyclerView.Adapter<RecyclerTripAdapte
             joinCodeButton.setVisibility(View.VISIBLE);
             joinCodeButton.setOnClickListener(v-> {
                 Context context = joinCodeButton.getContext();
-                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("JoinCode", joinCode);
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(context,"Copied",Toast.LENGTH_SHORT).show();
+                // https://developer.android.com/training/sharing/send#java
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, joinCode);
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                context.startActivity(shareIntent);
+//                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+//                ClipData clip = ClipData.newPlainText("JoinCode", joinCode);
+//                clipboard.setPrimaryClip(clip);
+//                Toast.makeText(context,"Copied",Toast.LENGTH_SHORT).show();
             });
             selectButton.setText(R.string.selected);
             selectButton.setEnabled(false);

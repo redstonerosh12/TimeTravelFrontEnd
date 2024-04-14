@@ -50,7 +50,7 @@
             android:contentDescription="@string/copy"
             android:minWidth="0dp"
             app:cornerRadius="100dp"
-            app:icon="@drawable/baseline_content_copy_24"
+            app:icon="@drawable/baseline_ios_share_24"
             app:iconPadding="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
