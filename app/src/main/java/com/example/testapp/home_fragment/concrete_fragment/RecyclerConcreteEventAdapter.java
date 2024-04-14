@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testapp.R;
+import com.example.testapp.api.API;
+import com.example.testapp.lib.CallbackFunction;
 import com.example.testapp.lib.ConfigurationManager;
 import com.example.testapp.model.EventModel;
 
@@ -20,10 +22,13 @@ import java.util.Locale;
 
 public class RecyclerConcreteEventAdapter extends RecyclerView.Adapter<RecyclerConcreteEventAdapter.MyViewHolder> {
     private static final ConfigurationManager config = ConfigurationManager.getInstance();
-    ArrayList<EventModel.GET> eventModelList;
+    private static final String TAG = "RecyclerConcreteEventAdapter";
+    private final ArrayList<EventModel.GET> eventModelList;
+    private static CallbackFunction function;
 
-    public RecyclerConcreteEventAdapter(ArrayList<EventModel.GET> eventModelList) {
+    public RecyclerConcreteEventAdapter(ArrayList<EventModel.GET> eventModelList, CallbackFunction function) {
         this.eventModelList = eventModelList;
+        RecyclerConcreteEventAdapter.function = function;
     }
 
     @NonNull
@@ -48,8 +53,8 @@ public class RecyclerConcreteEventAdapter extends RecyclerView.Adapter<RecyclerC
         ImageView dropdownIndicator;
         TextView eventTimeAndTitle, eventDescription;
         Button deleteEventButton;
-//        private boolean isEventOwner = false;
-//        private EventModel event = null;
+        //private boolean isEventOwner = false;
+        //private EventModel event = null;
         private String eventId;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -59,6 +64,16 @@ public class RecyclerConcreteEventAdapter extends RecyclerView.Adapter<RecyclerC
             eventTimeAndTitle = itemView.findViewById(R.id.time_and_event_name);
             eventDescription = itemView.findViewById(R.id.event_description);
             deleteEventButton = itemView.findViewById(R.id.deleteEventButton);
+
+            deleteEventButton.setOnClickListener(v -> {
+                API.Event.delete(config.getId(), eventId)
+                        .setOnResponse(str -> {
+                            Log.e(TAG, str);
+                            Log.e(TAG, str);
+                            RecyclerConcreteEventAdapter.doFunction();
+                        }).setOnFailure(res -> {
+                        }).fetch();
+            });
 
             itemView.setOnClickListener(v -> {
                 if (eventDescription.getVisibility() == View.GONE) {
@@ -92,5 +107,9 @@ public class RecyclerConcreteEventAdapter extends RecyclerView.Adapter<RecyclerC
             dropdownIndicator.setImageResource(R.drawable.ui_element_dropdown_button_collapsed);
             eventId = event.getId();
         }
+    }
+
+    private static void doFunction() {
+        function.doFunction();
     }
 }

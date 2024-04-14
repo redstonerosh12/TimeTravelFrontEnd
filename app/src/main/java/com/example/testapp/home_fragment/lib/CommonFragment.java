@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testapp.CommonDateSelected;
 import com.example.testapp.R;
+import com.example.testapp.RecyclerIndividualDayAdapter;
 import com.example.testapp.api.API;
 import com.example.testapp.api.DataSource;
 import com.example.testapp.home_fragment.CreateEventActivity;
 import com.example.testapp.home_fragment.RecyclerViewInterface;
-import com.example.testapp.home_fragment.concrete_fragment.RecyclerConcreteEventAdapter;
 import com.example.testapp.lib.Fragment;
 import com.example.testapp.model.EventModel;
 
@@ -44,7 +44,7 @@ public abstract class CommonFragment extends Fragment implements RecyclerViewInt
 
         recyclerView = view.findViewById(R.id.RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        recyclerView.setAdapter(new RecyclerConcreteEventAdapter(new ArrayList<>()));
+        recyclerView.setAdapter(new RecyclerIndividualDayAdapter(new ArrayList<>()));
 
         AppCompatButton createEventButton = view.findViewById(R.id.goToCreateEventActivityButton);
         createEventButton.setOnClickListener(v -> goTo(CreateEventActivity.class));
