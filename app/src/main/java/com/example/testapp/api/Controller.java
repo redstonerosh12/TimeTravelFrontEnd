@@ -63,30 +63,30 @@ public class Controller {
         static {
             User user = new User("admin", "password");
             users.add(user);
-            LocalDate date = LocalDate.of(2024,4,12);
+            LocalDate date = LocalDate.of(2024, 4, 12);
             ArrayList<EventModel> eventTP1 = new ArrayList<>();
-            LocalDateTime dt = LocalDateTime.of(date, LocalTime.of(8,0));
-            eventTP1.add(new EventModel("1", user.getUsername(),"Breakfast",dt.plusHours(0), dt.plusHours(1), "Prata", EventModel.Status.CONCRETE, "Changi Airport"));
-            eventTP1.add(new EventModel("2", user.getUsername(),"Stretching",dt.plusHours(1), dt.plusHours(2), "Leg and Arm", EventModel.Status.CONCRETE, "Changi Airport"));
-            eventTP1.add(new EventModel("3", user.getUsername(),"Walk in the park",dt.plusHours(2), dt.plusHours(3), "Fast walking speed", EventModel.Status.CONCRETE, "Changi Airport"));
-            eventTP1.add(new EventModel("4", user.getUsername(),"Meeting friend",dt.plusHours(3), dt.plusHours(4), "Roshan at home", EventModel.Status.CONCRETE, "Changi Airport"));
-            eventTP1.add(new EventModel("5", user.getUsername(),"Lunch",dt.plusHours(4), dt.plusHours(5), "Chicken Rice", EventModel.Status.CONCRETE, "Changi Airport"));
-            eventTP1.add(new EventModel("6", user.getUsername(),"Cafe",dt.plusHours(5), dt.plusHours(6), "Latte", EventModel.Status.CONCRETE, "Changi Airport"));
-            eventTP1.add(new EventModel("7", user.getUsername(),"Tea break 1",dt.plusHours(6), dt.plusHours(7), "Black Tea", EventModel.Status.CONCRETE, "Changi Airport"));
-            eventTP1.add(new EventModel("8", user.getUsername(),"Buy car",dt.plusHours(7), dt.plusHours(8), "Porcho", EventModel.Status.CONCRETE, "Changi Airport"));
-            eventTP1.add(new EventModel("9", user.getUsername(),"Watch movie",dt.plusHours(8), dt.plusHours(10), "Panda 1", EventModel.Status.CONCRETE, "Changi Airport"));
+            LocalDateTime dt = LocalDateTime.of(date, LocalTime.of(8, 0));
+            eventTP1.add(new EventModel("1", user.getUsername(), "Breakfast", dt.plusHours(0), dt.plusHours(1), "Prata", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("2", user.getUsername(), "Stretching", dt.plusHours(1), dt.plusHours(2), "Leg and Arm", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("3", user.getUsername(), "Walk in the park", dt.plusHours(2), dt.plusHours(3), "Fast walking speed", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("4", user.getUsername(), "Meeting friend", dt.plusHours(3), dt.plusHours(4), "Roshan at home", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("5", user.getUsername(), "Lunch", dt.plusHours(4), dt.plusHours(5), "Chicken Rice", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("6", user.getUsername(), "Cafe", dt.plusHours(5), dt.plusHours(6), "Latte", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("7", user.getUsername(), "Tea break 1", dt.plusHours(6), dt.plusHours(7), "Black Tea", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("8", user.getUsername(), "Buy car", dt.plusHours(7), dt.plusHours(8), "Porcho", EventModel.Status.CONCRETE, "Changi Airport"));
+            eventTP1.add(new EventModel("9", user.getUsername(), "Watch movie", dt.plusHours(8), dt.plusHours(10), "Panda 1", EventModel.Status.CONCRETE, "Changi Airport"));
 
 
-            eventTP1.add(new EventModel("10", user.getUsername(),"Breakfast",dt.plusHours(-1), dt.plusHours(0), "Bread", EventModel.Status.SUGGESTED, "Changi Airport"));
-            eventTP1.add(new EventModel("11", user.getUsername(),"Movie in the Morning",dt.plusHours(0), dt.plusHours(2), "Kong", EventModel.Status.SUGGESTED, "Changi Airport"));
-            eventTP1.add(new EventModel("12", user.getUsername(),"Shopping",dt.plusHours(2), dt.plusHours(3), "Fast walking speed", EventModel.Status.SUGGESTED, "Changi Airport"));
-            eventTP1.add(new EventModel("13", user.getUsername(),"Meeting friend",dt.plusHours(3), dt.plusHours(4), "Roshan at home", EventModel.Status.SUGGESTED, "Changi Airport"));
-            eventTP1.add(new EventModel("14", user.getUsername(),"Lunch",dt.plusHours(4), dt.plusHours(5), "Chicken Rice", EventModel.Status.SUGGESTED, "Changi Airport"));
-            eventTP1.add(new EventModel("15", user.getUsername(),"Cafe",dt.plusHours(5), dt.plusHours(6), "Latte", EventModel.Status.SUGGESTED, "Changi Airport"));
-            eventTP1.add(new EventModel("16", user.getUsername(),"Tea break 1",dt.plusHours(6), dt.plusHours(7), "Black Tea", EventModel.Status.SUGGESTED, "Changi Airport"));
-            eventTP1.add(new EventModel("17", user.getUsername(),"Buy car",dt.plusHours(7), dt.plusHours(8), "Porcho", EventModel.Status.SUGGESTED, "Changi Airport"));
-            eventTP1.add(new EventModel("18", user.getUsername(),"Watch movie",dt.plusHours(8), dt.plusHours(9), "Panda 1", EventModel.Status.SUGGESTED, "Changi Airport"));
-            travelPlan = new TravelPlan(1, "Malaysia", date, date.plusDays(1),user.getUsername(),"asdawq",eventTP1);
+            eventTP1.add(new EventModel("10", user.getUsername(), "Breakfast", dt.plusHours(-1), dt.plusHours(0), "Bread", EventModel.Status.SUGGESTED, "Changi Airport"));
+            eventTP1.add(new EventModel("11", user.getUsername(), "Movie in the Morning", dt.plusHours(0), dt.plusHours(2), "Kong", EventModel.Status.SUGGESTED, "Changi Airport"));
+            eventTP1.add(new EventModel("12", user.getUsername(), "Shopping", dt.plusHours(2), dt.plusHours(3), "Fast walking speed", EventModel.Status.SUGGESTED, "Changi Airport"));
+            eventTP1.add(new EventModel("13", user.getUsername(), "Meeting friend", dt.plusHours(3), dt.plusHours(4), "Roshan at home", EventModel.Status.SUGGESTED, "Changi Airport"));
+            eventTP1.add(new EventModel("14", user.getUsername(), "Lunch", dt.plusHours(4), dt.plusHours(5), "Chicken Rice", EventModel.Status.SUGGESTED, "Changi Airport"));
+            eventTP1.add(new EventModel("15", user.getUsername(), "Cafe", dt.plusHours(5), dt.plusHours(6), "Latte", EventModel.Status.SUGGESTED, "Changi Airport"));
+            eventTP1.add(new EventModel("16", user.getUsername(), "Tea break 1", dt.plusHours(6), dt.plusHours(7), "Black Tea", EventModel.Status.SUGGESTED, "Changi Airport"));
+            eventTP1.add(new EventModel("17", user.getUsername(), "Buy car", dt.plusHours(7), dt.plusHours(8), "Porcho", EventModel.Status.SUGGESTED, "Changi Airport"));
+            eventTP1.add(new EventModel("18", user.getUsername(), "Watch movie", dt.plusHours(8), dt.plusHours(9), "Panda 1", EventModel.Status.SUGGESTED, "Changi Airport"));
+            travelPlan = new TravelPlan(1, "Malaysia", date, date.plusDays(1), user.getUsername(), "asdawq", eventTP1);
             travelPlans.add(travelPlan);
         }
 
@@ -121,12 +121,15 @@ public class Controller {
 
         @Override
         public Call<ArrayList<TravelPlan>> getTravelPlans(String token) {
-            return new ByPassCall<>(travelPlans);
+            return new AuthByPassCall<>(token, travelPlans);
         }
 
         @Override
         public Call<TravelPlan> createTravelPlan(String token, TravelPlan.Create travelPlan) {
-            return null;
+            String joinCode = "asdsa";
+            int id = 100;
+            TravelPlan tp = travelPlan.toTravelPlan(id, Auth.getInstance().getUsername(), joinCode);
+            return new AuthByPassCall<>(token, tp);
         }
 
         @Override
@@ -158,7 +161,7 @@ public class Controller {
         public Call<EventModel.GET> createEvent(String token, String travelPlanId, EventModel.Create event) {
             EventModel.GET getEvent = event.toGET(Auth.getInstance().getUsername());
             travelPlan.getEvents().add(getEvent.getEvent());
-            return new ByPassCall<>(getEvent);
+            return new AuthByPassCall<>(token, getEvent);
         }
 
         @Override
@@ -268,6 +271,26 @@ public class Controller {
             @Override
             public void enqueue(Callback<T> callback) {
                 callback.onResponse(this, Response.success(this.response));
+            }
+        }
+
+        static class AuthByPassCall<T> extends ByPassCall<T> {
+            private String token;
+
+            public AuthByPassCall(T response) {
+                super(response);
+            }
+
+            public AuthByPassCall(String token, T response) {
+                super(response);
+                this.token = token;
+            }
+
+            @Override
+            public void enqueue(Callback<T> callback) {
+                if (token == null || token.isEmpty())
+                    callback.onFailure(this, new Throwable("Auth Missing"));
+                else callback.onResponse(this, Response.success(this.response));
             }
         }
     }

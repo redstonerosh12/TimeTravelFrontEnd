@@ -24,6 +24,9 @@ public class LoadingPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        startActivity(new Intent(LoadingPage.this, LoginPage.class));
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.loadingscreen);
         whoosh = MediaPlayer.create(LoadingPage.this, R.raw.little_whoosh);

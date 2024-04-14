@@ -2,22 +2,31 @@ package com.example.testapp.profile_fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.example.testapp.MainActivity;
 import com.example.testapp.R;
+import com.example.testapp.model.lib.DateTime;
+import com.example.testapp.model.TravelPlan;
+import com.example.testapp.model.lib.Toast;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CreateTripActivity extends AppCompatActivity {
+    private final String TAG = "CreateTripActivity";
+    private Toast toast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        toast = new Toast(CreateTripActivity.this);
         setContentView(R.layout.create_trip_form);
 
         EditText editTitle = findViewById(R.id.editTitle);
@@ -30,30 +39,41 @@ public class CreateTripActivity extends AppCompatActivity {
         submitForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (!isAllFieldsFilled(allFields)) {
-                    createToast("All fields must be filled in");
+                    toast.makeShort("All fields must be filled in");
                 } else if (!isNumericallyFilled(editStartDate)) {
-                    createToast("Start date must be numerical!");
+                    toast.makeShort("Start date must be numerical!");
                 } else if (!isNumericallyFilled(editEndDate)) {
-                    createToast("End date must be numerical!");
+                    toast.makeShort("End date must be numerical!");
+                } else {
+                    String tripHeader = extractText(editTitle);
+                    String startDate = startDateForTripModel(editStartDate);
+                    String endDate = startDateForTripModel(editEndDate);
+                    TripModel newTrip = new TripModel(tripHeader, startDate, endDate);
+
+                    //FIXME: To add from frontend
+                    String startDay = "12";
+                    String startMonth = "04";
+                    String startYear = "2024";
+
+                    String endDay = "13";
+                    String endMonth = "04";
+                    String endYear = "2024";
+
+                    LocalDate start = DateTime.stringToDate(startYear, startMonth, startDay);
+                    LocalDate end = DateTime.stringToDate(endYear, endMonth, endDay);
+
+                    TravelPlan.create(tripHeader, start, end).setOnResponse(travelPlan -> {
+                        Log.d(TAG, travelPlan.toString());
+                        toast.makeLong("Trip Created");
+                        Intent returnIntent = new Intent(CreateTripActivity.this, MainActivity.class);
+                        startActivity(returnIntent);
+                    }).setOnFailure(res -> {
+                        toast.makeLong("Failed to create trip");
+                    }).fetch();
                 }
-
-                String tripHeader = extractText(editTitle);
-                String startDate = startDateForTripModel(editStartDate);
-                String endDate = startDateForTripModel(editEndDate);
-                TripModel newTrip = new TripModel(tripHeader, startDate, endDate);
-
-                Intent returnIntent = new Intent(CreateTripActivity.this, ProfileFragment.class);
-                startActivity(returnIntent);
             }
         });
-    }
-
-    protected void createToast(String message) {
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(this, message, duration);
-        toast.show();
     }
 
     protected String extractText(EditText field) {
@@ -72,7 +92,6 @@ public class CreateTripActivity extends AppCompatActivity {
 
     protected boolean isNumericallyFilled(EditText field) {
         String message = extractText(field);
-
         for (char dig : message.toCharArray()) {
             if (!Character.isDigit(dig)) {
                 return false;
@@ -87,7 +106,7 @@ public class CreateTripActivity extends AppCompatActivity {
         return lowerVal < upperVal;
     }
 
-    protected Integer extractInt(EditText numericalField){
+    protected Integer extractInt(EditText numericalField) {
         return Integer.parseInt(extractText(numericalField));
     }
 
@@ -102,5 +121,4 @@ public class CreateTripActivity extends AppCompatActivity {
         desc += extractText(endDate);
         return desc;
     }
-
 }

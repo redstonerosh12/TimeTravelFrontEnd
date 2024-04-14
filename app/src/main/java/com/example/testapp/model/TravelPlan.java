@@ -3,7 +3,7 @@ package com.example.testapp.model;
 import android.annotation.SuppressLint;
 
 import com.example.testapp.api.API;
-import com.example.testapp.middleware.Auth;
+import com.example.testapp.model.lib.APIDate;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -46,6 +46,10 @@ public class TravelPlan {
         return d;
     }
 
+    public static API.APIBuilder<TravelPlan> create(String title, LocalDate startDate, LocalDate endDate) {
+        return API.TravelPlans.create(new Create(title, startDate, endDate));
+    }
+
     public ArrayList<EventModel> getEvents() {
         return events;
     }
@@ -82,8 +86,8 @@ public class TravelPlan {
         return String.valueOf(id);
     }
 
-    public API.APIBuilder<ResponseBody> update(Auth auth) {
-        return API.TravelPlans.update(auth, this);
+    public API.APIBuilder<ResponseBody> update() {
+        return API.TravelPlans.update(this);
     }
 
     @Override
@@ -114,6 +118,12 @@ public class TravelPlan {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             this.startDate = startDate.format(formatter);
             this.endDate = endDate.format(formatter);
+        }
+
+        public TravelPlan toTravelPlan(int id, String creator, String joinCode) {
+            LocalDate startDate = APIDate.formatString(this.startDate);
+            LocalDate endDate = APIDate.formatString(this.endDate);
+            return new TravelPlan(id, title, startDate, endDate, creator, joinCode, new ArrayList<>());
         }
     }
 }

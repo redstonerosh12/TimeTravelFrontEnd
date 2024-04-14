@@ -14,7 +14,13 @@ import java.util.ArrayList;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
+
 public class API {
+    private static String getToken() {
+        com.example.testapp.middleware.Auth auth = com.example.testapp.middleware.Auth.getInstance();
+        return auth != null ? auth.getToken() : "";
+    }
+
     public static APIBuilder<String> ping() {
         return new APIBuilder<>(Controller.getServiceScalar().ping());
     }
@@ -34,20 +40,20 @@ public class API {
     }
 
     public static class TravelPlans {
-        public static APIBuilder<TravelPlan> create(com.example.testapp.middleware.Auth auth, TravelPlan.Create travelPlan) {
-            return new APIBuilder<>(Controller.getService().createTravelPlan(auth.getToken(), travelPlan));
+        public static APIBuilder<TravelPlan> create(TravelPlan.Create travelPlan) {
+            return new APIBuilder<>(Controller.getService().createTravelPlan(getToken(), travelPlan));
         }
 
-        public static APIBuilder<ArrayList<com.example.testapp.model.TravelPlan>> get(com.example.testapp.middleware.Auth auth) {
-            return new APIBuilder<>(Controller.getService().getTravelPlans(auth.getToken()));
+        public static APIBuilder<ArrayList<com.example.testapp.model.TravelPlan>> get() {
+            return new APIBuilder<>(Controller.getService().getTravelPlans(getToken()));
         }
 
-        public static APIBuilder<ResponseBody> update(com.example.testapp.middleware.Auth auth, TravelPlan travelPlan) {
-            return new APIBuilder<>(Controller.getService().updateTravelPlan(auth.getToken(), travelPlan.getId(), new TravelPlan.Create(travelPlan)));
+        public static APIBuilder<ResponseBody> update(TravelPlan travelPlan) {
+            return new APIBuilder<>(Controller.getService().updateTravelPlan(getToken(), travelPlan.getId(), new TravelPlan.Create(travelPlan)));
         }
 
-        public static APIBuilder<ResponseBody> delete(com.example.testapp.middleware.Auth auth, String travelPlanId) {
-            return new APIBuilder<>(Controller.getService().deleteTravelPlan(auth.getToken(), travelPlanId));
+        public static APIBuilder<ResponseBody> delete(String travelPlanId) {
+            return new APIBuilder<>(Controller.getService().deleteTravelPlan(getToken(), travelPlanId));
         }
 
         public static APIBuilder<String> renewJoinlink(com.example.testapp.middleware.Auth auth, String travelPlanId) {
@@ -136,7 +142,7 @@ public class API {
         }
     }
 
-    public static abstract class Callback<T> implements Response<T>, Failure<T>{
+    public static abstract class Callback<T> implements Response<T>, Failure<T> {
         public void onFinal() {
         }
     }
