@@ -3,27 +3,23 @@ package com.example.testapp.profile_fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.testapp.MainActivity;
 import com.example.testapp.R;
+import com.example.testapp.lib.AppCompatActivity;
 import com.example.testapp.model.TravelPlan;
-import com.example.testapp.model.lib.Toast;
 
 public class JoinTripActivity extends AppCompatActivity {
-    private final String TAG = "JoinTripActivity";
-    private Toast toast;
+    public JoinTripActivity() {
+        super(R.layout.join_trip_form);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toast = new Toast(this);
-
-        setContentView(R.layout.join_trip_form);
 
         EditText editTitle = findViewById(R.id.editTitle);
 
@@ -36,6 +32,7 @@ public class JoinTripActivity extends AppCompatActivity {
                 Log.d(TAG, "Joining: " + joinCode);
                 TravelPlan.join(joinCode)
                         .setOnResponse(travelPlan -> {
+                            config.setId(travelPlan.getId());
                             toast.makeShort("Trip Joined");
                             Intent returnIntent = new Intent(JoinTripActivity.this, MainActivity.class);
                             startActivity(returnIntent);
