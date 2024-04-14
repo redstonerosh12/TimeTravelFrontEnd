@@ -1,7 +1,5 @@
 package com.example.testapp.api;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.example.testapp.middleware.Auth;
@@ -29,29 +27,32 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Controller {
-    static private final String BASEURL = "http://10.0.2.2:8080/";
-    static private final Retrofit retrofit = new Retrofit.Builder().baseUrl(BASEURL)
+    private static final String BASEURL = "http://10.0.2.2:8080/";
+    private static final Retrofit retrofit = new Retrofit.Builder().baseUrl(BASEURL)
             .addConverterFactory(GsonConverterFactory.create()).build();
-    static private final Service apiService = retrofit.create(Service.class);
-    static private final Retrofit retrofitScalar = new Retrofit.Builder().baseUrl(BASEURL)
+    private static final Service apiService = retrofit.create(Service.class);
+    private static final Retrofit retrofitScalar = new Retrofit.Builder().baseUrl(BASEURL)
             .addConverterFactory(ScalarsConverterFactory.create()).build();
-    static private final Service apiServiceScalar = retrofitScalar.create(Service.class);
-    static private boolean TESTING = true;
+    private static final Service apiServiceScalar = retrofitScalar.create(Service.class);
+    private static final boolean TESTING = false;
+    private static boolean OFFLINE = true;
 
     public static void connect(com.example.testapp.api.Response<String> response) {
-        API.ping().setOnResponse(res -> {
-            response.onResponse("Online");
-            TESTING = false;
-        }).setOnFailure(res -> {
-        }).fetch();
+        if (!TESTING) {
+            API.ping().setOnResponse(res -> {
+                response.onResponse("Online");
+                OFFLINE = false;
+            }).setOnFailure(res -> {
+            }).fetch();
+        }
     }
 
     public static Service getService() {
-        return TESTING ? new TestingService() : apiService;
+        return OFFLINE ? new TestingService() : apiService;
     }
 
     public static Service getServiceScalar() {
-        return TESTING ? new TestingService() : apiServiceScalar;
+        return OFFLINE ? new TestingService() : apiServiceScalar;
     }
 
     static class TestingService implements Service {
@@ -139,8 +140,8 @@ public class Controller {
 
         @Override
         public Call<TravelPlan> joinTravelPlan(String token, String joinCode) {
-            for(TravelPlan travelplan: travelPlans) {
-                if (travelplan.getJoinCode().equals(joinCode)){
+            for (TravelPlan travelplan : travelPlans) {
+                if (travelplan.getJoinCode().equals(joinCode)) {
                     return new ByPassCall<>(travelplan);
                 }
             }
