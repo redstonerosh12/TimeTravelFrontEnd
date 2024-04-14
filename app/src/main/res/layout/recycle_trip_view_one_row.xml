@@ -37,8 +37,25 @@
             android:paddingEnd="0dp"
             android:text="@string/select"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/joinCodeButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/joinCodeButton"
+            style="@style/Widget.MaterialComponents.Button.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/teal_200"
+            android:contentDescription="@string/copy"
+            android:minWidth="0dp"
+            app:cornerRadius="100dp"
+            app:icon="@drawable/baseline_content_copy_24"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -46,21 +63,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/joinCodeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:backgroundTint="@color/teal_200"
-            android:contentDescription="@string/copy"
-            android:minWidth="0dp"
-            android:text="  JoinCode"
-            app:icon="@drawable/baseline_content_copy_24"
-            app:iconPadding="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--    <ImageView-->
