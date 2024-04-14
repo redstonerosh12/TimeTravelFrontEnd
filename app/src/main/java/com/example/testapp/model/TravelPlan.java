@@ -50,6 +50,10 @@ public class TravelPlan {
         return API.TravelPlans.create(new Create(title, startDate, endDate));
     }
 
+    public static API.APIBuilder<TravelPlan> join(String joinCode) {
+        return API.TravelPlans.joinTravelPlan(joinCode);
+    }
+
     public ArrayList<EventModel> getEvents() {
         return events;
     }

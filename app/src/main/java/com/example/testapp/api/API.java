@@ -60,8 +60,8 @@ public class API {
             return new APIBuilder<>(Controller.getServiceScalar().renewJoinlink(auth.getToken(), travelPlanId));
         }
 
-        public static APIBuilder<TravelPlan> joinTravelPlan(com.example.testapp.middleware.Auth auth, String joinCode) {
-            return new APIBuilder<>(Controller.getService().joinTravelPlan(auth.getToken(), joinCode));
+        public static APIBuilder<TravelPlan> joinTravelPlan(String joinCode) {
+            return new APIBuilder<>(Controller.getService().joinTravelPlan(getToken(), joinCode));
         }
 
         /**

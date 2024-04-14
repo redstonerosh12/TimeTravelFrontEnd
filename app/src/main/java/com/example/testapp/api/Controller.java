@@ -86,7 +86,7 @@ public class Controller {
             eventTP1.add(new EventModel("16", user.getUsername(), "Tea break 1", dt.plusHours(6), dt.plusHours(7), "Black Tea", EventModel.Status.SUGGESTED, "Changi Airport"));
             eventTP1.add(new EventModel("17", user.getUsername(), "Buy car", dt.plusHours(7), dt.plusHours(8), "Porcho", EventModel.Status.SUGGESTED, "Changi Airport"));
             eventTP1.add(new EventModel("18", user.getUsername(), "Watch movie", dt.plusHours(8), dt.plusHours(9), "Panda 1", EventModel.Status.SUGGESTED, "Changi Airport"));
-            travelPlan = new TravelPlan(1, "Malaysia", date, date.plusDays(1), user.getUsername(), "asdawq", eventTP1);
+            travelPlan = new TravelPlan(1, "Malaysia", date, date.plusDays(1), user.getUsername(), "aa", eventTP1);
             travelPlans.add(travelPlan);
         }
 
@@ -138,8 +138,18 @@ public class Controller {
         }
 
         @Override
-        public Call<TravelPlan> joinTravelPlan(String token, String joinlink) {
-            return null;
+        public Call<TravelPlan> joinTravelPlan(String token, String joinCode) {
+            for(TravelPlan travelplan: travelPlans) {
+                if (travelplan.getJoinCode().equals(joinCode)){
+                    return new ByPassCall<>(travelplan);
+                }
+            }
+            return new ByPassCallGeneral<TravelPlan>() {
+                @Override
+                public void enqueue(@NonNull Callback<TravelPlan> callback) {
+                    callback.onResponse(this, ResponseType.Error(404));
+                }
+            };
         }
 
         @Override
