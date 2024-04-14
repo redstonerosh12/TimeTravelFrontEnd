@@ -54,6 +54,10 @@ public class TravelPlan {
         return API.TravelPlans.joinTravelPlan(joinCode);
     }
 
+    public static API.APIBuilder<ArrayList<TravelPlan>> getTravelPlans() {
+        return API.TravelPlans.get();
+    }
+
     public ArrayList<EventModel> getEvents() {
         return events;
     }

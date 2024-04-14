@@ -9,7 +9,8 @@ public class Fragment extends androidx.fragment.app.Fragment {
     protected final String TAG;
     protected Toast toast;
 
-    protected Fragment() {
+    public Fragment(int profileFragment) {
+        super(profileFragment);
         TAG = this.getClass().getSimpleName();
     }
 

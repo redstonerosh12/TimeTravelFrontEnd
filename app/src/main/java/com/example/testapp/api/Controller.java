@@ -34,7 +34,7 @@ public class Controller {
     private static final Retrofit retrofitScalar = new Retrofit.Builder().baseUrl(BASEURL)
             .addConverterFactory(ScalarsConverterFactory.create()).build();
     private static final Service apiServiceScalar = retrofitScalar.create(Service.class);
-    private static final boolean TESTING = false;
+    private static final boolean TESTING = true;
     private static boolean OFFLINE = true;
 
     public static void connect(com.example.testapp.api.Response<String> response) {
@@ -89,6 +89,10 @@ public class Controller {
             eventTP1.add(new EventModel("18", user.getUsername(), "Watch movie", dt.plusHours(8), dt.plusHours(9), "Panda 1", EventModel.Status.SUGGESTED, "Changi Airport"));
             travelPlan = new TravelPlan(1, "Malaysia", date, date.plusDays(1), user.getUsername(), "aa", eventTP1);
             travelPlans.add(travelPlan);
+            travelPlans.add(new TravelPlan(2, "Singapore", date.plusDays(2), date.plusDays(3), user.getUsername(), "ab", new ArrayList<>()));
+            travelPlans.add(new TravelPlan(3, "Taiwan", date.plusDays(3), date.plusDays(4), user.getUsername(), "ab", new ArrayList<>()));
+            travelPlans.add(new TravelPlan(4, "Australia", date.plusDays(5), date.plusDays(6), user.getUsername(), "ab", new ArrayList<>()));
+            travelPlans.add(new TravelPlan(5, "SG Zoo", date.plusDays(7), date.plusDays(8), user.getUsername(), "ab", new ArrayList<>()));
         }
 
         @Override
