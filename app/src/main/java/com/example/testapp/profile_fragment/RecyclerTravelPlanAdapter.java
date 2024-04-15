@@ -70,16 +70,21 @@ public class RecyclerTravelPlanAdapter extends RecyclerView.Adapter<RecyclerTrav
         private final Button selectButton;
         private final MaterialButton joinCodeButton;
 
+        private final MaterialButton deleteTravelPlanButton;
+
         public TravelPlanViewHolder(@NonNull View itemView) {
             super(itemView);
             countryTextView = itemView.findViewById(R.id.tripCountry);
             selectButton = itemView.findViewById(R.id.selectButton);
             joinCodeButton = itemView.findViewById(R.id.joinCodeButton);
+            deleteTravelPlanButton = itemView.findViewById(R.id.deleteTravelPlanButton);
             joinCodeButton.setVisibility(View.GONE);
+            deleteTravelPlanButton.setVisibility(View.GONE);
         }
 
         public void selected(String joinCode) {
             joinCodeButton.setVisibility(View.VISIBLE);
+            deleteTravelPlanButton.setVisibility(View.VISIBLE);
             joinCodeButton.setOnClickListener(v-> {
                 Context context = joinCodeButton.getContext();
                 // https://developer.android.com/training/sharing/send#java
@@ -101,6 +106,7 @@ public class RecyclerTravelPlanAdapter extends RecyclerView.Adapter<RecyclerTrav
 
         public void deselect() {
             joinCodeButton.setVisibility(View.GONE);
+            deleteTravelPlanButton.setVisibility(View.GONE);
             selectButton.setText(R.string.select);
             selectButton.setEnabled(true);
         }
